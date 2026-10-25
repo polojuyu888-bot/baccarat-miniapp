@@ -1,15 +1,15 @@
 import os
 import sqlite3
 import logging
+from datetime import datetime
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-# Lấy Token bảo mật từ biến môi trường trên Render
 BOT_TOKEN = os.getenv("8823333396:AAEQ0_wPDeR9tS9iqbJgS4zShtuMX9Xey60")
 
-# 👉 HÃY THAY DÃY SỐ DƯỚI ĐÂY BẰNG ADMIN ID THẬT CỦA BẠN (Lấy từ @userinfobot)
+# 👉 HÃY THAY DÃY SỐ NÀY BẰNG ADMIN ID THẬT CỦA BẠN (Lấy từ @userinfobot)
 ADMIN_ID = "8661772753" 
 
 def init_db():
@@ -18,21 +18,23 @@ def init_db():
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             telegram_id TEXT PRIMARY KEY,
-            balance INTEGER DEFAULT 0,
+            username TEXT,
+            balance REAL DEFAULT 0,
             is_frozen INTEGER DEFAULT 0
         )
     ''')
     conn.commit()
     conn.close()
 
-# Hàm kiểm tra quyền Admin
 def is_admin(user_id: str) -> bool:
     return user_id == ADMIN_ID
 
-# 1. Điểm danh nhận 20 xu hằng ngày (Dành cho tất cả người chơi)
+# 1. Điểm danh nhận thưởng USDT hằng ngày (Có kiểm tra trạng thái đóng băng)
 async def checkin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     init_db()
-    user_id = str(update.effective_user.id)
+    user = update.effective_user
+    user_id = str(user.id)
+    username = f"@{user.username}" if user.username else str(user.id)
     
     conn = sqlite3.connect('casino.db')
     cursor = conn.cursor()
@@ -40,152 +42,198 @@ async def checkin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cursor.execute("SELECT balance, is_frozen FROM users WHERE telegram_id = ?", (user_id,))
     row = cursor.fetchone()
 
+    # Kịch bản cảnh báo trực tiếp khi tài khoản bị đóng băng mà cố tình thao tác
     if row and row[1] == 1:
         conn.close()
-        await update.message.reply_text("❌ Tài khoản của bạn đang bị **đóng băng (frozen)**, không thể điểm danh hay giao dịch!", parse_mode="Markdown")
+        await update.message.reply_text(
+            "🚨 **CẢNH BÁO HỆ THỐNG** 🚨\n\n"
+            "❌ Tài khoản của bạn hiện đang bị **đóng băng** do có quyết định xử lý từ Quản trị viên.\n"
+            "🔒 Mọi giao dịch, điểm danh và hoạt động đặt cược đều bị từ chối.\n"
+            "📞 Vui lòng liên hệ trực tiếp với Quản trị viên để được hỗ trợ giải quyết.",
+            parse_mode="Markdown"
+        )
         return
 
+    now_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     if not row:
-        cursor.execute("INSERT INTO users (telegram_id, balance, is_frozen) VALUES (?, ?, ?)", (user_id, 20, 0))
-        msg = "🎁 Chào mừng bạn đến với Sòng bài! Bạn nhận được **20 Xu** quà khởi nghiệp điểm danh ngày đầu tiên."
+        new_balance = 20.0
+        cursor.execute("INSERT INTO users (telegram_id, username, balance, is_frozen) VALUES (?, ?, ?, ?)", (user_id, username, new_balance, 0))
     else:
-        cursor.execute("UPDATE users SET balance = balance + 20 WHERE telegram_id = ?", (user_id,))
-        msg = "🎁 Điểm danh thành công! Bạn nhận được **20 Xu** vào tài khoản."
+        new_balance = row[0] + 20.0
+        cursor.execute("UPDATE users SET balance = balance + 20.0, username = ? WHERE telegram_id = ?", (username, user_id))
 
     conn.commit()
     conn.close()
 
-    await update.message.reply_text(msg, parse_mode="Markdown")
+    # Mẫu thông báo điểm danh giữ nguyên đơn vị USDT
+    msg = f"您于 {now_time} 成功获得签到奖励 20 USDT，现钱包余额 {new_balance} USDT"
+    await update.message.reply_text(msg)
 
-# 2. Cộng xu (/add) - CHỈ ADMIN MỚI ĐƯỢC DÙNG
+# 2. Cộng USDT (/add) kèm thông báo tài chính
 async def add_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = str(update.effective_user.id)
-    if not is_admin(user_id):
-        await update.message.reply_text("⛔ Bạn không có quyền sử dụng lệnh này! Chỉ Quản trị viên mới được thao tác.")
+    admin_id = str(update.effective_user.id)
+    if not is_admin(admin_id):
+        await update.message.reply_text("⛔ Bạn không có quyền sử dụng lệnh này!")
         return
 
     if not context.args or len(context.args) < 2:
-        await update.message.reply_text("⚠️ **Cách dùng:** `/add <telegram_id> <số_xu>`", parse_mode="Markdown")
+        await update.message.reply_text("⚠️ **Cách dùng:** `/add <telegram_id hoặc @username> <số_USDT>`", parse_mode="Markdown")
         return
 
-    target_id = context.args[0]
+    target = context.args[0]
     try:
-        amount = int(context.args[1])
+        amount = float(context.args[1])
     except ValueError:
-        await update.message.reply_text("⚠️ Số xu phải là một con số nguyên hợp lệ!")
+        await update.message.reply_text("⚠️ Số tiền phải là một con số hợp lệ!")
         return
 
     init_db()
     conn = sqlite3.connect('casino.db')
     cursor = conn.cursor()
     
-    cursor.execute("SELECT balance FROM users WHERE telegram_id = ?", (target_id,))
+    cursor.execute("SELECT telegram_id, balance FROM users WHERE telegram_id = ? OR username = ?", (target, target))
     row = cursor.fetchone()
 
     if not row:
-        cursor.execute("INSERT INTO users (telegram_id, balance, is_frozen) VALUES (?, ?, ?)", (target_id, amount, 0))
-    else:
-        cursor.execute("UPDATE users SET balance = balance + ? WHERE telegram_id = ?", (amount, target_id))
+        await update.message.reply_text(f"⚠️ Không tìm thấy người chơi `{target}` trong hệ thống database!", parse_mode="Markdown")
+        conn.close()
+        return
 
+    target_telegram_id = row[0]
+    current_balance = row[1] + amount
+    
+    cursor.execute("UPDATE users SET balance = ? WHERE telegram_id = ?", (current_balance, target_telegram_id))
     conn.commit()
     conn.close()
 
-    await update.message.reply_text(f"✅ Đã cộng thành công **{amount} Xu** cho tài khoản ID: `{target_id}`!", parse_mode="Markdown")
+    await update.message.reply_text(f"✅ Đã cộng thành công **{amount} USDT** cho tài khoản `{target}`!", parse_mode="Markdown")
 
-# 3. Trừ xu phạt vi phạm (/sub) - CHỈ ADMIN MỚI ĐƯỢC DÙNG
+    # Gửi tin nhắn riêng cho người chơi chuẩn mẫu USDT của bạn
+    try:
+        now_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        notify_text = f"您于 {now_time} 成功存款 {amount} USDT，现钱包余额 {current_balance} USDT"
+        await context.bot.send_message(chat_id=target_telegram_id, text=notify_text)
+    except Exception as e:
+        print(f"Không thể gửi tin nhắn cho user: {e}")
+
+# 3. Trừ USDT (/sub) kèm thông báo tài chính
 async def sub_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = str(update.effective_user.id)
-    if not is_admin(user_id):
-        await update.message.reply_text("⛔ Bạn không có quyền sử dụng lệnh này! Chỉ Quản trị viên mới được thao tác.")
+    admin_id = str(update.effective_user.id)
+    if not is_admin(admin_id):
+        await update.message.reply_text("⛔ Bạn không có quyền sử dụng lệnh này!")
         return
 
     if not context.args or len(context.args) < 2:
-        await update.message.reply_text("⚠️ **Cách dùng:** `/sub <telegram_id> <số_xu>`", parse_mode="Markdown")
+        await update.message.reply_text("⚠️ **Cách dùng:** `/sub <telegram_id hoặc @username> <số_USDT>`", parse_mode="Markdown")
         return
 
-    target_id = context.args[0]
+    target = context.args[0]
     try:
-        amount = int(context.args[1])
+        amount = float(context.args[1])
     except ValueError:
-        await update.message.reply_text("⚠️ Số xu phải là một con số nguyên hợp lệ!")
+        await update.message.reply_text("⚠️ Số tiền phải là một con số hợp lệ!")
         return
 
     init_db()
     conn = sqlite3.connect('casino.db')
     cursor = conn.cursor()
     
-    cursor.execute("SELECT balance FROM users WHERE telegram_id = ?", (target_id,))
+    cursor.execute("SELECT telegram_id, balance FROM users WHERE telegram_id = ? OR username = ?", (target, target))
     row = cursor.fetchone()
 
     if not row:
-        cursor.execute("INSERT INTO users (telegram_id, balance, is_frozen) VALUES (?, ?, ?)", (target_id, -amount, 0))
-    else:
-        cursor.execute("UPDATE users SET balance = balance - ? WHERE telegram_id = ?", (amount, target_id))
+        await update.message.reply_text(f"⚠️ Không tìm thấy người chơi `{target}` trong hệ thống database!", parse_mode="Markdown")
+        conn.close()
+        return
 
+    target_telegram_id = row[0]
+    current_balance = max(0.0, row[1] - amount)
+    
+    cursor.execute("UPDATE users SET balance = ? WHERE telegram_id = ?", (current_balance, target_telegram_id))
     conn.commit()
     conn.close()
 
-    await update.message.reply_text(f"⚖️ Đã phạt trừ **{amount} Xu** của tài khoản ID: `{target_id}` do vi phạm nội quy!", parse_mode="Markdown")
+    await update.message.reply_text(f"⚖️ Đã trừ **{amount} USDT** của tài khoản `{target}`!", parse_mode="Markdown")
 
-# 4. Đóng băng tài sản (/freeze) - CHỈ ADMIN MỚI ĐƯỢC DÙNG
+    # Gửi tin nhắn riêng cho người chơi chuẩn mẫu USDT của bạn
+    try:
+        now_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        notify_text = f"您于 {now_time} 成功取款 {amount} USDT，现钱包余额 {current_balance} USDT"
+        await context.bot.send_message(chat_id=target_telegram_id, text=notify_text)
+    except Exception as e:
+        print(f"Không thể gửi tin nhắn cho user: {e}")
+
+# 4. Đóng băng tài sản (/freeze) - Không gửi thông báo, giữ nguyên số dư
 async def freeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = str(update.effective_user.id)
-    if not is_admin(user_id):
-        await update.message.reply_text("⛔ Bạn không có quyền sử dụng lệnh này! Chỉ Quản trị viên mới được thao tác.")
+    admin_id = str(update.effective_user.id)
+    if not is_admin(admin_id):
+        await update.message.reply_text("⛔ Bạn không có quyền sử dụng lệnh này!")
         return
 
     if not context.args:
-        await update.message.reply_text("⚠️ **Cách dùng:** `/freeze <telegram_id>`", parse_mode="Markdown")
+        await update.message.reply_text("⚠️ **Cách dùng:** `/freeze <telegram_id hoặc @username>`", parse_mode="Markdown")
         return
 
-    target_id = context.args[0]
+    target = context.args[0]
     init_db()
     conn = sqlite3.connect('casino.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT balance, is_frozen FROM users WHERE telegram_id = ?", (target_id,))
+    cursor.execute("SELECT telegram_id FROM users WHERE telegram_id = ? OR username = ?", (target, target))
     row = cursor.fetchone()
 
     if not row:
-        await update.message.reply_text(f"⚠️ Không tìm thấy tài khoản ID: `{target_id}` trong hệ thống!", parse_mode="Markdown")
+        await update.message.reply_text(f"⚠️ Không tìm thấy tài khoản `{target}`!", parse_mode="Markdown")
         conn.close()
         return
 
-    cursor.execute("UPDATE users SET is_frozen = 1 WHERE telegram_id = ?", (target_id,))
+    target_telegram_id = row[0]
+    cursor.execute("UPDATE users SET is_frozen = 1 WHERE telegram_id = ?", (target_telegram_id,))
     conn.commit()
     conn.close()
 
-    await update.message.reply_text(f"❄️ Đã **đóng băng (frozen)** thành công tài khoản ID: `{target_id}`! Điểm số được giữ nguyên nhưng người chơi bị khóa quyền giao dịch.", parse_mode="Markdown")
+    await update.message.reply_text(f"❄️ Đã **đóng băng** tài khoản `{target}` thành công! Số dư USDT được bảo lưu nhưng người chơi sẽ nhận cảnh báo khi cố tình thao tác.", parse_mode="Markdown")
 
-# 5. Mở băng tài sản (/unfreeze) - CHỈ ADMIN MỚI ĐƯỢC DÙNG
+# 5. Mở băng tài sản (/unfreeze)
 async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_id = str(update.effective_user.id)
-    if not is_admin(user_id):
-        await update.message.reply_text("⛔ Bạn không có quyền sử dụng lệnh này! Chỉ Quản trị viên mới được thao tác.")
+    admin_id = str(update.effective_user.id)
+    if not is_admin(admin_id):
+        await update.message.reply_text("⛔ Bạn không có quyền sử dụng lệnh này!")
         return
 
     if not context.args:
-        await update.message.reply_text("⚠️ **Cách dùng:** `/unfreeze <telegram_id>`", parse_mode="Markdown")
+        await update.message.reply_text("⚠️ **Cách dùng:** `/unfreeze <telegram_id hoặc @username>`", parse_mode="Markdown")
         return
 
-    target_id = context.args[0]
+    target = context.args[0]
     init_db()
     conn = sqlite3.connect('casino.db')
     cursor = conn.cursor()
 
-    cursor.execute("SELECT balance, is_frozen FROM users WHERE telegram_id = ?", (target_id,))
+    cursor.execute("SELECT telegram_id FROM users WHERE telegram_id = ? OR username = ?", (target, target))
     row = cursor.fetchone()
 
     if not row:
-        await update.message.reply_text(f"⚠️ Không tìm thấy tài khoản ID: `{target_id}` trong hệ thống!", parse_mode="Markdown")
+        await update.message.reply_text(f"⚠️ Không tìm thấy tài khoản `{target}`!", parse_mode="Markdown")
         conn.close()
         return
 
-    cursor.execute("UPDATE users SET is_frozen = 0 WHERE telegram_id = ?", (target_id,))
+    target_telegram_id = row[0]
+    cursor.execute("UPDATE users SET is_frozen = 0 WHERE telegram_id = ?", (target_telegram_id,))
     conn.commit()
     conn.close()
 
-    await update.message.reply_text(f"🔥 Đã **mở băng (unfrozen)** thành công cho tài khoản ID: `{target_id}`! Người chơi đã hoạt động trở lại bình thường.", parse_mode="Markdown")
+    await update.message.reply_text(f"🔥 Đã **mở băng** tài khoản `{target}` thành công! Người chơi đã hoạt động trở lại bình thường.", parse_mode="Markdown")
+    
+    try:
+        await context.bot.send_message(
+            chat_id=target_telegram_id, 
+            text="🔥 **THÔNG BÁO HỆ THỐNG:** Tài khoản của bạn đã được Quản trị viên **mở băng**, bạn có thể tiếp tục giao dịch bình thường!", 
+            parse_mode="Markdown"
+        )
+    except:
+        pass
 
 if __name__ == '__main__':
     init_db()
@@ -194,12 +242,11 @@ if __name__ == '__main__':
     else:
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         
-        # Đăng ký các câu lệnh quản lý
         app.add_handler(CommandHandler("checkin", checkin_command))
         app.add_handler(CommandHandler("add", add_command))
         app.add_handler(CommandHandler("sub", sub_command))
         app.add_handler(CommandHandler("freeze", freeze_command))
         app.add_handler(CommandHandler("unfreeze", unfreeze_command))
         
-        print("🤖 Bot quản lý sòng bài với quyền Admin đã sẵn sàng...")
+        print("🤖 Bot quản lý sòng bài chuẩn USDT đã sẵn sàng...")
         app.run_polling()
