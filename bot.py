@@ -8,7 +8,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-BOT_TOKEN = os.getenv("8823333396:AAHVJoEAm1-zZEzEI8Oigk8HRK9JrAGqOLg")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # 👉 HÃY THAY DÃY SỐ NÀY BẰNG ADMIN ID THẬT CỦA BẠN (Lấy từ @userinfobot)
 ADMIN_ID = "8661772753" 
