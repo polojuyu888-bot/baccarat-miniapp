@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Casino Baccarat Virtual</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #0f172a; color: white; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 12px; text-align: center; }
+        .balance-card { background: #1e293b; border-radius: 12px; padding: 12px; border: 1px solid #334155; margin-bottom: 15px; font-size: 18px; color: #f59e0b; font-weight: bold; }
+        .live-screen { background: #1b263b; border-radius: 16px; border: 2px solid #3b82f6; padding: 20px; margin-bottom: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+        .pts-box { display: flex; justify-content: space-around; font-size: 20px; font-weight: bold; margin-top: 10px; }
+        .bet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-bet { padding: 18px; border-radius: 12px; border: none; font-size: 16px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; }
+        .btn-bet:active { transform: scale(0.96); }
+        .player-btn { background: #2563eb; }
+        .banker-btn { background: #dc2626; }
+        .tie-btn { grid-column: span 2; background: #16a34a; }
+        #log-status { margin-top: 15px; font-size: 14px; color: #94a3b8; }
+    </style>
+</head>
+<body>
+
+    <div class="balance-card">💰 Số dư xu ảo: <span id="coins">0</span> Xu</div>
+
+    <div class="live-screen">
+        <div style="font-size: 14px; color: #94a3b8;">🔴 SÒNG BÀI TRỰC TUYẾN A3 (VIRTUAL)</div>
+        <div class="pts-box">
+            <span style="color:#60a5fa">🔵 Player: <span id="p-score">0</span>đ</span>
+            <span style="color:#f87171">🔴 Banker: <span id="b-score">0</span>đ</span>
+        </div>
+        <div id="result-badge" style="margin-top: 15px; font-size: 18px; font-weight: bold; color: #4ade80;">Mời chọn cửa đặt cược</div>
+    </div>
+
+    <div class="bet-grid">
+        <button class="btn-bet player-btn" onclick="placeBet('player')">🔵 PLAYER (1:1)</button>
+        <button class="btn-bet banker-btn" onclick="placeBet('banker')">🔴 BANKER (0.95:1)</button>
+        <button class="btn-bet tie-btn" onclick="placeBet('tie')">🟢 TIE - HÒA (1:8)</button>
+    </div>
+
+    <div id="log-status">Đang kết nối tới máy chủ Telegram...</div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+
+        const user = tg.initDataUnsafe?.user || { id: 99999, first_name: "Khách" };
+        
+        // Tự động chọn websocket theo giao thức Render (wss://)
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const ws = new WebSocket(`${protocol}//${window.location.host}/ws/room_1`);
+
+        ws.onopen = function() {
+            document.getElementById("log-status").innerText = "🟢 Kết nối sòng bài thành công!";
+            ws.send(JSON.stringify({ action: "get_balance", user_id: user.id, username: user.first_name }));
+        };
+
+        ws.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            
+            if (data.type === "balance") {
+                document.getElementById("coins").innerText = data.coins;
+            } else if (data.type === "result") {
+                document.getElementById("p-score").innerText = data.p_pts;
+                document.getElementById("b-score").innerText = data.b_pts;
+                document.getElementById("coins").innerText = data.new_coins;
+
+                let winText = data.winner === "player" ? "🔵 PLAYER THẮNG!" : (data.winner === "banker" ? "🔴 BANKER THẮNG!" : "🟢 HÒA (TIE)!");
+                if (data.win_amount > 0) {
+                    winText += ` (+${data.win_amount} Xu)`;
+                } else {
+                    winText += ` (Thua cược)`;
+                }
+                document.getElementById("result-badge").innerText = winText;
+            } else if (data.type === "error") {
+                alert(data.message);
+            }
+        };
+
+        function placeBet(choice) {
+            ws.send(JSON.stringify({
+                action: "bet_and_play",
+                user_id: user.id,
+                username: user.first_name,
+                choice: choice,
+                amount: 100
+            }));
+        }
+    </script>
+</body>
+</html>
