@@ -166,22 +166,20 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* Bảng Soi Cầu với khung cố định chiều cao (min-height 120px) tránh bị giật hay thắt khung khi chưa có bài */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px; min-height: 150px; display: flex; flex-direction: column; }
-            .sc-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #94a3b8; margin-bottom: 6px; width: 100%; }
+            /* Bảng Soi Cầu: Thu nhỏ hạt cầu, rút ngắn khoảng cách hàng cột, đẩy dãy số sát góc phải 100% */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 5px 8px; min-height: 135px; display: flex; flex-direction: column; }
+            .sc-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #94a3b8; margin-bottom: 4px; width: 100%; }
             
-            /* Dãy thống kê căn chuẩn 100% sang bên phải góc trên bàn cầu */
-            .sc-stats-nums { display: flex; gap: 12px; font-weight: bold; font-size: 13px; margin-left: auto; align-items: center; }
-            .stat-box { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 20px; }
-            .stat-icon { width: 12px; height: 12px; border-radius: 50%; margin-bottom: 2px; display: inline-block; }
+            .sc-stats-nums { display: flex; gap: 14px; font-weight: bold; font-size: 12px; margin-left: auto; align-items: center; }
+            .stat-box { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 18px; text-align: center; }
 
-            .bead-plate-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 3px; overflow-x: auto; height: 115px; min-height: 115px; width: 100%; }
-            .bead { width: 16px; height: 16px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; flex-shrink: 0; }
+            .bead-plate-grid { display: grid; grid-template-columns: repeat(14, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 2px; overflow-x: auto; height: 95px; min-height: 95px; width: 100%; align-content: start; }
+            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; flex-shrink: 0; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
-            .bead.P7 { background: #3b82f6; color: #fff; border: 2px solid #facc15; }
-            .bead.B6 { background: #ef4444; color: #fff; border: 2px solid #facc15; }
+            .bead.P7 { background: #3b82f6; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
+            .bead.B6 { background: #ef4444; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -326,17 +324,17 @@ def home():
                 <div class="sc-indicators" style="font-size:10px;">
                     <span>庄问路 闲问路 好路投注 (Ván: <span id="round-count">0</span>/50)</span>
                 </div>
-                <!-- Dãy số thống kê căn lề sát bên phải, có đủ biểu tượng màu phía trên chuẩn xác -->
+                <!-- Dãy số thống kê căn sát góc phải 100% -->
                 <div class="sc-stats-nums">
                     <div class="stat-box"><span style="color: #38bdf8;" id="stat-total">0</span></div>
                     <div class="stat-box"><span style="color: #ef4444;" id="stat-b">0</span></div>
                     <div class="stat-box"><span style="color: #38bdf8;" id="stat-p">0</span></div>
-                    <div class="stat-box"><span style="color: #4ade80;" id="stat-t">0</span></div>
+                    <div class="stat-box"><span style="color: #10b981;" id="stat-t">0</span></div>
                     <div class="stat-box"><span style="color: #ef4444;" id="stat-b6">0</span></div>
                     <div class="stat-box"><span style="color: #38bdf8;" id="stat-p7">0</span></div>
                 </div>
             </div>
-            <!-- Khung soi cầu luôn có khung cố định 115px kể cả khi chưa có ván đấu nào -->
+            <!-- Bảng cầu kích thước nhỏ gọn, các hạt sát nhau -->
             <div class="bead-plate-grid" id="bead-plate-container"></div>
         </div>
 
@@ -680,5 +678,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat chuẩn xác đã khởi chạy thành công...")
+        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo đã khởi chạy thành công...")
         app.run_polling()
