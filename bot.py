@@ -92,7 +92,7 @@ def home():
         <title>Baccarat Live Casino VIP</title>
         <style>
             * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-            body { background-color: #0b1016; color: #fff; overflow-x: hidden; display: flex; flex-direction: column; height: 100vh; user-select: none; }
+            body { background-color: #0b1016; color: #fff; overflow: hidden; display: flex; flex-direction: column; height: 100vh; user-select: none; }
             
             .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.75); padding: 8px 12px; font-size: 13px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
             .top-left, .top-right { display: flex; align-items: center; gap: 8px; }
@@ -100,7 +100,7 @@ def home():
             .balance-box { background: rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            .dealer-screen { position: relative; width: 100%; height: 200px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
+            .dealer-screen { position: relative; width: 100%; height: 190px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
             .table-info-overlay { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid #e74c3c; }
@@ -109,7 +109,7 @@ def home():
             .cards-on-table { position: absolute; bottom: 8px; width: 100%; display: flex; justify-content: space-around; padding: 0 15px; z-index: 5; pointer-events: none; }
             .table-side { display: flex; gap: 4px; align-items: center; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; }
             
-            .playing-card { width: 26px; height: 36px; perspective: 1000px; }
+            .playing-card { width: 24px; height: 34px; perspective: 1000px; }
             .card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s ease; }
             .playing-card.flipped .card-inner { transform: rotateY(180deg); }
             .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
@@ -117,11 +117,11 @@ def home():
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            .game-panel { flex: 1; display: flex; flex-direction: column; background: #680d1b; padding: 5px; justify-content: space-between; }
+            .game-panel { flex: 1; display: flex; flex-direction: column; background: #680d1b; padding: 4px; justify-content: space-between; }
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #f3a9b3; padding: 0 4px; }
             
-            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin: 2px 0; }
-            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; min-height: 52px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin: 2px 0; }
+            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 48px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .s-title { font-size: 9px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
@@ -131,8 +131,8 @@ def home():
             .s-status { font-size: 6px; color: #9aa0a6; margin-top: 1px; }
 
             .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 2px; }
-            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 4px; text-align: center; cursor: pointer; position: relative; min-height: 65px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .m-name { font-size: 16px; font-weight: bold; }
+            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 4px; text-align: center; cursor: pointer; position: relative; min-height: 58px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .m-name { font-size: 15px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
@@ -141,16 +141,16 @@ def home():
             
             .my-bet-tag { position: absolute; bottom: 2px; right: 4px; font-size: 9px; background: #f1c40f; color: #000; padding: 1px 4px; border-radius: 4px; font-weight: bold; display: none; z-index: 5; }
 
-            .action-row { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 2px; }
-            .action-btn { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 4px; border-radius: 4px; color: #fff; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; }
+            .action-row { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 2px; }
+            .action-btn { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 3px; border-radius: 4px; color: #fff; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; }
 
             .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 8px; justify-content: space-between; gap: 4px; }
-            .menu-chip-btn { width: 30px; height: 30px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 11px; }
+            .menu-chip-btn { width: 28px; height: 28px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 11px; }
             
             .chips-scroll { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; align-items: center; padding: 2px; }
             .chips-scroll::-webkit-scrollbar { display: none; }
             
-            .chip { width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 10px; cursor: pointer; border: 2px dashed #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+            .chip { width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 10px; cursor: pointer; border: 2px dashed #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
             .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 8px #f1c40f; }
             .c-10 { background: #3b82f6; color: #fff; }
             .c-20 { background: #10b981; color: #fff; }
@@ -160,41 +160,45 @@ def home():
             .c-2k { background: #eab308; color: #000; }
 
             .commission-toggle { display: flex; align-items: center; gap: 3px; font-size: 9px; cursor: pointer; }
-            .toggle-switch { width: 26px; height: 14px; background: #cbd5e1; border-radius: 10px; position: relative; transition: 0.3s; }
-            .toggle-switch::before { content: ''; position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+            .toggle-switch { width: 24px; height: 13px; background: #cbd5e1; border-radius: 10px; position: relative; transition: 0.3s; }
+            .toggle-switch::before { content: ''; position: absolute; width: 9px; height: 9px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
             input.comm-input { display: none; }
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
-            input.comm-input:checked + .toggle-switch::before { transform: translateX(12px); }
+            input.comm-input:checked + .toggle-switch::before { transform: translateX(11px); }
 
-            /* BẢNG SOI CẦU: ĐÚNG 6 HÀNG DỌC, KHÔNG GẠCH NGANG, BIG ROAD BẮT ĐẦU TỪ CỘT 8 */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 120px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+            /* BẢNG SOI CẦU: KHÓA CỨNG 27 CỘT (NGANG) X 6 HÀNG (DỌC) */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 118px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; }
             
-            .sc-stats-group { display: flex; align-items: center; gap: 10px; }
+            .sc-stats-group { display: flex; align-items: center; gap: 8px; }
             .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: bold; color: #ffffff !important; }
             .stat-item span { color: #ffffff !important; }
 
-            .stat-icon-circle { width: 11px; height: 11px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
-            .ratio-pie { width: 11px; height: 11px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
+            .stat-icon-circle { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
+            .ratio-pie { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
 
-            .sc-menus { display: flex; gap: 8px; align-items: center; }
+            .sc-menus { display: flex; gap: 6px; align-items: center; }
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 8px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 3px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            .road-tables-container { 
-                display: flex; 
-                gap: 6px; 
-                overflow: hidden; 
-                align-items: flex-start; 
-                height: 96px; 
-                padding-top: 2px;
+            /* HỆ THỐNG LƯỚI TỔNG THỂ KHÓA CỨNG ĐÚNG 27 CỘT, 6 HÀNG DỌC TUYỆT ĐỐI */
+            .master-grid-table { 
+                display: grid; 
+                grid-template-rows: repeat(6, 15px); 
+                grid-template-columns: repeat(27, 15px); 
+                gap: 1px; 
+                height: 92px; 
+                width: 405px; /* 27 * 15px = 405px khớp chuẩn tuyệt đối */
+                align-content: start; 
                 background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
                 background-size: 15px 15px;
+                overflow: hidden;
+                margin: 0 auto;
             }
 
-            /* Bảng Bead Plate bên trái: Đúng 7 cột, đủ 6 hàng dọc (15px * 6 = 90px) */
-            .bead-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 1px; height: 92px; align-content: start; flex-shrink: 0; }
-            .bead-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .grid-cell { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
+
+            /* Bead Plate (Cột 1 đến 7) */
             .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
@@ -202,10 +206,7 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* Bảng Big Road bên phải: Cố định 16 cột (bắt đầu đúng từ cột thứ 8), đủ 6 hàng dọc */
-            .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-template-columns: repeat(16, 15px); gap: 1px; height: 92px; align-content: start; flex-shrink: 0; }
-            .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
-
+            /* Big Road (Từ cột 8 đến 26, để trống cột 27) */
             .road-dot { width: 12px; height: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
             .road-dot.p-solid { background: #3b82f6; }
             .road-dot.b-solid { background: #ef4444; }
@@ -350,7 +351,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU -->
+        <!-- BẢNG SOI CẦU CHUẨN 27 CỘT X 6 HÀNG -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -377,12 +378,8 @@ def home():
                 </div>
             </div>
 
-            <div class="road-tables-container">
-                <!-- Bảng Bead Plate bên trái: 7 cột -->
-                <div class="bead-grid-table" id="bead-plate-container"></div>
-                <!-- Bảng Big Road bên phải: Cố định bắt đầu từ cột số 8 -->
-                <div class="road-grid-table" id="big-road-container"></div>
-            </div>
+            <!-- HỆ THỐNG LƯỚI TỔNG THỂ 27 CỘT X 6 HÀNG -->
+            <div class="master-grid-table" id="master-grid"></div>
         </div>
 
         <div class="modal" id="history-modal">
@@ -420,8 +417,8 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            // Đổi phiên bản v11 để làm sạch hoàn toàn bộ nhớ đệm trình duyệt cũ
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v11') || 'null');
+            // Dùng key v13 để xóa sạch hoàn toàn cache cũ trên trình duyệt
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v13') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -457,7 +454,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v11', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v13', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -699,30 +696,54 @@ def home():
             }
 
             function renderScoreboard() {
-                // 1. Bảng Bead Plate bên trái: 7 cột cố định
-                let beadContainer = document.getElementById('bead-plate-container');
-                beadContainer.innerHTML = '';
-                globalGame.scoreRecords.forEach(rec => {
-                    let box = document.createElement('div');
-                    box.className = 'bead-box';
-                    let div = document.createElement('div');
-                    if (rec === 'P7') {
-                        div.className = 'bead P7'; div.innerText = '7';
-                    } else if (rec === 'B6') {
-                        div.className = 'bead B6'; div.innerText = '6';
-                    } else {
-                        div.className = `bead ${rec.charAt(0)}`; div.innerText = rec === 'T' ? 'T' : rec.charAt(0);
+                let masterGrid = document.getElementById('master-grid');
+                masterGrid.innerHTML = '';
+
+                // Tạo sẵn lưới 27 cột x 6 hàng = 162 ô
+                let cells = [];
+                for (let r = 0; r < 6; r++) {
+                    for (let c = 0; c < 27; c++) {
+                        let cell = document.createElement('div');
+                        cell.className = 'grid-cell';
+                        cell.dataset.row = r;
+                        cell.dataset.col = c;
+                        masterGrid.appendChild(cell);
+                        cells.push(cell);
                     }
-                    box.appendChild(div);
-                    beadContainer.appendChild(box);
+                }
+
+                function getCell(r, c) {
+                    if (r < 0 || r >= 6 || c < 0 || c >= 27) return null;
+                    return cells[r * 27 + c];
+                }
+
+                // 1. Render Bead Plate (Cột 0 đến 6 tương ứng cột 1 đến 7)[cite: 13]
+                let beadCol = 0, beadRow = 0;
+                globalGame.scoreRecords.forEach(rec => {
+                    if (beadRow >= 6) {
+                        beadRow = 0;
+                        beadCol++;
+                    }
+                    if (beadCol < 7) {
+                        let cell = getCell(beadRow, beadCol);
+                        if (cell) {
+                            let div = document.createElement('div');
+                            if (rec === 'P7') {
+                                div.className = 'bead P7'; div.innerText = '7';
+                            } else if (rec === 'B6') {
+                                div.className = 'bead B6'; div.innerText = '6';
+                            } else {
+                                div.className = `bead ${rec.charAt(0)}`; div.innerText = rec === 'T' ? 'T' : rec.charAt(0);
+                            }
+                            cell.appendChild(div);
+                        }
+                    }
+                    beadRow++;
                 });
 
-                // 2. Bảng Big Road bên phải: LUÔN BẮT ĐẦU TỪ CỘT THỨ 8 (index 7 của ma trận lớn)
-                let bigRoadContainer = document.getElementById('big-road-container');
-                bigRoadContainer.innerHTML = '';
-                
-                let rawMatrix = Array(6).fill(0).map(() => Array(50).fill(null));
-                let col = 7, row = 0;
+                // 2. Render Big Road (Bắt đầu từ cột thứ 8, tức index c = 7, giới hạn đến cột 25 tương ứng dòng 26)[cite: 13]
+                let roadMatrix = Array(6).fill(0).map(() => Array(27).fill(null));
+                let col = 7, row = 0; // Cột 8 (index 7) là cột bắt đầu[cite: 13]
                 let lastType = null;
                 let lastCellRef = null;
 
@@ -735,59 +756,60 @@ def home():
 
                     if (lastType === null) {
                         let cell = { type: rec, base: base, tieCount: 0 };
-                        rawMatrix[row][col] = cell;
+                        if (row < 6 && col < 26) roadMatrix[row][col] = cell;
                         lastCellRef = cell;
                         lastType = base;
                     } else if (base === lastType) {
-                        if (row + 1 < 6 && rawMatrix[row + 1][col] === null) {
+                        if (row + 1 < 6 && roadMatrix[row + 1][col] === null) {
                             row++;
                         } else {
                             col++;
                         }
                         let cell = { type: rec, base: base, tieCount: 0 };
-                        rawMatrix[row][col] = cell;
+                        if (row < 6 && col < 26) roadMatrix[row][col] = cell;
                         lastCellRef = cell;
                     } else {
                         col = 7;
-                        while (rawMatrix[0][col] !== null) col++;
+                        while (roadMatrix[0][col] !== null && col < 26) col++;
                         row = 0;
                         let cell = { type: rec, base: base, tieCount: 0 };
-                        rawMatrix[row][col] = cell;
+                        if (row < 6 && col < 26) roadMatrix[row][col] = cell;
                         lastCellRef = cell;
                         lastType = base;
                     }
                 });
 
+                // Nếu vượt quá cột 26, thực hiện thụt cột đầu tiên (trượt trái để giữ tối đa đến dòng 26)[cite: 13]
                 let maxCol = 7;
-                for (let c = 7; c < 50; c++) {
+                for (let c = 7; c < 27; c++) {
                     for (let r = 0; r < 6; r++) {
-                        if (rawMatrix[r][c] !== null) maxCol = c;
+                        if (roadMatrix[r][c] !== null) maxCol = c;
                     }
                 }
 
                 let startCol = 7;
-                if (maxCol >= 7 + 16) {
-                    startCol = maxCol - 15;
+                if (maxCol >= 26) {
+                    startCol = maxCol - 25 + 8;
                 }
 
-                for (let c = startCol; c < startCol + 16; c++) {
+                for (let c = startCol; c < 26; c++) {
                     for (let r = 0; r < 6; r++) {
-                        let box = document.createElement('div');
-                        box.className = 'road-box';
-                        let cell = rawMatrix[r][c];
-                        if (cell) {
-                            let dot = document.createElement('div');
-                            dot.className = `road-dot ${cell.base.toLowerCase()}-solid`;
-                            if (cell.type === 'P7') dot.innerText = '7';
-                            if (cell.type === 'B6') dot.innerText = '6';
-                            for (let i = 0; i < cell.tieCount; i++) {
-                                let slash = document.createElement('div');
-                                slash.className = 'tie-slash';
-                                dot.appendChild(slash);
+                        let cellData = roadMatrix[r][c];
+                        if (cellData) {
+                            let cellEl = getCell(r, c - startCol + 7);
+                            if (cellEl) {
+                                let dot = document.createElement('div');
+                                dot.className = `road-dot ${cellData.base.toLowerCase()}-solid`;
+                                if (cellData.type === 'P7') dot.innerText = '7';
+                                if (cellData.type === 'B6') dot.innerText = '6';
+                                for (let i = 0; i < cellData.tieCount; i++) {
+                                    let slash = document.createElement('div');
+                                    slash.className = 'tie-slash';
+                                    dot.appendChild(slash);
+                                }
+                                cellEl.appendChild(dot);
                             }
-                            box.appendChild(dot);
                         }
-                        bigRoadContainer.appendChild(box);
                     }
                 }
             }
