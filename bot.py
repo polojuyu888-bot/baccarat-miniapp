@@ -353,7 +353,7 @@ if __name__ == '__main__':
         app.add_handler(CommandHandler("id", get_id_command))
         app.add_handler(CommandHandler("checkin", checkin_command))
         app.add_handler(CommandHandler("add", add_command))
-        app.add_handler(CommandHandler: CommandHandler("sub", sub_command)) # type: ignore
+        app.add_handler(CommandHandler("sub", sub_command))
         app.add_handler(CommandHandler("freeze", freeze_command))
         app.add_handler(CommandHandler("unfreeze", unfreeze_command))
         
