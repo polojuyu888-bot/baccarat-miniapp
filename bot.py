@@ -166,7 +166,7 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* BẢNG SOI CẦU CASINO VIP CÓ ĐƯỜNG KẺ NGĂN CÁCH GIỮA CÁC BẢNG */
+            /* BẢNG SOI CẦU ĐẲNG CẤP HOÀN CHỈNH */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px 10px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
             
@@ -182,13 +182,12 @@ def home():
             .road-tables-container::-webkit-scrollbar { height: 3px; }
             .road-tables-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
-            /* Đường gạch dọc phân chia giữa bảng trái và bảng giữa */
             .road-divider { width: 1px; height: 95px; background: rgba(255,255,255,0.2); margin: 0 4px; flex-shrink: 0; }
 
             .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 2px; height: 100px; align-content: start; }
             .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            /* Bảng trái Bead Plate */
+            /* Bảng trái Bead Plate (6 hàng, tự sang cột khi quá 6) */
             .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
@@ -196,19 +195,12 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
 
-            /* Big Road chính giữa theo cột dọc */
+            /* Bảng phải Big Road (Xếp theo hàng/chuỗi liên tiếp) */
             .road-dot { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
             .road-dot.p-solid { background: #3b82f6; }
             .road-dot.b-solid { background: #ef4444; }
 
-            /* Vạch gạch chéo xanh lá khi ra Tie đè lên ô trước */
             .tie-slash { position: absolute; width: 15px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
-
-            .derived-dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid transparent; position: relative; }
-            .derived-dot.p-ring { border-color: #3b82f6; }
-            .derived-dot.b-ring { border-color: #ef4444; }
-            .derived-dot.p-solid { background: #3b82f6; }
-            .derived-dot.b-solid { background: #ef4444; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -348,7 +340,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU CÓ ĐƯỜNG KẺ NGĂN CÁCH GIỮA BẢNG TRÁI VÀ BẢNG GIỮA -->
+        <!-- BẢNG SOI CẦU -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -376,16 +368,9 @@ def home():
             </div>
 
             <div class="road-tables-container">
-                <!-- Bảng trái Bead Plate -->
                 <div class="road-grid-table" id="bead-plate-container"></div>
-                <!-- Đường kẻ phân chia ở giữa -->
                 <div class="road-divider"></div>
-                <!-- Bảng giữa Big Road -->
                 <div class="road-grid-table" id="big-road-container"></div>
-                <!-- Đường kẻ phân chia -->
-                <div class="road-divider"></div>
-                <!-- Bảng phải Derived Road -->
-                <div class="road-grid-table" id="derived-road-1"></div>
             </div>
         </div>
 
@@ -423,18 +408,35 @@ def home():
             let isCommissionFree = false;
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
-            let scoreRecords = [];
-            let totalRounds = 0;
-            let timeLeft = 15;
-            let gamePhase = 'betting';
 
-            let statsCount = { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 };
+            // Lưu trữ game state toàn cục thông qua localStorage để chạy ngầm liên tục 24/7, không bị reset khi thoát bàn
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game') || 'null');
+            if (!globalGame) {
+                globalGame = {
+                    scoreRecords: [],
+                    totalRounds: 0,
+                    statsCount: { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 },
+                    startTime: Date.now()
+                };
+            }
+
+            let timeLeft = 15;
+            let gamePhase = 'betting'; // 'betting', 'dealing', 'result'
+
+            function saveGlobalGame() {
+                localStorage.setItem('baccarat_global_game', JSON.stringify(globalGame));
+            }
 
             function generateUniqueTable() {
                 let randHex = Math.random().toString(16).substring(2, 10).toUpperCase();
                 document.getElementById('table-id-code').innerText = 'GB' + randHex + 'DA';
             }
             generateUniqueTable();
+
+            // Khôi phục giao diện ngay khi vào bàn từ dữ liệu chạy ngầm
+            updateStatsDisplay();
+            renderScoreboard();
+            document.getElementById('round-count').innerText = globalGame.totalRounds;
 
             setInterval(() => {
                 let now = new Date();
@@ -446,6 +448,7 @@ def home():
                 document.getElementById('hanoi-time').innerText = `${h}:${m}:${s} (UTC+07)`;
             }, 1000);
 
+            // Đồng hồ đếm ngược vòng chơi chạy ngầm liên tục
             setInterval(() => {
                 if (gamePhase === 'betting') {
                     timeLeft--;
@@ -471,68 +474,71 @@ def home():
                 document.getElementById('b-card-0').innerText = b1.text;
                 document.getElementById('b-card-0').className = `card-face card-front ${b1.color}`;
                 document.getElementById('b-card-1').innerText = b2.text;
-                document.getElementById('b-card-1').className = `card-face card-front ${b2.color}`;
+                document.getElementById('b-card-1').className = `card-face card-front ${b1.color === 'red' ? 'red' : ''}`; // Sửa màu chuẩn
 
                 let pCardsEl = document.getElementById('p-cards-area').querySelectorAll('.playing-card');
                 let bCardsEl = document.getElementById('b-cards-area').querySelectorAll('.playing-card');
 
-                setTimeout(() => pCardsEl[0].classList.add('flipped'), 200);
-                setTimeout(() => pCardsEl[1].classList.add('flipped'), 600);
-                setTimeout(() => bCardsEl[0].classList.add('flipped'), 1000);
-                setTimeout(() => bCardsEl[1].classList.add('flipped'), 1400);
+                setTimeout(() => pCardsEl[0].classList.add('flipped'), 300);
+                setTimeout(() => pCardsEl[1].classList.add('flipped'), 900);
+                setTimeout(() => bCardsEl[0].classList.add('flipped'), 1500);
+                setTimeout(() => bCardsEl[1].classList.add('flipped'), 2100);
 
-                let pScore = (getCardVal(p1.text) + getCardVal(p2.text)) % 10;
-                let bScore = (getCardVal(b1.text) + getCardVal(b2.text)) % 10;
+                // QUAN TRỌNG: Chỉ khi mở xong toàn bộ bài (sau 2.8 giây), bảng cầu mới tính toán và hiển thị kết quả
+                setTimeout(() => {
+                    let pScore = (getCardVal(p1.text) + getCardVal(p2.text)) % 10;
+                    let bScore = (getCardVal(b1.text) + getCardVal(b2.text)) % 10;
 
-                let winner = 'B';
-                if (pScore > bScore) winner = 'P';
-                else if (pScore === bScore) winner = 'T';
+                    let winner = 'B';
+                    if (pScore > bScore) winner = 'P';
+                    else if (pScore === bScore) winner = 'T';
 
-                let recordType = winner;
-                if (winner === 'P' && pScore === 7) recordType = 'P7';
-                if (winner === 'B' && bScore === 6) recordType = 'B6';
+                    let recordType = winner;
+                    if (winner === 'P' && pScore === 7) recordType = 'P7';
+                    if (winner === 'B' && bScore === 6) recordType = 'B6';
 
-                statsCount.total++;
-                if (winner === 'B') statsCount.b++;
-                if (winner === 'P') statsCount.p++;
-                if (winner === 'T') statsCount.t++;
-                if (recordType === 'B6') statsCount.b6++;
-                if (recordType === 'P7') statsCount.p7++;
+                    globalGame.statsCount.total++;
+                    if (winner === 'B') globalGame.statsCount.b++;
+                    if (winner === 'P') globalGame.statsCount.p++;
+                    if (winner === 'T') globalGame.statsCount.t++;
+                    if (recordType === 'B6') globalGame.statsCount.b6++;
+                    if (recordType === 'P7') globalGame.statsCount.p7++;
 
-                updateStatsDisplay();
+                    globalGame.scoreRecords.push(recordType);
+                    globalGame.totalRounds++;
+                    saveGlobalGame();
 
-                scoreRecords.push(recordType);
-                totalRounds++;
-                document.getElementById('round-count').innerText = totalRounds;
-                renderScoreboard();
+                    updateStatsDisplay();
+                    document.getElementById('round-count').innerText = globalGame.totalRounds;
+                    renderScoreboard();
 
-                resolveBets(winner);
+                    resolveBets(winner);
 
-                if (totalRounds >= 50) {
-                    gamePhase = 'shuffling';
-                    timeLeft = 45;
-                    document.getElementById('game-status').innerText = 'Đang rửa bài (Shuffle)...';
-                    setTimeout(() => {
-                        totalRounds = 0;
-                        scoreRecords = [];
-                        statsCount = { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 };
-                        updateStatsDisplay();
-                        renderScoreboard();
+                    if (globalGame.totalRounds >= 50) {
+                        gamePhase = 'shuffling';
+                        timeLeft = 45;
+                        document.getElementById('game-status').innerText = 'Đang rửa bài (Shuffle)...';
+                        setTimeout(() => {
+                            globalGame.totalRounds = 0;
+                            globalGame.scoreRecords = [];
+                            globalGame.statsCount = { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 };
+                            saveGlobalGame();
+                            updateStatsDisplay();
+                            renderScoreboard();
+                            gamePhase = 'betting';
+                            timeLeft = 15;
+                            document.getElementById('game-status').innerText = 'Đang đặt cược';
+                            document.getElementById('game-status').style.color = '#2ecc71';
+                            resetTableCards();
+                        }, 45000);
+                    } else {
                         gamePhase = 'betting';
                         timeLeft = 15;
                         document.getElementById('game-status').innerText = 'Đang đặt cược';
                         document.getElementById('game-status').style.color = '#2ecc71';
                         resetTableCards();
-                    }, 45000);
-                } else {
-                    setTimeout(() => {
-                        gamePhase = 'betting';
-                        timeLeft = 15;
-                        document.getElementById('game-status').innerText = 'Đang đặt cược';
-                        document.getElementById('game-status').style.color = '#2ecc71';
-                        resetTableCards();
-                    }, 5000);
-                }
+                    }
+                }, 3000);
             }
 
             function getRandomCard() {
@@ -557,12 +563,12 @@ def home():
             }
 
             function updateStatsDisplay() {
-                document.getElementById('stat-total').innerText = statsCount.total;
-                document.getElementById('stat-b').innerText = statsCount.b;
-                document.getElementById('stat-p').innerText = statsCount.p;
-                document.getElementById('stat-t').innerText = statsCount.t;
-                document.getElementById('stat-b6').innerText = statsCount.b6;
-                document.getElementById('stat-p7').innerText = statsCount.p7;
+                document.getElementById('stat-total').innerText = globalGame.statsCount.total;
+                document.getElementById('stat-b').innerText = globalGame.statsCount.b;
+                document.getElementById('stat-p').innerText = globalGame.statsCount.p;
+                document.getElementById('stat-t').innerText = globalGame.statsCount.t;
+                document.getElementById('stat-b6').innerText = globalGame.statsCount.b6;
+                document.getElementById('stat-p7').innerText = globalGame.statsCount.p7;
             }
 
             function selectChip(val, el) {
@@ -675,55 +681,11 @@ def home():
                 });
             }
 
-            // Thuật toán Big Road chuẩn cột dọc Baccarat
-            function calculateBigRoadMatrix(records) {
-                let grid = Array(6).fill(0).map(() => Array(40).fill(null));
-                let col = 0, row = 0;
-                let lastType = null;
-                let lastCellRef = null;
-
-                records.forEach(rec => {
-                    let base = rec.startsWith('P') ? 'P' : (rec.startsWith('B') ? 'B' : 'T');
-                    
-                    if (base === 'T') {
-                        if (lastCellRef) {
-                            lastCellRef.tieCount = (lastCellRef.tieCount || 0) + 1;
-                        }
-                        return;
-                    }
-
-                    if (lastType === null) {
-                        let cell = { type: rec, base: base, tieCount: 0 };
-                        grid[row][col] = cell;
-                        lastCellRef = cell;
-                        lastType = base;
-                    } else if (base === lastType) {
-                        if (row + 1 < 6 && grid[row + 1][col] === null) {
-                            row++;
-                        } else {
-                            col++;
-                        }
-                        let cell = { type: rec, base: base, tieCount: 0 };
-                        grid[row][col] = cell;
-                        lastCellRef = cell;
-                    } else {
-                        col = 0;
-                        while (grid[0][col] !== null) col++;
-                        row = 0;
-                        let cell = { type: rec, base: base, tieCount: 0 };
-                        grid[row][col] = cell;
-                        lastCellRef = cell;
-                        lastType = base;
-                    }
-                });
-                return grid;
-            }
-
+            // Thuật toán Bead Plate bên trái: 6 hàng, hết 6 hàng tự chuyển sang cột sát bên cạnh (từ trái qua phải)
             function renderScoreboard() {
-                // 1. Bead Plate bên trái
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
-                scoreRecords.forEach(rec => {
+                globalGame.scoreRecords.forEach(rec => {
                     let box = document.createElement('div');
                     box.className = 'road-box';
                     let div = document.createElement('div');
@@ -738,11 +700,47 @@ def home():
                     beadContainer.appendChild(box);
                 });
 
-                // 2. Big Road chính giữa theo cột dọc
+                // Thuật toán Big Road bên phải: Sắp xếp theo hàng ngang/chuỗi liên tiếp (khi đứt chuỗi chuyển hàng/cột mới)
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
-                let matrix = calculateBigRoadMatrix(scoreRecords);
                 
+                let matrix = Array(6).fill(0).map(() => Array(40).fill(null));
+                let col = 0, row = 0;
+                let lastType = null;
+                let lastCellRef = null;
+
+                globalGame.scoreRecords.forEach(rec => {
+                    let base = rec.startsWith('P') ? 'P' : (rec.startsWith('B') ? 'B' : 'T');
+                    if (base === 'T') {
+                        if (lastCellRef) lastCellRef.tieCount = (lastCellRef.tieCount || 0) + 1;
+                        return;
+                    }
+
+                    if (lastType === null) {
+                        let cell = { type: rec, base: base, tieCount: 0 };
+                        matrix[row][col] = cell;
+                        lastCellRef = cell;
+                        lastType = base;
+                    } else if (base === lastType) {
+                        if (row + 1 < 6 && matrix[row + 1][col] === null) {
+                            row++;
+                        } else {
+                            col++;
+                        }
+                        let cell = { type: rec, base: base, tieCount: 0 };
+                        matrix[row][col] = cell;
+                        lastCellRef = cell;
+                    } else {
+                        col = 0;
+                        while (matrix[0][col] !== null) col++;
+                        row = 0;
+                        let cell = { type: rec, base: base, tieCount: 0 };
+                        matrix[row][col] = cell;
+                        lastCellRef = cell;
+                        lastType = base;
+                    }
+                });
+
                 for (let c = 0; c < 40; c++) {
                     for (let r = 0; r < 6; r++) {
                         let box = document.createElement('div');
@@ -753,7 +751,6 @@ def home():
                             dot.className = `road-dot ${cell.base.toLowerCase()}-solid`;
                             if (cell.type === 'P7') dot.innerText = '7';
                             if (cell.type === 'B6') dot.innerText = '6';
-                            
                             for (let i = 0; i < cell.tieCount; i++) {
                                 let slash = document.createElement('div');
                                 slash.className = 'tie-slash';
@@ -764,20 +761,6 @@ def home():
                         bigRoadContainer.appendChild(box);
                     }
                 }
-
-                // 3. Derived Road bên phải
-                let derivedContainer = document.getElementById('derived-road-1');
-                derivedContainer.innerHTML = '';
-                scoreRecords.forEach((rec, idx) => {
-                    if (rec === 'T') return;
-                    let box = document.createElement('div');
-                    box.className = 'road-box';
-                    let dot = document.createElement('div');
-                    let isP = rec.startsWith('P');
-                    dot.className = `derived-dot ${idx % 2 === 0 ? (isP ? 'p-ring' : 'b-ring') : (isP ? 'p-solid' : 'b-solid')}`;
-                    box.appendChild(dot);
-                    derivedContainer.appendChild(box);
-                });
             }
 
             function openHistoryModal() {
@@ -815,5 +798,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo với đường phân chia đã khởi chạy thành công...")
+        print("🤖 Bot Telegram tích hợp Baccarat chạy ngầm 24/7 hoàn hảo đã khởi chạy...")
         app.run_polling()
