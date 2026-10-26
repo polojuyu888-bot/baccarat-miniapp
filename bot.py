@@ -166,8 +166,8 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* BẢNG SOI CẦU ĐÚNG CHUẨN 6 HÀNG DỌC, KHÔNG THANH CUỘN */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 110px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+            /* BẢNG SOI CẦU: ĐÚNG CHUẨN 6 HÀNG DỌC, CỘT 8 ĐẾN 23, KHÔNG CÓ THANH CUỘN */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 122px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; }
             
             .sc-stats-group { display: flex; align-items: center; gap: 10px; }
@@ -184,36 +184,36 @@ def home():
             .road-tables-container { 
                 display: flex; 
                 gap: 4px; 
-                overflow: hidden; /* Cố định hoàn toàn, KHÔNG có thanh cuộn */
+                overflow: hidden; 
                 align-items: flex-start; 
-                height: 88px; 
-                padding-top: 1px;
+                height: 98px; 
+                padding-top: 2px;
                 background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
                 background-size: 15px 15px;
             }
 
-            /* Bảng trái Bead Plate: Đúng 7 cột, 6 hàng dọc */
-            .bead-grid-table { display: grid; grid-template-rows: repeat(6, 14px); grid-auto-flow: column; grid-auto-columns: 14px; gap: 1px; height: 84px; align-content: start; }
-            .bead-box { width: 14px; height: 14px; display: flex; justify-content: center; align-items: center; position: relative; }
-            .bead { width: 12px; height: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
+            /* Bảng trái Bead Plate: Đúng 7 cột, đúng 6 hàng dọc (15px * 6 = 90px) */
+            .bead-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 1px; height: 92px; align-content: start; }
+            .bead-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* Đường kẻ phân cách sau cột thứ 7 */
-            .road-divider { width: 1px; height: 85px; background: rgba(255,255,255,0.3); margin: 0 3px; flex-shrink: 0; }
+            /* Đường kẻ phân cách nằm đúng sau cột thứ 7 */
+            .road-divider { width: 1px; height: 92px; background: rgba(255,255,255,0.3); margin: 0 3px; flex-shrink: 0; }
 
-            /* Bảng phải Big Road: Cố định đúng 23 cột (từ cột 8 đến cột 23), 6 hàng dọc */
-            .road-grid-table { display: grid; grid-template-rows: repeat(6, 14px); grid-template-columns: repeat(16, 14px); gap: 1px; height: 84px; align-content: start; }
-            .road-box { width: 14px; height: 14px; display: flex; justify-content: center; align-items: center; position: relative; }
+            /* Bảng phải Big Road: Bắt đầu từ cột số 8, cố định 16 cột (tổng 23 cột), đúng 6 hàng dọc */
+            .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-template-columns: repeat(16, 15px); gap: 1px; height: 92px; align-content: start; }
+            .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            .road-dot { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
+            .road-dot { width: 12px; height: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
             .road-dot.p-solid { background: #3b82f6; }
             .road-dot.b-solid { background: #ef4444; }
 
-            .tie-slash { position: absolute; width: 14px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
+            .tie-slash { position: absolute; width: 15px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -353,7 +353,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU CỐ ĐỊNH 6 HÀNG DỌC, CỘT 8 ĐẾN 23, KHÔNG CÓ THANH CUỘN -->
+        <!-- BẢNG SOI CẦU CHUẨN 6 HÀNG DỌC, CỘT 8 ĐẾN 23, KHÔNG CÓ THANH CUỘN -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -381,11 +381,11 @@ def home():
             </div>
 
             <div class="road-tables-container">
-                <!-- Bảng trái Bead Plate: Đúng 7 cột, 6 hàng dọc -->
+                <!-- Bảng trái Bead Plate: Đúng 7 cột, đúng 6 hàng dọc -->
                 <div class="bead-grid-table" id="bead-plate-container"></div>
                 <!-- Đường kẻ phân cách sau cột thứ 7 -->
                 <div class="road-divider"></div>
-                <!-- Bảng phải Big Road: Từ cột 8 đến 23 (16 cột), 6 hàng dọc -->
+                <!-- Bảng phải Big Road: Cột 8 đến 23 (16 cột), đúng 6 hàng dọc -->
                 <div class="road-grid-table" id="big-road-container"></div>
             </div>
         </div>
@@ -425,7 +425,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v6') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v7') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -461,7 +461,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v6', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v7', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -703,7 +703,7 @@ def home():
             }
 
             function renderScoreboard() {
-                // 1. Bảng Bead Plate bên trái: Đúng 7 cột, 6 hàng dọc
+                // 1. Bảng Bead Plate bên trái: Đúng 7 cột, đúng 6 hàng dọc
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 globalGame.scoreRecords.forEach(rec => {
@@ -721,7 +721,7 @@ def home():
                     beadContainer.appendChild(box);
                 });
 
-                // 2. Bảng Big Road bên phải: Cố định 16 cột (tương ứng cột 8 đến 23). Vượt quá sẽ trượt trái bỏ bớt cột cũ.
+                // 2. Bảng Big Road bên phải: Cố định 16 cột (bắt đầu từ cột 8 đến 23), đúng 6 hàng dọc
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
                 
@@ -762,7 +762,6 @@ def home():
                     }
                 });
 
-                // Tìm cột tối đa đang có dữ liệu
                 let maxCol = 0;
                 for (let c = 0; c < 45; c++) {
                     for (let r = 0; r < 6; r++) {
@@ -770,7 +769,6 @@ def home():
                     }
                 }
 
-                // Cố định hiển thị tối đa 16 cột (tương đương ô 8 đến ô 23). Nếu vượt quá thì trượt bỏ các cột bên trái.
                 let startCol = 0;
                 if (maxCol >= 16) {
                     startCol = maxCol - 15;
