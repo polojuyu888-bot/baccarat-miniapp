@@ -23,8 +23,20 @@ def init_db():
             telegram_id TEXT PRIMARY KEY,
             casino_id TEXT UNIQUE,
             username TEXT,
-            balance REAL DEFAULT 1705.00,
+            balance REAL DEFAULT 0.0,
             is_frozen INTEGER DEFAULT 0
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            telegram_id TEXT,
+            time_str TEXT,
+            bet_type TEXT,
+            amount REAL,
+            result TEXT,
+            profit REAL,
+            details TEXT
         )
     ''')
     conn.commit()
@@ -53,7 +65,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if not row:
         casino_id = generate_casino_id(cursor)
-        balance = 1705.00
+        balance = 0.0  # Người mới vào game chưa có lịch sử lên điểm thì số dư bằng 0[cite: 10]
         cursor.execute(
             "INSERT INTO users (telegram_id, casino_id, username, balance, is_frozen) VALUES (?, ?, ?, ?, ?)",
             (user_id, casino_id, username, balance, 0)
@@ -64,23 +76,21 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         balance = row[1]
     conn.close()
 
-    display_balance = "∞ (Vô tận)" if is_admin(user_id) else f"{balance} ¥"
+    display_balance = "∞" if is_admin(user_id) else f"${balance:,.2f}"
 
     welcome_text = (
-        "🤖 **CHÀO MỪNG ĐẾN VỚI SÒNG BÀI BACCARAT VIP** 🤖\n\n"
-        "✨ Hệ thống bàn cược trực tuyến chuẩn quốc tế.\n"
-        f"🆔 **ID của bạn:** `{casino_id}`\n"
-        f"💰 **Số dư ví:** `{display_balance}`\n\n"
-        "👇 Nhấn nút bên dưới để mở bàn chơi giao diện trực tiếp:"
+        "🤖 **SÒNG BÀI BACCARAT VIP CHUẨN QUỐC TẾ** 🤖\n\n"
+        f"🆔 **ID tài khoản:** `{casino_id}`\n"
+        f"💰 **Số dư hiện tại:** `{display_balance}`\n\n"
+        "👇 Nhấn nút bên dưới để vào bàn chơi trực tiếp:"
     )
     
     webapp_url = os.getenv("RENDER_EXTERNAL_URL", "https://your-app-name.onrender.com")
-    keyboard = [[InlineKeyboardButton("🎰 VÀO BÀN BACCARAT (LIVE VIP)", web_app=WebAppInfo(url=webapp_url))]]
+    keyboard = [[InlineKeyboardButton("🎰 MỞ BÀN BACCARAT LIVE", web_app=WebAppInfo(url=webapp_url))]]
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     await update.message.reply_text(welcome_text, parse_mode="Markdown", reply_markup=reply_markup)
 
-# FastAPI phục vụ trực tiếp giao diện HTML mới nhất
 web_app = FastAPI()
 
 @web_app.get("/", response_class=HTMLResponse)
@@ -91,12 +101,12 @@ def home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Live Baccarat VIP</title>
+        <title>Baccarat Live Casino VIP</title>
         <style>
-            * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+            * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
             body { background-color: #0b1016; color: #fff; overflow-x: hidden; display: flex; flex-direction: column; height: 100vh; user-select: none; }
             
-            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.7); padding: 8px 12px; font-size: 13px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.75); padding: 8px 12px; font-size: 13px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
             .top-left, .top-right { display: flex; align-items: center; gap: 8px; }
             .btn-exit { background: none; border: none; color: #fff; font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
             .balance-box { background: rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
@@ -107,6 +117,13 @@ def home():
             
             .table-info-overlay { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid #e74c3c; }
             .time-box { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; text-align: right; }
+
+            /* Khu vực bài chia trên bàn */
+            .cards-on-table { position: absolute; bottom: 8px; width: 100%; display: flex; justify-content: space-around; padding: 0 15px; z-index: 5; pointer-events: none; }
+            .table-side { display: flex; gap: 4px; align-items: center; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; }
+            .t-card { width: 24px; height: 34px; background: #fff; color: #000; border-radius: 3px; font-size: 10px; font-weight: bold; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+            .t-card.red { color: #e74c3c; }
+            .t-card.hidden { background: #2563eb; color: transparent; border: 1px solid #fff; }
 
             .game-panel { flex: 1; display: flex; flex-direction: column; background: #680d1b; padding: 6px; justify-content: space-between; }
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #f3a9b3; padding: 0 4px; }
@@ -146,13 +163,12 @@ def home():
             
             .chip { width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 10px; cursor: pointer; border: 2px dashed #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
             .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 8px #f1c40f; }
-            .c-5 { background: #3b82f6; color: #fff; }
-            .c-10 { background: #eab308; color: #000; }
-            .c-500 { background: #a855f7; color: #fff; }
-            .c-2000 { background: #ef4444; color: #fff; }
-            .c-5k { background: #10b981; color: #fff; }
-            .c-10k { background: #f97316; color: #fff; }
-            .c-20k { background: #6366f1; color: #fff; }
+            .c-10 { background: #3b82f6; color: #fff; }
+            .c-20 { background: #10b981; color: #fff; }
+            .c-50 { background: #f97316; color: #fff; }
+            .c-100 { background: #a855f7; color: #fff; }
+            .c-200 { background: #ef4444; color: #fff; }
+            .c-2k { background: #eab308; color: #000; }
 
             .commission-toggle { display: flex; align-items: center; gap: 3px; font-size: 9px; cursor: pointer; }
             .toggle-switch { width: 28px; height: 15px; background: #cbd5e1; border-radius: 10px; position: relative; transition: 0.3s; }
@@ -161,22 +177,32 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
+            /* Scoreboard dọc từ trên xuống dưới */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px; }
             .sc-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #94a3b8; margin-bottom: 4px; }
             .sc-indicators { display: flex; gap: 8px; font-size: 9px; }
             
             .bead-plate-grid { display: grid; grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 3px; overflow-x: auto; padding-bottom: 4px; max-height: 110px; }
-            .bead { width: 15px; height: 15px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; flex-shrink: 0; }
+            .bead { width: 16px; height: 16px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; flex-shrink: 0; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
+            .bead.P7 { background: #3b82f6; color: #fff; border: 2px solid #facc15; }
+            .bead.B6 { background: #ef4444; color: #fff; border: 2px solid #facc15; }
 
-            .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; }
-            .modal-content { background: #1c232a; width: 90%; max-height: 80vh; border-radius: 8px; padding: 15px; overflow-y: auto; }
-            .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 14px; }
+            /* Modal */
+            .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
+            .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
+            .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 14px; font-weight: bold; }
             .close-modal { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
             .history-list { font-size: 11px; display: flex; flex-direction: column; gap: 6px; }
-            .history-item { background: rgba(255,255,255,0.05); padding: 8px; border-radius: 4px; display: flex; justify-content: space-between; }
+            .history-item { background: rgba(255,255,255,0.05); padding: 8px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+
+            /* Modal Chọn Chip Mở Rộng */
+            .chip-picker-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 100; justify-content: center; align-items: center; }
+            .chip-picker-box { background: #1e293b; padding: 15px; border-radius: 10px; width: 85%; text-align: center; border: 1px solid #475569; }
+            .chip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; }
+            .picker-chip { width: 45px; height: 45px; border-radius: 50%; margin: auto; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 11px; cursor: pointer; border: 2px solid #fff; background: #3b82f6; }
         </style>
     </head>
     <body>
@@ -184,7 +210,7 @@ def home():
             <div class="top-left">
                 <button class="btn-exit" onclick="alert('Đã thoát bàn thành công!')">← <span>返回</span></button>
                 <div class="balance-box" onclick="openHistoryModal()">
-                    <span>¥</span> <span id="user-balance">1,705.00</span>
+                    <span>$</span> <span id="user-balance">0.00</span>
                 </div>
             </div>
             <div class="top-right">
@@ -195,20 +221,34 @@ def home():
         <div class="dealer-screen">
             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Dealer Live">
             <div class="table-info-overlay">
-                <div id="table-name" style="font-weight: bold;">B10 BACCARAT</div>
-                <div style="font-size: 8px; color: #aaa;" id="table-id-code">GB10269234DA</div>
+                <div id="table-name" style="font-weight: bold;">B11 BACCARAT</div>
+                <div style="font-size: 8px; color: #aaa;" id="table-id-code">GB09D87DCDA</div>
             </div>
             <div class="time-box">
                 <div id="hanoi-time" style="font-weight: bold;">15:48 (UTC+07)</div>
-                <div style="font-size: 8px; color: #aaa;">限红: 10~20,000</div>
+                <div style="font-size: 8px; color: #aaa;">Hạn mức: 10~20000</div>
+            </div>
+
+            <!-- Bài chia trên bàn từ trái qua phải -->
+            <div class="cards-on-table">
+                <div class="table-side" id="p-cards-area">
+                    <span style="font-size:9px; color:#38bdf8;">闲</span>
+                    <div class="t-card hidden">?</div>
+                    <div class="t-card hidden">?</div>
+                </div>
+                <div class="table-side" id="b-cards-area">
+                    <span style="font-size:9px; color:#ef4444;">庄</span>
+                    <div class="t-card hidden">?</div>
+                    <div class="t-card hidden">?</div>
+                </div>
             </div>
         </div>
 
         <div class="game-panel">
             <div class="round-info-bar">
                 <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
-                <span style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 10px; color: #facc15;" id="timer-val">⏳ 12s</span>
-                <span>Tối đa: 20,000</span>
+                <span style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 10px; color: #facc15;" id="timer-val">⏳ 15s</span>
+                <span>Hạn mức: 10~20000</span>
             </div>
 
             <div class="side-grid">
@@ -274,15 +314,14 @@ def home():
             </div>
 
             <div class="chips-container">
-                <div class="menu-chip-btn" onclick="alert('Định mức chip hệ thống')">🎮</div>
-                <div class="chips-scroll">
-                    <div class="chip c-5" onclick="selectChip(5, this)">5</div>
+                <div class="menu-chip-btn" onclick="openChipPicker()">⚙️</div>
+                <div class="chips-scroll" id="chips-bar-container">
                     <div class="chip c-10 selected" onclick="selectChip(10, this)">10</div>
-                    <div class="chip c-500" onclick="selectChip(500, this)">500</div>
-                    <div class="chip c-2000" onclick="selectChip(2000, this)">2K</div>
-                    <div class="chip c-5k" onclick="selectChip(5000, this)">5K</div>
-                    <div class="chip c-10k" onclick="selectChip(10000, this)">10K</div>
-                    <div class="chip c-20k" onclick="selectChip(20000, this)">20K</div>
+                    <div class="chip c-20" onclick="selectChip(20, this)">20</div>
+                    <div class="chip c-50" onclick="selectChip(50, this)">50</div>
+                    <div class="chip c-100" onclick="selectChip(100, this)">100</div>
+                    <div class="chip c-200" onclick="selectChip(200, this)">200</div>
+                    <div class="chip c-2k" onclick="selectChip(2000, this)">2K</div>
                 </div>
                 <div class="commission-toggle" onclick="toggleCommission()">
                     <span style="color: #cbd5e1;">免佣</span>
@@ -297,40 +336,61 @@ def home():
                 <div class="sc-indicators">
                     <span>庄问路</span>
                     <span>闲问路</span>
-                    <span>好路投注</span>
+                    <span>好路投注 (Ván: <span id="round-count">0</span>/50)</span>
                 </div>
                 <span>37 15 19 3 1 3 1</span>
             </div>
             <div class="bead-plate-grid" id="bead-plate-container"></div>
         </div>
 
+        <!-- Modal Lịch sử cược -->
         <div class="modal" id="history-modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Lịch sử đặt cược hôm nay</h3>
+                    <h3>Lịch sử đặt cược</h3>
                     <button class="close-modal" onclick="closeHistoryModal()">✕</button>
                 </div>
                 <div class="history-list" id="history-list-content">
-                    <div>Chưa có giao dịch đặt cược nào trong ngày hôm nay.</div>
+                    <div>Chưa có lịch sử giao dịch.</div>
                 </div>
             </div>
         </div>
 
+        <!-- Modal Tùy chọn Chip -->
+        <div class="chip-picker-modal" id="chip-picker-modal">
+            <div class="chip-picker-box">
+                <h3 style="margin-bottom: 10px; font-size:14px;">Chọn mệnh giá chip</h3>
+                <div class="chip-grid">
+                    <div class="picker-chip" onclick="setCustomChip(500)">500</div>
+                    <div class="picker-chip" onclick="setCustomChip(1000)">1K</div>
+                    <div class="picker-chip" onclick="setCustomChip(3000)">3K</div>
+                    <div class="picker-chip" onclick="setCustomChip(5000)">5K</div>
+                    <div class="picker-chip" onclick="setCustomChip(10000)">10K</div>
+                    <div class="picker-chip" onclick="setCustomChip(15000)">15K</div>
+                    <div class="picker-chip" onclick="setCustomChip(20000)">20K</div>
+                </div>
+                <button onclick="closeChipPicker()" style="background:#ef4444; border:none; color:#fff; padding:5px 15px; border-radius:4px; font-size:12px; cursor:pointer;">Đóng</button>
+            </div>
+        </div>
+
         <script>
-            let balance = 1705.00;
+            let balance = 0.0; // Số dư mặc định 0 nếu người mới chưa có lịch sử[cite: 10]
             let selectedChip = 10;
             let isCommissionFree = false;
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
-            let todayHistory = [];
+            let historyList = [];
+            let scoreRecords = [];
+            let totalRounds = 0;
+            let timeLeft = 15;
+            let gamePhase = 'betting'; // 'betting', 'dealing', 'shuffling'
 
             function generateUniqueTable() {
                 let randHex = Math.random().toString(16).substring(2, 10).toUpperCase();
                 document.getElementById('table-id-code').innerText = 'GB' + randHex + 'DA';
-                let tableNum = Math.floor(1 + Math.random() * 20);
-                document.getElementById('table-name').innerText = `B${tableNum} BACCARAT`;
             }
             generateUniqueTable();
 
+            // Đồng hồ múi giờ Hà Nội (UTC+07)[cite: 10]
             setInterval(() => {
                 let now = new Date();
                 let utc = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -341,10 +401,108 @@ def home():
                 document.getElementById('hanoi-time').innerText = `${h}:${m}:${s} (UTC+07)`;
             }, 1000);
 
+            // Vòng lặp đếm ngược & xử lý ván đấu
+            setInterval(() => {
+                if (gamePhase === 'betting') {
+                    timeLeft--;
+                    document.getElementById('timer-val').innerText = `⏳ ${timeLeft}s`;
+                    if (timeLeft <= 0) {
+                        gamePhase = 'dealing';
+                        document.getElementById('game-status').innerText = 'Đang mở bài...';
+                        document.getElementById('game-status').style.color = '#e74c3c';
+                        startDealingSequence();
+                    }
+                }
+            }, 1000);
+
+            function startDealingSequence() {
+                // Tạo bài ngẫu nhiên, mở từ trái qua phải (Player trước, Banker sau)
+                let p1 = getRandomCard(), p2 = getRandomCard();
+                let b1 = getRandomCard(), b2 = getRandomCard();
+
+                document.getElementById('p-cards-area').innerHTML = `<span style="font-size:9px; color:#38bdf8;">闲</span><div class="t-card ${p1.color}">${p1.text}</div><div class="t-card ${p2.color}">${p2.text}</div>`;
+                document.getElementById('b-cards-area').innerHTML = `<span style="font-size:9px; color:#ef4444;">庄</span><div class="t-card ${b1.color}">${b1.text}</div><div class="t-card ${b2.color}">${b2.text}</div>`;
+
+                // Tính điểm Baccarat
+                let pScore = (getCardVal(p1.text) + getCardVal(p2.text)) % 10;
+                let bScore = (getCardVal(b1.text) + getCardVal(b2.text)) % 10;
+
+                let winner = 'B';
+                if (pScore > bScore) winner = 'P';
+                else if (pScore === bScore) winner = 'T';
+
+                // Ghi nhận soi cầu chuẩn xác theo yêu cầu
+                let recordType = winner;
+                if (winner === 'P' && pScore === 7) recordType = 'P7';
+                if (winner === 'B' && bScore === 6) recordType = 'B6';
+
+                scoreRecords.push(recordType);
+                totalRounds++;
+                document.getElementById('round-count').innerText = totalRounds;
+                renderScoreboard();
+
+                // Tính toán tiền thưởng cược
+                resolveBets(winner);
+
+                // Kiểm tra điều kiện 50 ván để rửa bài (45s chờ)[cite: 10]
+                if (totalRounds >= 50) {
+                    gamePhase = 'shuffling';
+                    timeLeft = 45;
+                    document.getElementById('game-status').innerText = 'Đang rửa bài (Shuffle)...';
+                    document.setTimeout(() => {
+                        totalRounds = 0;
+                        scoreRecords = [];
+                        renderScoreboard();
+                        gamePhase = 'betting';
+                        timeLeft = 15;
+                        document.getElementById('game-status').innerText = 'Đang đặt cược';
+                        document.getElementById('game-status').style.color = '#2ecc71';
+                    }, 45000);
+                } else {
+                    setTimeout(() => {
+                        gamePhase = 'betting';
+                        timeLeft = 15;
+                        document.getElementById('game-status').innerText = 'Đang đặt cược';
+                        document.getElementById('game-status').style.color = '#2ecc71';
+                        resetTableCards();
+                    }, 5000);
+                }
+            }
+
+            function getRandomCard() {
+                const suits = ['♠', '♣', '♥', '♦'];
+                const vals = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+                let v = vals[Math.floor(Math.random() * vals.length)];
+                let s = suits[Math.floor(Math.random() * suits.length)];
+                let isRed = (s === '♥' || s === '♦');
+                return { text: v + s, color: isRed ? 'red' : '' };
+            }
+
+            function getCardVal(cardStr) {
+                let v = cardStr.slice(0, -1);
+                if (['10', 'J', 'Q', 'K'].includes(v)) return 0;
+                if (v === 'A') return 1;
+                return parseInt(v);
+            }
+
+            function resetTableCards() {
+                document.getElementById('p-cards-area').innerHTML = `<span style="font-size:9px; color:#38bdf8;">闲</span><div class="t-card hidden">?</div><div class="t-card hidden">?</div>`;
+                document.getElementById('b-cards-area').innerHTML = `<span style="font-size:9px; color:#ef4444;">庄</span><div class="t-card hidden">?</div><div class="t-card hidden">?</div>`;
+            }
+
             function selectChip(val, el) {
                 document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
                 el.classList.add('selected');
                 selectedChip = val;
+            }
+
+            function openChipPicker() { document.getElementById('chip-picker-modal').style.display = 'flex'; }
+            function closeChipPicker() { document.getElementById('chip-picker-modal').style.display = 'none'; }
+            function setCustomChip(val) {
+                selectedChip = val;
+                closeChipPicker();
+                let bar = document.getElementById('chips-bar-container');
+                bar.innerHTML += `<div class="chip selected" onclick="selectChip(${val}, this)">${val >= 1000 ? (val/1000)+'K' : val}</div>`;
             }
 
             function toggleCommission() {
@@ -355,6 +513,10 @@ def home():
             }
 
             function placeBet(type) {
+                if (gamePhase !== 'betting') {
+                    alert('Hết thời gian đặt cược!');
+                    return;
+                }
                 if (balance < selectedChip) {
                     alert('Số dư ví không đủ!');
                     return;
@@ -366,15 +528,10 @@ def home():
                 let tag = document.getElementById(`amt-${type}`);
                 tag.style.display = 'block';
                 tag.innerText = currentBets[type];
-
-                todayHistory.push({
-                    time: new Date().toLocaleTimeString(),
-                    type: type,
-                    amount: selectedChip
-                });
             }
 
             function cancelBets() {
+                if (gamePhase !== 'betting') return;
                 let refund = Object.values(currentBets).reduce((a, b) => a + b, 0);
                 balance += refund;
                 currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
@@ -385,6 +542,7 @@ def home():
             }
 
             function doubleBets() {
+                if (gamePhase !== 'betting') return;
                 let totalNeeded = Object.values(currentBets).reduce((a, b) => a + b, 0);
                 if (balance < totalNeeded) {
                     alert('Không đủ số dư để nhân đôi!');
@@ -400,35 +558,84 @@ def home():
                 document.getElementById('user-balance').innerText = balance.toFixed(2);
             }
 
-            function initScoreboard() {
+            function resolveBets(winner) {
+                let totalBet = Object.values(currentBets).reduce((a, b) => a + b, 0);
+                if (totalBet === 0) return;
+
+                let payout = 0;
+                let winDesc = '';
+                if (winner === 'P' && currentBets.player > 0) {
+                    payout += currentBets.player * 2;
+                    winDesc += `Thắng Player (+${currentBets.player * 1}) `;
+                }
+                if (winner === 'B' && currentBets.banker > 0) {
+                    let rate = isCommissionFree ? 2 : 1.95;
+                    payout += currentBets.banker * rate;
+                    winDesc += `Thắng Banker (+${currentBets.banker * (rate-1)}) `;
+                }
+                if (winner === 'T' && currentBets.tie > 0) {
+                    payout += currentBets.tie * 9;
+                    winDesc += `Thắng Tie (+${currentBets.tie * 8}) `;
+                }
+                // Trả lại cược cửa khác nếu Hòa
+                if (winner === 'T') {
+                    payout += currentBets.player + currentBets.banker;
+                }
+
+                let profit = payout - totalBet;
+                balance += payout;
+                document.getElementById('user-balance').innerText = balance.toFixed(2);
+
+                historyList.unshift({
+                    time: new Date().toLocaleTimeString(),
+                    result: winner,
+                    bet: totalBet,
+                    profit: profit,
+                    desc: winDesc || 'Thua cược'
+                });
+
+                // Reset cược ván mới
+                currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
+                ['player', 'banker', 'tie', 'player_pair', 'banker_pair', 'lucky_7', 'super_lucky_7', 'lucky_6'].forEach(t => {
+                    let tag = document.getElementById(`amt-${t}`);
+                    if(tag) tag.style.display = 'none';
+                });
+            }
+
+            function renderScoreboard() {
                 let container = document.getElementById('bead-plate-container');
-                let sampleResults = ['P','B','P','P','B','T','B','P','B','B','P','P','P','B','T','B','P','B','P','B','B','P','T','P','B','P','B','P','B','B'];
-                sampleResults.forEach(res => {
+                container.innerHTML = '';
+                scoreRecords.forEach(rec => {
                     let div = document.createElement('div');
-                    div.className = `bead ${res}`;
-                    div.innerText = res;
+                    if (rec === 'P7') {
+                        div.className = 'bead P7';
+                        div.innerText = '7';
+                    } else if (rec === 'B6') {
+                        div.className = 'bead B6';
+                        div.innerText = '6';
+                    } else {
+                        div.className = `bead ${rec}`;
+                        div.innerText = rec === 'T' ? 'T' : rec;
+                    }
                     container.appendChild(div);
                 });
             }
-            initScoreboard();
 
             function openHistoryModal() {
                 document.getElementById('history-modal').style.display = 'flex';
                 let listEl = document.getElementById('history-list-content');
-                if (todayHistory.length === 0) {
-                    listEl.innerHTML = `<div>Chưa có giao dịch đặt cược nào trong ngày hôm nay.</div>`;
+                if (historyList.length === 0) {
+                    listEl.innerHTML = `<div>Chưa có lịch sử giao dịch đặt cược.</div>`;
                 } else {
-                    listEl.innerHTML = todayHistory.map(h => `
+                    listEl.innerHTML = historyList.map(h => `
                         <div class="history-item">
-                            <span>[${h.time}] Cửa: <strong>${h.type.toUpperCase()}</strong></span>
-                            <span style="color: #f1c40f;">-${h.amount} ¥</span>
+                            <span>[${h.time}] Kết quả: <b>${h.result}</b> | Cược: $${h.bet}</span>
+                            <span style="color: ${h.profit >= 0 ? '#22c55e' : '#ef4444'};">${h.profit >= 0 ? '+' : ''}$${h.profit.toFixed(2)}</span>
                         </div>
                     `).join('');
                 }
             }
-            function closeHistoryModal() {
-                document.getElementById('history-modal').style.display = 'none';
-            }
+            function closeHistoryModal() { document.getElementById('history-modal').style.display = 'none'; }
         </script>
     </body>
     </html>
@@ -449,5 +656,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat Mini App đã khởi chạy thành công...")
+        print("🤖 Bot Telegram tích hợp Baccarat chuẩn xác đã khởi chạy thành công...")
         app.run_polling()
