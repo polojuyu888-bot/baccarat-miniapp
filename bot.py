@@ -408,7 +408,7 @@ def home():
 
         <!-- 1. Màn hình Live Dealer mô phỏng trực quan -->
         <div class="live-container">
-            <div class="live-badge">LIVE 8G.COM</div>
+            <div class="live-badge">LIVE Baccarat</div>
             
             <div class="dealer-table">
                 <!-- Bài 闲 Player -->
