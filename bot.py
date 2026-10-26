@@ -166,7 +166,7 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* BẢNG SOI CẦU ĐỒNG BỘ MÀU TRẮNG TUYỆT ĐỐI */
+            /* BẢNG SOI CẦU VỚI PHÔN NỀN CHẤM BI MỜ (DOT GRID) */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 5px 8px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
             
@@ -181,7 +181,17 @@ def home():
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            .road-tables-container { display: flex; gap: 4px; overflow-x: auto; align-items: flex-start; height: 102px; padding-top: 2px; }
+            .road-tables-container { 
+                display: flex; 
+                gap: 4px; 
+                overflow-x: auto; 
+                align-items: flex-start; 
+                height: 102px; 
+                padding-top: 2px;
+                /* Thêm hiệu ứng chấm bi trắng mờ làm phông nền */
+                background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+                background-size: 15px 15px;
+            }
             .road-tables-container::-webkit-scrollbar { height: 3px; }
             .road-tables-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
@@ -346,7 +356,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU ĐỒNG BỘ SỐ TRẮNG VÀ BIỂU TƯỢNG ĐÚNG CHUẨN -->
+        <!-- BẢNG SOI CẦU VỚI PHÔNG NỀN CHẤM BI MỜ -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -418,7 +428,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v3') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v4') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -454,7 +464,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v3', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v4', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -812,5 +822,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo đã khởi chạy thành công...")
+        print("🤖 Bot Telegram tích hợp Baccarat phông nền chấm bi chuẩn quốc tế đã khởi chạy...")
         app.run_polling()
