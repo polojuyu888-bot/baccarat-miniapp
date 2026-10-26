@@ -6,6 +6,7 @@ from datetime import datetime
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 import uvicorn
 import threading
 
@@ -345,12 +346,50 @@ async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except:
         pass
 
-# Web App chạy ngầm giữ kết nối cho UptimeRobot
+# FastAPI phục vụ giao diện Mini App Baccarat trực quan
 web_app = FastAPI()
 
-@web_app.get("/")
+@web_app.get("/", response_class=HTMLResponse)
 def home():
-    return {"status": "Bot is active!"}
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sòng Bài Baccarat Mini App</title>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <style>
+            body { font-family: Arial, sans-serif; background-color: #0f172a; color: #fff; margin: 0; padding: 20px; text-align: center; }
+            h1 { color: #38bdf8; font-size: 24px; }
+            .card-box { background: #1e293b; border-radius: 12px; padding: 15px; margin: 15px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+            .btn { background: #22c55e; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; margin: 5px; font-weight: bold; width: 100%; max-width: 300px; }
+            .btn-banker { background: #ef4444; }
+            .btn-player { background: #3b82f6; }
+            .btn-tie { background: #eab308; }
+            .status { color: #94a3b8; font-size: 14px; margin-top: 10px; }
+        </style>
+    </head>
+    <body>
+        <h1>🎰 SÒNG BÀI BACCARAT 🎰</h1>
+        <div class="card-box">
+            <p>Trạng thái kết nối: <span style="color: #4ade80;">● Online (Active)</span></p>
+            <p class="status">Chào mừng bạn đến với giao diện Mini App chính thức.</p>
+        </div>
+        <div class="card-box">
+            <h3>Khu vực Đặt Cược Nhanh</h3>
+            <button class="btn btn-player" onclick="alert('Đã chọn: PLAYER')">Cược PLAYER (Con)</button>
+            <button class="btn btn-banker" onclick="alert('Đã chọn: BANKER')">Cược BANKER (Cái)</button>
+            <button class="btn btn-tie" onclick="alert('Đã chọn: TIE')">Cược TIE (Hòa)</button>
+        </div>
+        <script>
+            let tg = window.Telegram.WebApp;
+            tg.expand();
+        </script>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content, status_code=200)
 
 def run_web():
     uvicorn.run(web_app, host="0.0.0.0", port=int(os.getenv("PORT", 10000)))
