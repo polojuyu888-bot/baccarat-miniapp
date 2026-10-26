@@ -92,70 +92,71 @@ def home():
         <title>Baccarat Live Casino VIP</title>
         <style>
             * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-            body { background-color: #0b1016; color: #fff; overflow: hidden; display: flex; flex-direction: column; height: 100vh; user-select: none; }
+            body { background-color: #580d19; color: #fff; overflow: hidden; display: flex; flex-direction: column; height: 100vh; user-select: none; }
             
-            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.75); padding: 4px 8px; font-size: 11px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
-            .top-left, .top-right { display: flex; align-items: center; gap: 6px; }
-            .btn-exit { background: none; border: none; color: #fff; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-            .balance-box { background: rgba(255,255,255,0.12); padding: 2px 6px; border-radius: 10px; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); padding: 3px 8px; font-size: 10px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .top-left, .top-right { display: flex; align-items: center; gap: 5px; }
+            .btn-exit { background: none; border: none; color: #fff; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 3px; }
+            .balance-box { background: rgba(255,255,255,0.15); padding: 1px 5px; border-radius: 8px; display: flex; align-items: center; gap: 3px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            .dealer-screen { position: relative; width: 100%; height: 115px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
+            /* TỈ LỆ KHUNG DEALER PHÍA TRÊN CHUẨN MẪU ẢNH 2 */
+            .dealer-screen { position: relative; width: 100%; height: 105px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
-            .table-info-overlay { position: absolute; top: 4px; left: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; font-size: 9px; border-left: 3px solid #e74c3c; }
-            .time-box { position: absolute; top: 4px; right: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; font-size: 9px; text-align: right; }
+            .table-info-overlay { position: absolute; top: 3px; left: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; border-left: 2px solid #e74c3c; }
+            .time-box { position: absolute; top: 3px; right: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; text-align: right; }
 
-            .cards-on-table { position: absolute; bottom: 4px; width: 100%; display: flex; justify-content: space-around; padding: 0 10px; z-index: 5; pointer-events: none; }
-            .table-side { display: flex; gap: 3px; align-items: center; background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 4px; }
+            .cards-on-table { position: absolute; bottom: 3px; width: 100%; display: flex; justify-content: space-around; padding: 0 10px; z-index: 5; pointer-events: none; }
+            .table-side { display: flex; gap: 2px; align-items: center; background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px; }
             
-            .playing-card { width: 18px; height: 26px; perspective: 1000px; }
+            .playing-card { width: 16px; height: 24px; perspective: 1000px; }
             .card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s ease; }
             .playing-card.flipped .card-inner { transform: rotateY(180deg); }
-            .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 3px; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+            .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 2px; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
             .card-back { background: #2563eb; color: transparent; border: 1px solid #fff; }
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            /* KHU VỰC ĐẶT CƯỢC: THU GỌN KHUNG, TĂNG CỠ CHỮ VÀ DÙNG ĐƯỜNG KẺ NGĂN CÁCH NHƯ ẢNH MẪU */
-            .game-panel { flex: 1; display: flex; flex-direction: column; background: #5c0813; padding: 2px 4px; justify-content: space-between; overflow: hidden; }
-            .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: #f3a9b3; padding: 0 2px; }
+            /* KHU VỰC ĐẶT CƯỢC THU GỌN GÀNG, ĐƯỜNG KẺ CHUẨN ẢNH MẪU */
+            .game-panel { background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; gap: 2px; }
+            .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 8px; color: #f3a9b3; padding: 0 2px; }
             
             /* BẢNG CƯỢC PHỤ (5 Ô TRÊN) */
-            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #8B1E29; border-radius: 3px; overflow: hidden; }
-            .side-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #8B1E29; padding: 3px 1px; text-align: center; cursor: pointer; position: relative; min-height: 34px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #7a1523; border-radius: 2px; overflow: hidden; }
+            .side-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #7a1523; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; min-height: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .side-spot:last-child { border-right: none; }
-            .s-title { font-size: 9px; font-weight: bold; }
+            .s-title { font-size: 8px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
             .s-title.orange { color: #fb923c; }
-            .s-rate { font-size: 8px; color: #fff; margin-top: 1px; }
-            .s-status { font-size: 6px; color: #9aa0a6; margin-top: 1px; }
+            .s-rate { font-size: 7px; color: #fff; margin-top: 1px; }
+            .s-status { font-size: 5px; color: #9aa0a6; margin-top: 1px; }
 
-            /* BẢNG CƯỢC CHÍNH (PLAYER - TIE - BANKER) PHÓNG TO RÕ, ĐƯỜNG KẺ SẮC NÉT */
-            .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #8B1E29; border-radius: 3px; overflow: hidden; margin: 1px 0; }
-            .main-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #8B1E29; padding: 4px 2px; text-align: center; cursor: pointer; position: relative; min-height: 42px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            /* BẢNG CƯỢC CHÍNH (PLAYER - TIE - BANKER) */
+            .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #7a1523; border-radius: 2px; overflow: hidden; }
+            .main-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #7a1523; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; min-height: 38px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .main-spot:last-child { border-right: none; }
-            .m-name { font-size: 13px; font-weight: bold; }
+            .m-name { font-size: 12px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
-            .m-rate { font-size: 10px; font-weight: bold; color: #fff; margin: 1px 0; }
-            .m-stats { font-size: 7px; color: #cbd5e1; }
+            .m-rate { font-size: 9px; font-weight: bold; color: #fff; margin: 1px 0; }
+            .m-stats { font-size: 6px; color: #cbd5e1; }
             
-            .my-bet-tag { position: absolute; bottom: 2px; right: 3px; font-size: 8px; background: #f1c40f; color: #000; padding: 1px 4px; border-radius: 3px; font-weight: bold; display: none; z-index: 5; }
+            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
-            .action-row { display: flex; justify-content: space-between; gap: 4px; margin-bottom: 1px; }
-            .action-btn { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 2px; border-radius: 3px; color: #fff; font-size: 9px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
+            .action-row { display: flex; justify-content: space-between; gap: 3px; }
+            .action-btn { flex: 1; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15); padding: 2px; border-radius: 2px; color: #fff; font-size: 8px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
 
-            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 5px; justify-content: space-between; gap: 3px; }
-            .menu-chip-btn { width: 20px; height: 20px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 9px; }
+            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.45); padding: 2px 5px; border-radius: 4px; justify-content: space-between; gap: 2px; }
+            .menu-chip-btn { width: 18px; height: 18px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 8px; }
             
-            .chips-scroll { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; align-items: center; }
+            .chips-scroll { display: flex; gap: 3px; overflow-x: auto; scrollbar-width: none; align-items: center; }
             .chips-scroll::-webkit-scrollbar { display: none; }
             
-            .chip { width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 8px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
-            .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 6px #f1c40f; }
+            .chip { width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 7px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+            .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 5px #f1c40f; }
             .c-10 { background: #3b82f6; color: #fff; }
             .c-20 { background: #10b981; color: #fff; }
             .c-50 { background: #f97316; color: #fff; }
@@ -163,70 +164,70 @@ def home():
             .c-200 { background: #ef4444; color: #fff; }
             .c-2k { background: #eab308; color: #000; }
 
-            .commission-toggle { display: flex; align-items: center; gap: 2px; font-size: 8px; cursor: pointer; }
-            .toggle-switch { width: 18px; height: 10px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
-            .toggle-switch::before { content: ''; position: absolute; width: 6px; height: 6px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+            .commission-toggle { display: flex; align-items: center; gap: 2px; font-size: 7px; cursor: pointer; }
+            .toggle-switch { width: 16px; height: 9px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
+            .toggle-switch::before { content: ''; position: absolute; width: 5px; height: 5px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
             input.comm-input { display: none; }
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
-            input.comm-input:checked + .toggle-switch::before { transform: translateX(8px); }
+            input.comm-input:checked + .toggle-switch::before { transform: translateX(7px); }
 
-            /* BẢNG SOI CẦU: CAO 190PX, CHỨA TRỌN VẸN 6 HÀNG X 27 CỘT VÀ ĐƯỜNG PHÁI SINH DƯỚI CÙNG */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 3px 6px; height: 190px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; margin-bottom: 2px; }
+            /* BẢNG SOI CẦU: GỌN GÀNG, HIỂN THỊ ĐỦ 6 HÀNG X 27 CỘT VÀ ĐƯỜNG PHÁI SINH DƯỚI CÙNG */
+            .scoreboard-section { flex: 1; background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1px; margin-bottom: 1px; }
             
-            .sc-stats-group { display: flex; align-items: center; gap: 6px; }
-            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 8px; font-weight: bold; color: #ffffff !important; }
+            .sc-stats-group { display: flex; align-items: center; gap: 5px; }
+            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 7px; font-weight: bold; color: #ffffff !important; }
             .stat-item span { color: #ffffff !important; }
 
-            .stat-icon-circle { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
-            .ratio-pie { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
+            .stat-icon-circle { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
+            .ratio-pie { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
 
-            .sc-menus { display: flex; gap: 4px; align-items: center; }
-            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 7px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 3px; }
+            .sc-menus { display: flex; gap: 3px; align-items: center; }
+            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 6px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 3px; border-radius: 2px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
             .grid-scroll-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; }
             .grid-scroll-wrapper::-webkit-scrollbar { display: none; }
 
-            /* LƯỚI MA TRẬN 6 HÀNG X 27 CỘT */
+            /* LƯỚI MA TRẬN 6 HÀNG X 27 CỘT CHUẨN XÁC */
             .master-grid-table { 
                 display: grid; 
-                grid-template-rows: repeat(6, 14px); 
-                grid-template-columns: repeat(27, 14px); 
+                grid-template-rows: repeat(6, 13px); 
+                grid-template-columns: repeat(27, 13px); 
                 gap: 0px; 
-                height: 84px; 
-                width: 378px; 
+                height: 78px; 
+                width: 351px; 
                 align-content: start; 
-                background-image: radial-gradient(rgba(255, 255, 255, 0.28) 1.2px, transparent 1.2px);
-                background-size: 14px 14px;
+                background-image: radial-gradient(rgba(255, 255, 255, 0.28) 1.1px, transparent 1.1px);
+                background-size: 13px 13px;
                 margin: 0 auto;
             }
 
-            .grid-cell { width: 14px; height: 14px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .grid-cell { width: 13px; height: 13px; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            .bead { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: 900; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); line-height: 1; }
+            .bead { width: 10px; height: 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: 900; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); line-height: 1; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
-            .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 6px; }
-            .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 6px; }
+            .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
+            .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            .big-road-circle { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; position: relative; z-index: 2; background: transparent; }
-            .big-road-circle.p-circle { border: 1.5px solid #3b82f6; }
-            .big-road-circle.b-circle { border: 1.5px solid #ef4444; }
+            .big-road-circle { width: 10px; height: 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; position: relative; z-index: 2; background: transparent; }
+            .big-road-circle.p-circle { border: 1.2px solid #3b82f6; }
+            .big-road-circle.b-circle { border: 1.2px solid #ef4444; }
             
-            .natural-dot { width: 3px; height: 3px; background: #fef08a; border-radius: 50%; position: absolute; }
-            .corner-dot-p { position: absolute; bottom: -1px; right: -1px; width: 3px; height: 3px; background: #3b82f6; border-radius: 50%; z-index: 4; }
-            .corner-dot-b { position: absolute; top: -1px; left: -1px; width: 3px; height: 3px; background: #ef4444; border-radius: 50%; z-index: 4; }
-            .tie-slash { position: absolute; width: 14px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
+            .natural-dot { width: 2.5px; height: 2.5px; background: #fef08a; border-radius: 50%; position: absolute; }
+            .corner-dot-p { position: absolute; bottom: -1px; right: -1px; width: 2.5px; height: 2.5px; background: #3b82f6; border-radius: 50%; z-index: 4; }
+            .corner-dot-b { position: absolute; top: -1px; left: -1px; width: 2.5px; height: 2.5px; background: #ef4444; border-radius: 50%; z-index: 4; }
+            .tie-slash { position: absolute; width: 13px; height: 1.5px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
 
-            .derived-ring { width: 6px; height: 6px; border-radius: 50%; position: relative; z-index: 3; }
-            .derived-ring.red { border: 1.2px solid #ef4444; background: transparent; }
-            .derived-ring.blue { border: 1.2px solid #3b82f6; background: transparent; }
+            .derived-ring { width: 5px; height: 5px; border-radius: 50%; position: relative; z-index: 3; }
+            .derived-ring.red { border: 1px solid #ef4444; background: transparent; }
+            .derived-ring.blue { border: 1px solid #3b82f6; background: transparent; }
             
-            .derived-bar { width: 5px; height: 5px; position: relative; z-index: 3; transform: rotate(45deg); }
-            .derived-bar.red { border-right: 1.2px solid #ef4444; border-bottom: 1.2px solid #ef4444; }
-            .derived-bar.blue { border-right: 1.2px solid #3b82f6; border-bottom: 1.2px solid #3b82f6; }
+            .derived-bar { width: 4.5px; height: 4.5px; position: relative; z-index: 3; transform: rotate(45deg); }
+            .derived-bar.red { border-right: 1px solid #ef4444; border-bottom: 1px solid #ef4444; }
+            .derived-bar.blue { border-right: 1px solid #3b82f6; border-bottom: 1px solid #3b82f6; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -250,7 +251,7 @@ def home():
                 </div>
             </div>
             <div class="top-right">
-                <span style="font-size:11px; color:#cbd5e1;">📶 🔊 ⚙️ 🔲</span>
+                <span style="font-size:10px; color:#cbd5e1;">📶 🔊 ⚙️ 🔲</span>
             </div>
         </div>
 
@@ -258,21 +259,21 @@ def home():
             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Dealer Live">
             <div class="table-info-overlay">
                 <div id="table-name" style="font-weight: bold;">B11 BACCARAT</div>
-                <div style="font-size: 8px; color: #aaa;" id="table-id-code">GB65EF638FDA</div>
+                <div style="font-size: 7px; color: #aaa;" id="table-id-code">GB65EF638FDA</div>
             </div>
             <div class="time-box">
                 <div id="hanoi-time" style="font-weight: bold;">15:48 (UTC+07)</div>
-                <div style="font-size: 8px; color: #aaa;">Hạn mức: 10~20000</div>
+                <div style="font-size: 7px; color: #aaa;">Hạn mức: 10~20000</div>
             </div>
 
             <div class="cards-on-table">
                 <div class="table-side" id="p-cards-area">
-                    <span style="font-size:9px; color:#38bdf8;">闲</span>
+                    <span style="font-size:8px; color:#38bdf8;">闲</span>
                     <div class="playing-card"><div class="card-inner"><div class="card-face card-back">?</div><div class="card-face card-front" id="p-card-0">?</div></div></div>
                     <div class="playing-card"><div class="card-inner"><div class="card-face card-back">?</div><div class="card-face card-front" id="p-card-1">?</div></div></div>
                 </div>
                 <div class="table-side" id="b-cards-area">
-                    <span style="font-size:9px; color:#ef4444;">庄</span>
+                    <span style="font-size:8px; color:#ef4444;">庄</span>
                     <div class="playing-card"><div class="card-inner"><div class="card-face card-back">?</div><div class="card-face card-front" id="b-card-0">?</div></div></div>
                     <div class="playing-card"><div class="card-inner"><div class="card-face card-back">?</div><div class="card-face card-front" id="b-card-1">?</div></div></div>
                 </div>
@@ -282,7 +283,7 @@ def home():
         <div class="game-panel">
             <div class="round-info-bar">
                 <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
-                <span style="background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 8px; color: #facc15;" id="timer-val">⏳ 15s</span>
+                <span style="background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 6px; color: #facc15;" id="timer-val">⏳ 15s</span>
                 <span>Hạn mức: 10~20000</span>
             </div>
 
@@ -320,24 +321,24 @@ def home():
                 </div>
             </div>
 
-            <!-- BẢNG CƯỢC CHÍNH PHÓNG TO RÕ, ĐƯỜNG KẺ NGĂN CÁCH -->
+            <!-- BẢNG CƯỢC CHÍNH CHUẨN XÁC MẪU ẢNH 2 -->
             <div class="main-grid">
                 <div class="main-spot" onclick="placeBet('player')">
-                    <span style="position: absolute; top: 2px; right: 4px; font-size: 7px; color: #94a3b8;">36%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: #94a3b8;">36%</span>
                     <div class="m-name player">闲</div>
                     <div class="m-rate" id="rate-player">1 : 1</div>
                     <div class="m-stats">👥 14 🪙 1K</div>
                     <div class="my-bet-tag" id="amt-player">0</div>
                 </div>
                 <div class="main-spot" onclick="placeBet('tie')">
-                    <span style="position: absolute; top: 2px; right: 4px; font-size: 7px; color: #94a3b8;">0%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: #94a3b8;">0%</span>
                     <div class="m-name tie">和</div>
                     <div class="m-rate">1 : 8</div>
                     <div class="m-stats">7局未出</div>
                     <div class="my-bet-tag" id="amt-tie">0</div>
                 </div>
                 <div class="main-spot" onclick="placeBet('banker')">
-                    <span style="position: absolute; top: 2px; right: 4px; font-size: 7px; color: #94a3b8;">64%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: #94a3b8;">64%</span>
                     <div class="m-name banker">庄</div>
                     <div class="m-rate" id="rate-banker">1 : 0.95</div>
                     <div class="m-stats">👥 7 🪙 1.8K</div>
@@ -376,17 +377,17 @@ def home():
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span id="stat-b">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6;"></span><span id="stat-p">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #10b981;"></span><span id="stat-t">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:4px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span id="stat-b6">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:4px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span id="stat-p7">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:3px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span id="stat-b6">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:3px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span id="stat-p7">0</span></div>
                 </div>
 
                 <div class="sc-menus">
                     <div class="sc-menu-item">
-                        <div class="sc-menu-icons"><span style="width:3px; height:3px; background:#3b82f6; border-radius:50%;"></span><span style="width:3px; height:3px; background:#ef4444; border-radius:50%;"></span></div>
+                        <div class="sc-menu-icons"><span style="width:2.5px; height:2.5px; background:#3b82f6; border-radius:50%;"></span><span style="width:2.5px; height:2.5px; background:#ef4444; border-radius:50%;"></span></div>
                         <span>庄问路</span>
                     </div>
                     <div class="sc-menu-item">
-                        <div class="sc-menu-icons"><span style="width:3px; height:3px; background:#ef4444; border-radius:50%;"></span><span style="width:3px; height:3px; background:#3b82f6; border-radius:50%;"></span></div>
+                        <div class="sc-menu-icons"><span style="width:2.5px; height:2.5px; background:#ef4444; border-radius:50%;"></span><span style="width:2.5px; height:2.5px; background:#3b82f6; border-radius:50%;"></span></div>
                         <span>闲问路</span>
                     </div>
                     <div class="sc-menu-item" style="background: rgba(239,68,68,0.2); border: 1px solid #ef4444;">
@@ -435,7 +436,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v23') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v24') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -471,7 +472,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v23', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v24', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
