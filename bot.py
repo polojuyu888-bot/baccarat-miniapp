@@ -166,19 +166,19 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* BẢNG SOI CẦU VỚI PHÔN NỀN CHẤM BI MỜ (DOT GRID) */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 5px 8px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
-            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
+            /* BẢNG SOI CẦU ĐÚNG CHUẨN 6 HÀNG DỌC VÀ CỘT THỨ 8 */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 112px; display: flex; flex-direction: column; justify-content: space-between; }
+            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; }
             
-            .sc-stats-group { display: flex; align-items: center; gap: 12px; }
-            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; color: #ffffff !important; }
+            .sc-stats-group { display: flex; align-items: center; gap: 10px; }
+            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: bold; color: #ffffff !important; }
             .stat-item span { color: #ffffff !important; }
 
-            .stat-icon-circle { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; }
-            .ratio-pie { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
+            .stat-icon-circle { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
+            .ratio-pie { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
 
-            .sc-menus { display: flex; gap: 10px; align-items: center; }
-            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
+            .sc-menus { display: flex; gap: 8px; align-items: center; }
+            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 8px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 3px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
             .road-tables-container { 
@@ -186,37 +186,37 @@ def home():
                 gap: 4px; 
                 overflow-x: auto; 
                 align-items: flex-start; 
-                height: 102px; 
-                padding-top: 2px;
-                /* Thêm hiệu ứng chấm bi trắng mờ làm phông nền */
-                background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+                height: 90px; 
+                padding-top: 1px;
+                /* Phông nền chấm bi mờ chuẩn 15px */
+                background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
                 background-size: 15px 15px;
             }
-            .road-tables-container::-webkit-scrollbar { height: 3px; }
+            .road-tables-container::-webkit-scrollbar { height: 2px; }
             .road-tables-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
-            /* Bảng trái Bead Plate: Đúng 7 cột */
-            .bead-grid-table { display: grid; grid-template-rows: repeat(6, 13px); grid-auto-flow: column; grid-auto-columns: 13px; gap: 1.5px; height: 86px; align-content: start; }
-            .bead-box { width: 13px; height: 13px; display: flex; justify-content: center; align-items: center; position: relative; }
-            .bead { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
+            /* Bảng trái Bead Plate: Đúng 7 cột, đúng 6 hàng dọc */
+            .bead-grid-table { display: grid; grid-template-rows: repeat(6, 14px); grid-auto-flow: column; grid-auto-columns: 14px; gap: 1px; height: 84px; align-content: start; }
+            .bead-box { width: 14px; height: 14px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .bead { width: 12px; height: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* Đường kẻ phân cách sau cột thứ 7 */
-            .road-divider { width: 1px; height: 92px; background: rgba(255,255,255,0.25); margin: 0 4px; flex-shrink: 0; }
+            /* Đường kẻ phân cách nằm đúng sau cột thứ 7 */
+            .road-divider { width: 1px; height: 85px; background: rgba(255,255,255,0.3); margin: 0 3px; flex-shrink: 0; }
 
-            /* Bảng phải Big Road: Bắt đầu từ cột số 8 */
-            .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 2px; height: 95px; align-content: start; }
-            .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
+            /* Bảng phải Big Road: Bắt đầu từ cột số 8, đúng 6 hàng dọc */
+            .road-grid-table { display: grid; grid-template-rows: repeat(6, 14px); grid-auto-flow: column; grid-auto-columns: 14px; gap: 1px; height: 84px; align-content: start; }
+            .road-box { width: 14px; height: 14px; display: flex; justify-content: center; align-items: center; position: relative; }
 
             .road-dot { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
             .road-dot.p-solid { background: #3b82f6; }
             .road-dot.b-solid { background: #ef4444; }
 
-            .tie-slash { position: absolute; width: 15px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
+            .tie-slash { position: absolute; width: 14px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -356,7 +356,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU VỚI PHÔNG NỀN CHẤM BI MỜ -->
+        <!-- BẢNG SOI CẦU ĐÚNG CHUẨN 7 CỘT TRÁI - KẺ DỌC - CỘT THỨ 8 PHẢI - 6 HÀNG DỌC -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -364,31 +364,31 @@ def home():
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span id="stat-b">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6;"></span><span id="stat-p">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #10b981;"></span><span id="stat-t">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span id="stat-b6">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span id="stat-p7">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:5px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span id="stat-b6">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:5px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span id="stat-p7">0</span></div>
                 </div>
 
                 <div class="sc-menus">
                     <div class="sc-menu-item">
-                        <div class="sc-menu-icons"><span style="width:5px; height:5px; background:#3b82f6; border-radius:50%;"></span><span style="width:5px; height:5px; background:#ef4444; border-radius:50%;"></span><span style="width:4px; height:4px; background:#ef4444; transform:rotate(45deg); display:inline-block;"></span></div>
+                        <div class="sc-menu-icons"><span style="width:4px; height:4px; background:#3b82f6; border-radius:50%;"></span><span style="width:4px; height:4px; background:#ef4444; border-radius:50%;"></span><span style="width:3px; height:3px; background:#ef4444; transform:rotate(45deg); display:inline-block;"></span></div>
                         <span>庄问路</span>
                     </div>
                     <div class="sc-menu-item">
-                        <div class="sc-menu-icons"><span style="width:5px; height:5px; background:#ef4444; border-radius:50%;"></span><span style="width:5px; height:5px; background:#3b82f6; border-radius:50%;"></span><span style="width:4px; height:4px; background:#3b82f6; transform:rotate(45deg); display:inline-block;"></span></div>
+                        <div class="sc-menu-icons"><span style="width:4px; height:4px; background:#ef4444; border-radius:50%;"></span><span style="width:4px; height:4px; background:#3b82f6; border-radius:50%;"></span><span style="width:3px; height:3px; background:#3b82f6; transform:rotate(45deg); display:inline-block;"></span></div>
                         <span>闲问路</span>
                     </div>
                     <div class="sc-menu-item" style="background: rgba(239,68,68,0.2); border: 1px solid #ef4444;">
-                        <span style="font-weight:bold; color:#f87171;">📋 好路投注 (Ván: <span id="round-count">0</span>)</span>
+                        <span style="font-weight:bold; color:#f87171;">📋 好路 (Ván: <span id="round-count">0</span>)</span>
                     </div>
                 </div>
             </div>
 
             <div class="road-tables-container">
-                <!-- Bảng trái Bead Plate: Đúng 7 cột -->
+                <!-- Bảng trái Bead Plate: Đúng 7 cột, 6 hàng dọc -->
                 <div class="bead-grid-table" id="bead-plate-container"></div>
                 <!-- Đường kẻ phân cách sau cột thứ 7 -->
                 <div class="road-divider"></div>
-                <!-- Bảng phải Big Road: Bắt đầu chạy từ cột số 8 -->
+                <!-- Bảng phải Big Road: Bắt đầu chạy từ cột số 8, 6 hàng dọc -->
                 <div class="road-grid-table" id="big-road-container"></div>
             </div>
         </div>
@@ -428,7 +428,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v4') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v5') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -464,7 +464,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v4', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v5', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -706,7 +706,7 @@ def home():
             }
 
             function renderScoreboard() {
-                // 1. Bảng Bead Plate bên trái: Đúng 7 cột
+                // 1. Bảng Bead Plate bên trái: Đúng 7 cột, 6 hàng dọc
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 globalGame.scoreRecords.forEach(rec => {
@@ -724,7 +724,7 @@ def home():
                     beadContainer.appendChild(box);
                 });
 
-                // 2. Bảng Big Road bên phải: Bắt đầu từ cột số 8
+                // 2. Bảng Big Road bên phải: Bắt đầu từ cột số 8, 6 hàng dọc
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
                 
@@ -822,5 +822,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat phông nền chấm bi chuẩn quốc tế đã khởi chạy...")
+        print("🤖 Bot Telegram tích hợp Baccarat chuẩn xác tuyệt đối đã khởi chạy...")
         app.run_polling()
