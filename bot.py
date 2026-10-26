@@ -336,7 +336,7 @@ async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except:
         pass
 
-# FastAPI: Giao diện Mini App chuẩn xác với nhân vật Dealer 3D chia bài chính hãng
+# FastAPI: Giao diện Mini App Baccarat chuẩn chỉnh đồ họa 3D nhân vật ảo
 web_app = FastAPI()
 
 @web_app.get("/", response_class=HTMLResponse)
@@ -353,7 +353,7 @@ def home():
             * { box-sizing: border-box; }
             body { background-color: #520813; color: #fff; font-family: Arial, "Helvetica Neue", sans-serif; margin: 0; padding: 0; user-select: none; }
             
-            /* Khung Dealer 3D chia bài chuẩn */
+            /* Khung Dealer 3D phía trên */
             .dealer-3d-container { 
                 position: relative; 
                 width: 100%; 
@@ -367,18 +367,18 @@ def home():
             }
             .dealer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(82,8,19,0.95) 100%); }
             
-            /* Avatar Dealer 3D người thật/hoạt họa ngồi chia bài chính xác */
+            /* Nhân vật hoạt họa 3D (Ảnh đồ họa phong cách 3D game) */
             .dealer-3d-character { 
                 position: absolute; 
                 top: 8px; 
                 left: 50%; 
                 transform: translateX(-50%); 
-                width: 85px; 
-                height: 85px; 
+                width: 80px; 
+                height: 80px; 
                 border-radius: 50%; 
                 border: 2px solid #ffd700; 
-                background: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80') center/cover no-repeat; 
-                box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); 
+                background: url('https://api.dicebear.com/7.x/bottts/svg?seed=Baccarat3DDealerAI') #1e293b center/cover no-repeat; 
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); 
                 z-index: 5; 
             }
             
@@ -449,7 +449,7 @@ def home():
     </head>
     <body>
 
-        <!-- 1. Màn hình Dealer 3D chia bài chuẩn xác -->
+        <!-- 1. Màn hình Dealer Hoạt họa 3D chuẩn xác -->
         <div class="dealer-3d-container">
             <div class="dealer-overlay"></div>
             <div class="live-badge">3D LIVE VIP</div>
