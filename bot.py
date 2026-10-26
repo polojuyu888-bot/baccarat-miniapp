@@ -100,7 +100,7 @@ def home():
             .balance-box { background: rgba(255,255,255,0.15); padding: 1px 5px; border-radius: 8px; display: flex; align-items: center; gap: 3px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            /* PHẦN 1: LIVE VIDEO - CHIẾM ĐÚNG 40% CHIỀU CAO */
+            /* PHẦN 1: LIVE VIDEO (40%) */
             .dealer-screen { position: relative; width: 100%; height: 40vh; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; flex-shrink: 0; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
@@ -118,7 +118,7 @@ def home():
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            /* PHẦN 2: KHUNG CÁ CƯỢC - CHIẾM ĐÚNG 40% CHIỀU CAO */
+            /* PHẦN 2: KHUNG CÁ CƯỢC (40%) */
             .game-panel { width: 100%; height: 40vh; background: #580d19; padding: 4px 6px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: #f3a9b3; padding: 0 2px; }
             
@@ -184,46 +184,49 @@ def home():
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 6px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 2px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            .grid-scroll-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; }
-            .grid-scroll-wrapper::-webkit-scrollbar { display: none; }
+            .grid-scroll-wrapper { width: 100%; flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
+            
+            /* THÔNG BÁO XÀO BÀI KHI CHƯA CÓ VÁN ĐẤU NÀO */
+            .shuffling-notice { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 12px; color: #94a3b8; font-weight: bold; letter-spacing: 1px; background: #141c24; z-index: 10; }
 
-            /* LƯỚI MA TRẬN 6 HÀNG X 27 CỘT CHUẨN XÁC */
+            /* LƯỚI MA TRẬN 6 HÀNG X 32 CỘT LẤP ĐẦY KÍN KHUNG */
             .master-grid-table { 
                 display: grid; 
-                grid-template-rows: repeat(6, 12px); 
-                grid-template-columns: repeat(27, 12px); 
+                grid-template-rows: repeat(6, 1fr); 
+                grid-template-columns: repeat(32, 1fr); 
                 gap: 0px; 
-                height: 72px; 
-                width: 324px; 
-                align-content: start; 
+                height: 100%; 
+                width: 100%; 
+                max-width: 100%; 
+                align-content: stretch; 
+                justify-items: stretch;
                 background-image: radial-gradient(rgba(255, 255, 255, 0.28) 1.1px, transparent 1.1px);
-                background-size: 12px 12px;
-                margin: 0 auto;
+                background-size: calc(100% / 32) calc(100% / 6);
             }
 
-            .grid-cell { width: 12px; height: 12px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .grid-cell { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; min-width: 10px; min-height: 10px; }
 
-            .bead { width: 10px; height: 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: 900; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); line-height: 1; }
+            .bead { width: 85%; height: 85%; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: 900; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); line-height: 1; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            .big-road-circle { width: 10px; height: 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; position: relative; z-index: 2; background: transparent; }
+            .big-road-circle { width: 85%; height: 85%; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; position: relative; z-index: 2; background: transparent; }
             .big-road-circle.p-circle { border: 1.2px solid #3b82f6; }
             .big-road-circle.b-circle { border: 1.2px solid #ef4444; }
             
             .natural-dot { width: 2.5px; height: 2.5px; background: #fef08a; border-radius: 50%; position: absolute; }
-            .corner-dot-p { position: absolute; bottom: -1px; right: -1px; width: 2.5px; height: 2.5px; background: #3b82f6; border-radius: 50%; z-index: 4; }
-            .corner-dot-b { position: absolute; top: -1px; left: -1px; width: 2.5px; height: 2.5px; background: #ef4444; border-radius: 50%; z-index: 4; }
-            .tie-slash { position: absolute; width: 12px; height: 1.5px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
+            .corner-dot-p { position: absolute; bottom: 0; right: 0; width: 2.5px; height: 2.5px; background: #3b82f6; border-radius: 50%; z-index: 4; }
+            .corner-dot-b { position: absolute; top: 0; left: 0; width: 2.5px; height: 2.5px; background: #ef4444; border-radius: 50%; z-index: 4; }
+            .tie-slash { position: absolute; width: 100%; height: 1.5px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
 
-            .derived-ring { width: 5px; height: 5px; border-radius: 50%; position: relative; z-index: 3; }
+            .derived-ring { width: 50%; height: 50%; border-radius: 50%; position: relative; z-index: 3; }
             .derived-ring.red { border: 1px solid #ef4444; background: transparent; }
             .derived-ring.blue { border: 1px solid #3b82f6; background: transparent; }
             
-            .derived-bar { width: 4px; height: 4px; position: relative; z-index: 3; transform: rotate(45deg); }
+            .derived-bar { width: 45%; height: 45%; position: relative; z-index: 3; transform: rotate(45deg); }
             .derived-bar.red { border-right: 1px solid #ef4444; border-bottom: 1px solid #ef4444; }
             .derived-bar.blue { border-right: 1px solid #3b82f6; border-bottom: 1px solid #3b82f6; }
 
@@ -395,6 +398,7 @@ def home():
             </div>
 
             <div class="grid-scroll-wrapper">
+                <div class="shuffling-notice" id="shuffling-notice">— 洗牌中 —</div>
                 <div class="master-grid-table" id="master-grid"></div>
             </div>
         </div>
@@ -434,7 +438,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v26') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v27') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -470,7 +474,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v26', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v27', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -728,11 +732,24 @@ def home():
 
             function renderScoreboard() {
                 let masterGrid = document.getElementById('master-grid');
+                let noticeEl = document.getElementById('shuffling-notice');
                 masterGrid.innerHTML = '';
 
+                let records = globalGame.scoreRecords;
+
+                if (records.length === 0) {
+                    noticeEl.style.display = 'flex';
+                    masterGrid.style.display = 'none';
+                    return;
+                } else {
+                    noticeEl.style.display = 'none';
+                    masterGrid.style.display = 'grid';
+                }
+
+                let totalCols = 32;
                 let cells = [];
                 for (let r = 0; r < 6; r++) {
-                    for (let c = 0; c < 27; c++) {
+                    for (let c = 0; c < totalCols; c++) {
                         let cell = document.createElement('div');
                         cell.className = 'grid-cell';
                         masterGrid.appendChild(cell);
@@ -740,13 +757,11 @@ def home():
                     }
                 }
 
-                let records = globalGame.scoreRecords;
-
                 let beadCol = 0, beadRow = 0;
                 records.forEach(rec => {
                     if (beadRow >= 6) { beadRow = 0; beadCol++; }
                     if (beadCol < 7) {
-                        let cell = cells[beadRow * 27 + beadCol];
+                        let cell = cells[beadRow * totalCols + beadCol];
                         if (cell) {
                             let div = document.createElement('div');
                             if (rec.recordType === 'P7') {
@@ -764,7 +779,7 @@ def home():
                     beadRow++;
                 });
 
-                let roadMatrix = Array(6).fill(0).map(() => Array(27).fill(null));
+                let roadMatrix = Array(6).fill(0).map(() => Array(totalCols).fill(null));
                 let col = 7, row = 0;
                 let lastBase = null;
                 let lastCellRef = null;
@@ -792,7 +807,7 @@ def home():
                         }
                     } else {
                         col = 7;
-                        while (roadMatrix[0][col] !== null && col < 26) col++;
+                        while (roadMatrix[0][col] !== null && col < totalCols - 1) col++;
                         row = 0;
                     }
 
@@ -806,7 +821,7 @@ def home():
                         r: row,
                         c: col
                     };
-                    if (row < 6 && col < 26) {
+                    if (row < 6 && col < totalCols) {
                         roadMatrix[row][col] = cellData;
                         bigRoadList.push(cellData);
                     }
@@ -815,68 +830,72 @@ def home():
                 });
 
                 let maxCol = 7;
-                for (let c = 7; c < 27; c++) {
+                for (let c = 7; c < totalCols; c++) {
                     for (let r = 0; r < 6; r++) {
                         if (roadMatrix[r][c] !== null) maxCol = c;
                     }
                 }
 
+                let viewWidth = totalCols - 7;
                 let startCol = 7;
-                if (maxCol >= 26) {
-                    startCol = maxCol - 25 + 8;
+                if (maxCol >= viewWidth + 7) {
+                    startCol = maxCol - viewWidth + 8;
                 }
 
-                for (let c = startCol; c < 26; c++) {
+                for (let c = startCol; c < totalCols; c++) {
                     for (let r = 0; r < 6; r++) {
                         let cd = roadMatrix[r][c];
                         if (cd) {
-                            let cellEl = cells[r * 27 + (c - startCol + 7)];
-                            if (cellEl) {
-                                let circle = document.createElement('div');
-                                let bClass = (cd.winner === 'P') ? 'p-circle' : 'b-circle';
-                                circle.className = `big-road-circle ${bClass}`;
+                            let displayColIdx = (c - startCol + 7);
+                            if (displayColIdx < totalCols) {
+                                let cellEl = cells[r * totalCols + displayColIdx];
+                                if (cellEl) {
+                                    let circle = document.createElement('div');
+                                    let bClass = (cd.winner === 'P') ? 'p-circle' : 'b-circle';
+                                    circle.className = `big-road-circle ${bClass}`;
 
-                                if (cd.isNatural) {
-                                    let nd = document.createElement('div');
-                                    nd.className = 'natural-dot';
-                                    circle.appendChild(nd);
-                                }
+                                    if (cd.isNatural) {
+                                        let nd = document.createElement('div');
+                                        nd.className = 'natural-dot';
+                                        circle.appendChild(nd);
+                                    }
 
-                                if (cd.recordType === 'B6') {
-                                    circle.innerText = '6'; circle.style.color = '#fff'; circle.style.fontSize = '5px';
-                                } else if (cd.recordType === 'P7') {
-                                    circle.innerText = '7'; circle.style.color = '#fff'; circle.style.fontSize = '5px';
-                                }
+                                    if (cd.recordType === 'B6') {
+                                        circle.innerText = '6'; circle.style.color = '#fff'; circle.style.fontSize = '5px';
+                                    } else if (cd.recordType === 'P7') {
+                                        circle.innerText = '7'; circle.style.color = '#fff'; circle.style.fontSize = '5px';
+                                    }
 
-                                if (cd.pPair) {
-                                    let pd = document.createElement('div');
-                                    pd.className = 'corner-dot-p';
-                                    circle.appendChild(pd);
-                                }
-                                if (cd.bPair) {
-                                    let bd = document.createElement('div');
-                                    bd.className = 'corner-dot-b';
-                                    circle.appendChild(bd);
-                                }
+                                    if (cd.pPair) {
+                                        let pd = document.createElement('div');
+                                        pd.className = 'corner-dot-p';
+                                        circle.appendChild(pd);
+                                    }
+                                    if (cd.bPair) {
+                                        let bd = document.createElement('div');
+                                        bd.className = 'corner-dot-b';
+                                        circle.appendChild(bd);
+                                    }
 
-                                for (let i = 0; i < (cd.tieCount || 0); i++) {
-                                    let slash = document.createElement('div');
-                                    slash.className = 'tie-slash';
-                                    circle.appendChild(slash);
-                                }
+                                    for (let i = 0; i < (cd.tieCount || 0); i++) {
+                                        let slash = document.createElement('div');
+                                        slash.className = 'tie-slash';
+                                        circle.appendChild(slash);
+                                    }
 
-                                cellEl.appendChild(circle);
+                                    cellEl.appendChild(circle);
+                                }
                             }
                         }
                     }
                 }
 
-                renderDerivedRoad(bigRoadList, roadMatrix, 3, 'bigEye', cells, startCol);
-                renderDerivedRoad(bigRoadList, roadMatrix, 4, 'smallRoad', cells, startCol);
-                renderDerivedRoad(bigRoadList, roadMatrix, 5, 'cockroach', cells, startCol);
+                renderDerivedRoad(bigRoadList, roadMatrix, 3, 'bigEye', cells, startCol, totalCols);
+                renderDerivedRoad(bigRoadList, roadMatrix, 4, 'smallRoad', cells, startCol, totalCols);
+                renderDerivedRoad(bigRoadList, roadMatrix, 5, 'cockroach', cells, startCol, totalCols);
             }
 
-            function renderDerivedRoad(bigRoadList, roadMatrix, targetRow, type, cells, startCol) {
+            function renderDerivedRoad(bigRoadList, roadMatrix, targetRow, type, cells, startCol, totalCols) {
                 let derivedData = [];
                 let step = (type === 'bigEye') ? 1 : ((type === 'smallRoad') ? 2 : 3);
 
@@ -897,8 +916,8 @@ def home():
 
                 derivedData.forEach((item) => {
                     let gridCol = item.c - startCol + 7;
-                    if (gridCol >= 7 && gridCol < 26) {
-                        let cellEl = cells[targetRow * 27 + gridCol];
+                    if (gridCol >= 7 && gridCol < totalCols) {
+                        let cellEl = cells[targetRow * totalCols + gridCol];
                         if (cellEl) {
                             let div = document.createElement('div');
                             if (type === 'cockroach') {
