@@ -166,7 +166,7 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* BẢNG SOI CẦU CASINO VIP CHUẨN XÁC */
+            /* BẢNG SOI CẦU CASINO VIP CÓ ĐƯỜNG KẺ NGĂN CÁCH GIỮA CÁC BẢNG */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px 10px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
             
@@ -178,11 +178,13 @@ def home():
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            .road-tables-container { display: flex; gap: 10px; overflow-x: auto; align-items: flex-start; height: 105px; padding-top: 2px; }
+            .road-tables-container { display: flex; gap: 8px; overflow-x: auto; align-items: flex-start; height: 105px; padding-top: 2px; }
             .road-tables-container::-webkit-scrollbar { height: 3px; }
             .road-tables-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
-            /* Cấu trúc ma trận cột dọc chuẩn Baccarat (grid-auto-flow: column) */
+            /* Đường gạch dọc phân chia giữa bảng trái và bảng giữa */
+            .road-divider { width: 1px; height: 95px; background: rgba(255,255,255,0.2); margin: 0 4px; flex-shrink: 0; }
+
             .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 2px; height: 100px; align-content: start; }
             .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
@@ -346,7 +348,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU MA TRẬN CỘT DỌC CHUẨN XÁC -->
+        <!-- BẢNG SOI CẦU CÓ ĐƯỜNG KẺ NGĂN CÁCH GIỮA BẢNG TRÁI VÀ BẢNG GIỮA -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -374,8 +376,15 @@ def home():
             </div>
 
             <div class="road-tables-container">
+                <!-- Bảng trái Bead Plate -->
                 <div class="road-grid-table" id="bead-plate-container"></div>
+                <!-- Đường kẻ phân chia ở giữa -->
+                <div class="road-divider"></div>
+                <!-- Bảng giữa Big Road -->
                 <div class="road-grid-table" id="big-road-container"></div>
+                <!-- Đường kẻ phân chia -->
+                <div class="road-divider"></div>
+                <!-- Bảng phải Derived Road -->
                 <div class="road-grid-table" id="derived-road-1"></div>
             </div>
         </div>
@@ -689,7 +698,6 @@ def home():
                         lastCellRef = cell;
                         lastType = base;
                     } else if (base === lastType) {
-                        // Cùng bên -> đi xuống dưới
                         if (row + 1 < 6 && grid[row + 1][col] === null) {
                             row++;
                         } else {
@@ -699,7 +707,6 @@ def home():
                         grid[row][col] = cell;
                         lastCellRef = cell;
                     } else {
-                        // Đổi bên -> nhảy sang cột mới ở hàng 0
                         col = 0;
                         while (grid[0][col] !== null) col++;
                         row = 0;
@@ -713,7 +720,7 @@ def home():
             }
 
             function renderScoreboard() {
-                // 1. Bead Plate bên trái (Giữ nguyên)
+                // 1. Bead Plate bên trái
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 scoreRecords.forEach(rec => {
@@ -731,12 +738,11 @@ def home():
                     beadContainer.appendChild(box);
                 });
 
-                // 2. Big Road chính giữa theo cột dọc chuẩn xác
+                // 2. Big Road chính giữa theo cột dọc
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
                 let matrix = calculateBigRoadMatrix(scoreRecords);
                 
-                // Chuyển đổi ma trận 2D (6 hàng x 40 cột) thành mảng sắp xếp theo thứ tự cột dọc cho CSS Grid
                 for (let c = 0; c < 40; c++) {
                     for (let r = 0; r < 6; r++) {
                         let box = document.createElement('div');
@@ -759,7 +765,7 @@ def home():
                     }
                 }
 
-                // 3. Derived Road bên phải mô phỏng
+                // 3. Derived Road bên phải
                 let derivedContainer = document.getElementById('derived-road-1');
                 derivedContainer.innerHTML = '';
                 scoreRecords.forEach((rec, idx) => {
@@ -809,5 +815,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat chuẩn xác cột dọc đã khởi chạy thành công...")
+        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo với đường phân chia đã khởi chạy thành công...")
         app.run_polling()
