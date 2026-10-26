@@ -166,20 +166,38 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* Bảng Soi Cầu: Thu nhỏ hạt cầu, rút ngắn khoảng cách hàng cột, đẩy dãy số sát góc phải 100% */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 5px 8px; min-height: 135px; display: flex; flex-direction: column; }
-            .sc-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #94a3b8; margin-bottom: 4px; width: 100%; }
+            /* Giao diện Bảng Soi Cầu Casino Đẳng Cấp (Giống hệt ảnh mẫu) */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px 10px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
+            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
             
-            .sc-stats-nums { display: flex; gap: 14px; font-weight: bold; font-size: 12px; margin-left: auto; align-items: center; }
-            .stat-box { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 18px; text-align: center; }
+            /* Dãy thống kê & menu đường cầu trên cùng */
+            .sc-stats-group { display: flex; align-items: center; gap: 10px; }
+            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; }
+            .stat-icon-circle { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; }
+            
+            .sc-menus { display: flex; gap: 12px; align-items: center; }
+            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
+            .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            .bead-plate-grid { display: grid; grid-template-columns: repeat(14, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 2px; overflow-x: auto; height: 95px; min-height: 95px; width: 100%; align-content: start; }
+            /* Khu vực chứa các bảng cầu thu nhỏ, gọn gàng, sát nhau */
+            .road-tables-container { display: flex; gap: 8px; overflow-x: auto; align-items: flex-start; height: 100px; padding-top: 2px; }
+            .road-tables-container::-webkit-scrollbar { height: 3px; }
+            .road-tables-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+            .bead-plate-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 2px; height: 90px; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 6px; }
             .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; flex-shrink: 0; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
             .bead.P7 { background: #3b82f6; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
+
+            .mini-road-grid { display: grid; grid-template-columns: repeat(16, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 2px; height: 90px; }
+            .mini-dot { width: 10px; height: 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; border: 1.5px solid transparent; flex-shrink: 0; }
+            .mini-dot.p-ring { border-color: #3b82f6; background: transparent; }
+            .mini-dot.b-ring { border-color: #ef4444; background: transparent; }
+            .mini-dot.p-solid { background: #3b82f6; }
+            .mini-dot.b-solid { background: #ef4444; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -319,23 +337,41 @@ def home():
             </div>
         </div>
 
+        <!-- BẢNG SOI CẦU CHUẨN ĐẸP HOÀN HẢO Y HỆT ẢNH MẪU -->
         <div class="scoreboard-section">
-            <div class="sc-top">
-                <div class="sc-indicators" style="font-size:10px;">
-                    <span>庄问路 闲问路 好路投注 (Ván: <span id="round-count">0</span>/50)</span>
+            <div class="sc-header-row">
+                <!-- Dãy thống kê màu sắc khớp đúng 100% chuẩn ảnh mẫu -->
+                <div class="sc-stats-group">
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: linear-gradient(135deg, #ef4444 33%, #3b82f6 33%, #334155 66%);"></span><span style="color: #38bdf8;" id="stat-total">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span style="color: #ef4444;" id="stat-b">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6;"></span><span style="color: #38bdf8;" id="stat-p">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #10b981;"></span><span style="color: #4ade80;" id="stat-t">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span style="color: #ef4444;" id="stat-b6">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span style="color: #38bdf8;" id="stat-p7">0</span></div>
                 </div>
-                <!-- Dãy số thống kê căn sát góc phải 100% -->
-                <div class="sc-stats-nums">
-                    <div class="stat-box"><span style="color: #38bdf8;" id="stat-total">0</span></div>
-                    <div class="stat-box"><span style="color: #ef4444;" id="stat-b">0</span></div>
-                    <div class="stat-box"><span style="color: #38bdf8;" id="stat-p">0</span></div>
-                    <div class="stat-box"><span style="color: #10b981;" id="stat-t">0</span></div>
-                    <div class="stat-box"><span style="color: #ef4444;" id="stat-b6">0</span></div>
-                    <div class="stat-box"><span style="color: #38bdf8;" id="stat-p7">0</span></div>
+
+                <!-- Menu các bảng đường cầu phía trên góc phải -->
+                <div class="sc-menus">
+                    <div class="sc-menu-item">
+                        <div class="sc-menu-icons"><span style="width:5px; height:5px; background:#3b82f6; border-radius:50%;"></span><span style="width:5px; height:5px; background:#ef4444; border-radius:50%;"></span><span style="width:4px; height:4px; background:#ef4444; transform:rotate(45deg); display:inline-block;"></span></div>
+                        <span>庄问路</span>
+                    </div>
+                    <div class="sc-menu-item">
+                        <div class="sc-menu-icons"><span style="width:5px; height:5px; background:#ef4444; border-radius:50%;"></span><span style="width:5px; height:5px; background:#3b82f6; border-radius:50%;"></span><span style="width:4px; height:4px; background:#3b82f6; transform:rotate(45deg); display:inline-block;"></span></div>
+                        <span>闲问路</span>
+                    </div>
+                    <div class="sc-menu-item" style="background: rgba(239,68,68,0.2); border: 1px solid #ef4444;">
+                        <span style="font-weight:bold; color:#f87171;">📋 好路投注 (Ván: <span id="round-count">0</span>/50)</span>
+                    </div>
                 </div>
             </div>
-            <!-- Bảng cầu kích thước nhỏ gọn, các hạt sát nhau -->
-            <div class="bead-plate-grid" id="bead-plate-container"></div>
+
+            <!-- Các bảng cầu xếp gọn gàng, trực quan -->
+            <div class="road-tables-container">
+                <div class="bead-plate-grid" id="bead-plate-container"></div>
+                <div class="mini-road-grid" id="big-road-container"></div>
+                <div class="mini-road-grid" id="derived-road-1"></div>
+            </div>
         </div>
 
         <div class="modal" id="history-modal">
@@ -445,8 +481,8 @@ def home():
                 if (winner === 'B') statsCount.b++;
                 if (winner === 'P') statsCount.p++;
                 if (winner === 'T') statsCount.t++;
-                if (recordType === 'P7') statsCount.p7++;
                 if (recordType === 'B6') statsCount.b6++;
+                if (recordType === 'P7') statsCount.p7++;
 
                 updateStatsDisplay();
 
@@ -625,8 +661,9 @@ def home():
             }
 
             function renderScoreboard() {
-                let container = document.getElementById('bead-plate-container');
-                container.innerHTML = '';
+                // Render Bead Plate (Bảng chính bên trái)
+                let beadContainer = document.getElementById('bead-plate-container');
+                beadContainer.innerHTML = '';
                 scoreRecords.forEach(rec => {
                     let div = document.createElement('div');
                     if (rec === 'P7') {
@@ -639,7 +676,29 @@ def home():
                         div.className = `bead ${rec}`;
                         div.innerText = rec === 'T' ? 'T' : rec;
                     }
-                    container.appendChild(div);
+                    beadContainer.appendChild(div);
+                });
+
+                // Render Big Road mô phỏng trực quan
+                let bigRoadContainer = document.getElementById('big-road-container');
+                bigRoadContainer.innerHTML = '';
+                scoreRecords.forEach(rec => {
+                    let dot = document.createElement('div');
+                    let base = (rec === 'P' || rec === 'P7') ? 'p' : ((rec === 'B' || rec === 'B6') ? 'b' : 't');
+                    dot.className = `mini-dot ${base}-solid`;
+                    bigRoadContainer.appendChild(dot);
+                });
+
+                // Render Derived Road mô phỏng
+                let derivedContainer = document.getElementById('derived-road-1');
+                derivedContainer.innerHTML = '';
+                scoreRecords.forEach((rec, idx) => {
+                    if (idx % 2 === 0) {
+                        let dot = document.createElement('div');
+                        let base = (idx % 4 === 0) ? 'p-ring' : 'b-ring';
+                        dot.className = `mini-dot ${base}`;
+                        derivedContainer.appendChild(dot);
+                    }
                 });
             }
 
@@ -678,5 +737,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo đã khởi chạy thành công...")
+        print("🤖 Bot Telegram tích hợp Baccarat phong cách Casino VIP đã khởi chạy thành công...")
         app.run_polling()
