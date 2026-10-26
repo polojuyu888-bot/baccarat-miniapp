@@ -166,14 +166,16 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* Bảng Soi Cầu chuẩn chỉnh y hệt ảnh */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px; }
-            .sc-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #94a3b8; margin-bottom: 4px; }
+            /* Bảng Soi Cầu với khung cố định chiều cao (min-height 120px) tránh bị giật hay thắt khung khi chưa có bài */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px; min-height: 150px; display: flex; flex-direction: column; }
+            .sc-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #94a3b8; margin-bottom: 6px; width: 100%; }
             
-            /* Dãy số liệu thống kê phía trên giống ảnh 2 và ảnh 4 */
-            .sc-stats-nums { display: flex; gap: 14px; font-weight: bold; font-size: 12px; }
-            
-            .bead-plate-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 3px; overflow-x: auto; max-height: 115px; }
+            /* Dãy thống kê căn chuẩn 100% sang bên phải góc trên bàn cầu */
+            .sc-stats-nums { display: flex; gap: 12px; font-weight: bold; font-size: 13px; margin-left: auto; align-items: center; }
+            .stat-box { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 20px; }
+            .stat-icon { width: 12px; height: 12px; border-radius: 50%; margin-bottom: 2px; display: inline-block; }
+
+            .bead-plate-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 3px; overflow-x: auto; height: 115px; min-height: 115px; width: 100%; }
             .bead { width: 16px; height: 16px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; flex-shrink: 0; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
@@ -324,16 +326,17 @@ def home():
                 <div class="sc-indicators" style="font-size:10px;">
                     <span>庄问路 闲问路 好路投注 (Ván: <span id="round-count">0</span>/50)</span>
                 </div>
-                <!-- Dãy thống kê màu sắc khớp đúng 100% yêu cầu: Tổng ván, Banker đỏ, Player xanh dương, Tie xanh lục, P7, B6 -->
+                <!-- Dãy số thống kê căn lề sát bên phải, có đủ biểu tượng màu phía trên chuẩn xác -->
                 <div class="sc-stats-nums">
-                    <span style="color: #3b82f6;" id="stat-total">0</span>
-                    <span style="color: #ef4444;" id="stat-b">0</span>
-                    <span style="color: #3b82f6;" id="stat-p">0</span>
-                    <span style="color: #10b981;" id="stat-t">0</span>
-                    <span style="color: #ef4444;" id="stat-b6">0</span>
-                    <span style="color: #3b82f6;" id="stat-p7">0</span>
+                    <div class="stat-box"><span style="color: #38bdf8;" id="stat-total">0</span></div>
+                    <div class="stat-box"><span style="color: #ef4444;" id="stat-b">0</span></div>
+                    <div class="stat-box"><span style="color: #38bdf8;" id="stat-p">0</span></div>
+                    <div class="stat-box"><span style="color: #4ade80;" id="stat-t">0</span></div>
+                    <div class="stat-box"><span style="color: #ef4444;" id="stat-b6">0</span></div>
+                    <div class="stat-box"><span style="color: #38bdf8;" id="stat-p7">0</span></div>
                 </div>
             </div>
+            <!-- Khung soi cầu luôn có khung cố định 115px kể cả khi chưa có ván đấu nào -->
             <div class="bead-plate-grid" id="bead-plate-container"></div>
         </div>
 
@@ -394,7 +397,6 @@ def home():
                 document.getElementById('hanoi-time').innerText = `${h}:${m}:${s} (UTC+07)`;
             }, 1000);
 
-            // Vòng lặp đếm ngược ngẫu nhiên 100%
             setInterval(() => {
                 if (gamePhase === 'betting') {
                     timeLeft--;
@@ -441,7 +443,6 @@ def home():
                 if (winner === 'P' && pScore === 7) recordType = 'P7';
                 if (winner === 'B' && bScore === 6) recordType = 'B6';
 
-                // Thống kê số liệu
                 statsCount.total++;
                 if (winner === 'B') statsCount.b++;
                 if (winner === 'P') statsCount.p++;
@@ -458,7 +459,6 @@ def home():
 
                 resolveBets(winner);
 
-                // Cơ chế rửa bài 50 ván -> Reset toàn bộ ván và số liệu về 0
                 if (totalRounds >= 50) {
                     gamePhase = 'shuffling';
                     timeLeft = 45;
