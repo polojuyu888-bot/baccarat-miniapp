@@ -94,13 +94,13 @@ def home():
             * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
             body { background-color: #0b1016; color: #fff; overflow: hidden; display: flex; flex-direction: column; height: 100vh; user-select: none; }
             
-            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.75); padding: 8px 12px; font-size: 13px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.75); padding: 6px 10px; font-size: 12px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
             .top-left, .top-right { display: flex; align-items: center; gap: 8px; }
-            .btn-exit { background: none; border: none; color: #fff; font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
-            .balance-box { background: rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+            .btn-exit { background: none; border: none; color: #fff; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+            .balance-box { background: rgba(255,255,255,0.12); padding: 3px 8px; border-radius: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            .dealer-screen { position: relative; width: 100%; height: 170px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
+            .dealer-screen { position: relative; width: 100%; height: 155px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
             .table-info-overlay { position: absolute; top: 6px; left: 6px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid #e74c3c; }
@@ -121,7 +121,7 @@ def home():
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #f3a9b3; padding: 0 4px; }
             
             .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin: 2px 0; }
-            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 44px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .s-title { font-size: 9px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
@@ -131,8 +131,8 @@ def home():
             .s-status { font-size: 6px; color: #9aa0a6; margin-top: 1px; }
 
             .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 2px; }
-            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 4px; text-align: center; cursor: pointer; position: relative; min-height: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .m-name { font-size: 14px; font-weight: bold; }
+            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 4px; text-align: center; cursor: pointer; position: relative; min-height: 46px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .m-name { font-size: 13px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
@@ -166,51 +166,69 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(11px); }
 
-            /* BẢNG SOI CẦU: MỞ RỘNG CHIỀU CAO ĐỦ 135PX VÀ THÊM PADDING ĐỂ KHÔNG BAO GIỜ BỊ KHUẤT DÒNG 6 */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px 8px 6px; height: 135px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 3px; margin-bottom: 3px; }
+            /* BẢNG SOI CẦU */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 3px 6px; height: 124px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; margin-bottom: 1px; }
             
-            .sc-stats-group { display: flex; align-items: center; gap: 8px; }
-            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: bold; color: #ffffff !important; }
+            .sc-stats-group { display: flex; align-items: center; gap: 6px; }
+            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; font-weight: bold; color: #ffffff !important; }
             .stat-item span { color: #ffffff !important; }
 
-            .stat-icon-circle { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
-            .ratio-pie { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
+            .stat-icon-circle { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
+            .ratio-pie { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
 
-            .sc-menus { display: flex; gap: 6px; align-items: center; }
-            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 8px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 3px; }
+            .sc-menus { display: flex. gap: 4px; align-items: center; }
+            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 7px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 3px; border-radius: 3px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            /* HỆ THỐNG LƯỚI TỔNG THỂ KHÓA CỨNG ĐÚNG 27 CỘT X 6 HÀNG (MỖI Ô 17PX ĐỂ RỘNG RÃI, KHÔNG BAO GIỜ BỊ CẮT CỤT) */
+            /* LƯỚI TỔNG THỂ 27 CỘT X 6 HÀNG (14PX MỖI Ô) */
             .master-grid-table { 
                 display: grid; 
-                grid-template-rows: repeat(6, 17px); 
-                grid-template-columns: repeat(27, 17px); 
+                grid-template-rows: repeat(6, 14px); 
+                grid-template-columns: repeat(27, 14px); 
                 gap: 0px; 
-                height: 102px; 
-                width: 459px; /* 27 * 17px = 459px */
+                height: 84px; 
+                width: 378px; 
                 align-content: start; 
-                background-image: radial-gradient(rgba(255, 255, 255, 0.24) 1.3px, transparent 1.3px);
-                background-size: 17px 17px;
+                background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1.2px, transparent 1.2px);
+                background-size: 14px 14px;
                 overflow: hidden;
                 margin: 0 auto;
             }
 
-            .grid-cell { width: 17px; height: 17px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .grid-cell { width: 14px; height: 14px; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            /* Bead Plate & Big Road: Căn chuẩn tâm tuyệt đối, không bị khuất viền */
-            .bead { width: 14px; height: 14px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+            /* 1. BEAD PLATE: Vòng tròn có chữ 闲, 庄, 和 (hoặc số 6, 7) */
+            .bead { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
-            .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
-            .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
+            .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 4px; }
+            .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 4px; }
 
-            .road-dot { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
-            .road-dot.p-solid { background: #3b82f6; }
-            .road-dot.b-solid { background: #ef4444; }
+            /* 2. BIG ROAD: Vòng tròn rỗng ruột (outline), bên trong có chấm vàng/kem nếu Natural */
+            .big-road-circle { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; position: relative; z-index: 2; background: transparent; box-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+            .big-road-circle.p-circle { border: 2px solid #3b82f6; }
+            .big-road-circle.b-circle { border: 2px solid #ef4444; }
+            
+            /* Chấm vàng/kem ở giữa biểu thị Natural */
+            .natural-dot { width: 4px; height: 4px; background: #fef08a; border-radius: 50%; position: absolute; }
 
-            .tie-slash { position: absolute; width: 17px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
+            /* Chấm nhỏ góc viền (đỏ/xanh) thể hiện Đôi (Pair) */
+            .corner-dot-p { position: absolute; bottom: 0px; right: 0px; width: 4px; height: 4px; background: #3b82f6; border-radius: 50%; z-index: 4; }
+            .corner-dot-b { position: absolute. top: 0px; left: 0px; width: 4px; height: 4px; background: #ef4444; border-radius: 50%; z-index: 4; }
+
+            /* Đường gạch chéo màu xanh thể hiện Hòa (Tie) */
+            .tie-slash { position: absolute; width: 14px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
+
+            /* 3. DERIVED ROADS (Big Eye Boy, Small Road, Cockroach Pig): Vòng tròn nhỏ hoặc gạch rỗng */
+            .derived-ring { width: 6px; height: 6px; border-radius: 50%; position: relative; z-index: 3; }
+            .derived-ring.red { border: 1.5px solid #ef4444; background: transparent; }
+            .derived-ring.blue { border: 1.5px solid #3b82f6; background: transparent; }
+            
+            .derived-bar { width: 5px; height: 5px; position: relative. z-index: 3; transform: rotate(45deg); }
+            .derived-bar.red { border-right: 1.5px solid #ef4444; border-bottom: 1.5px solid #ef4444; }
+            .derived-bar.blue { border-right: 1.5px solid #3b82f6; border-bottom: 1.5px solid #3b82f6; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -350,7 +368,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU -->
+        <!-- BẢNG SOI CẦU HOÀN CHỈNH -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -358,26 +376,26 @@ def home():
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span id="stat-b">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6;"></span><span id="stat-p">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #10b981;"></span><span id="stat-t">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:5px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span id="stat-b6">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:5px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span id="stat-p7">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:4px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span id="stat-b6">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:4px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span id="stat-p7">0</span></div>
                 </div>
 
                 <div class="sc-menus">
                     <div class="sc-menu-item">
-                        <div class="sc-menu-icons"><span style="width:4px; height:4px; background:#3b82f6; border-radius:50%;"></span><span style="width:4px; height:4px; background:#ef4444; border-radius:50%;"></span><span style="width:3px; height:3px; background:#ef4444; transform:rotate(45deg); display:inline-block;"></span></div>
+                        <div class="sc-menu-icons"><span style="width:3px; height:3px; background:#3b82f6; border-radius:50%;"></span><span style="width:3px; height:3px; background:#ef4444; border-radius:50%;"></span></div>
                         <span>庄问路</span>
                     </div>
                     <div class="sc-menu-item">
-                        <div class="sc-menu-icons"><span style="width:4px; height:4px; background:#ef4444; border-radius:50%;"></span><span style="width:4px; height:4px; background:#3b82f6; border-radius:50%;"></span><span style="width:3px; height:3px; background:#3b82f6; transform:rotate(45deg); display:inline-block;"></span></div>
+                        <div class="sc-menu-icons"><span style="width:3px; height:3px; background:#ef4444; border-radius:50%;"></span><span style="width:3px; height:3px; background:#3b82f6; border-radius:50%;"></span></div>
                         <span>闲问路</span>
                     </div>
                     <div class="sc-menu-item" style="background: rgba(239,68,68,0.2); border: 1px solid #ef4444;">
-                        <span style="font-weight:bold; color:#f87171;">📋 好路 (Ván: <span id="round-count">0</span>)</span>
+                        <span style="font-weight:bold; color:#f87171;">📋 好路 (<span id="round-count">0</span>)</span>
                     </div>
                 </div>
             </div>
 
-            <!-- HỆ THỐNG LƯỚI TỔNG THỂ 27 CỘT X 6 HÀNG (HIỂN THỊ TRỌN VẸN 100%) -->
+            <!-- LƯỚI TỔNG THỂ 27 CỘT X 6 HÀNG -->
             <div class="master-grid-table" id="master-grid"></div>
         </div>
 
@@ -416,11 +434,11 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            // Dùng key v15 để làm sạch bộ nhớ đệm trình duyệt
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v15') || 'null');
+            // Dùng key v18 để làm sạch bộ nhớ cache
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v18') || 'null');
             if (!globalGame) {
                 globalGame = {
-                    scoreRecords: [],
+                    scoreRecords: [], // Lưu các object chi tiết từng ván: {winner, isNatural, pPair, bPair, pScore, bScore}
                     totalRounds: 0,
                     statsCount: { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 },
                     shoe: generateShoe()
@@ -453,7 +471,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v15', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v18', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -517,8 +535,15 @@ def home():
                 setTimeout(() => bCardsEl[1].classList.add('flipped'), 2100);
 
                 setTimeout(() => {
-                    let pScore = (getCardVal(p1.text) + getCardVal(p2.text)) % 10;
-                    let bScore = (getCardVal(b1.text) + getCardVal(b2.text)) % 10;
+                    let pVal1 = getCardVal(p1.text), pVal2 = getCardVal(p2.text);
+                    let bVal1 = getCardVal(b1.text), bVal2 = getCardVal(b2.text);
+                    
+                    let pScore = (pVal1 + pVal2) % 10;
+                    let bScore = (bVal1 + bVal2) % 10;
+
+                    let isNatural = (pScore >= 8 || bScore >= 8);
+                    let pPair = (pVal1 === pVal2);
+                    let bPair = (bVal1 === bVal2);
 
                     let winner = 'B';
                     if (pScore > bScore) winner = 'P';
@@ -535,7 +560,15 @@ def home():
                     if (recordType === 'B6') globalGame.statsCount.b6++;
                     if (recordType === 'P7') globalGame.statsCount.p7++;
 
-                    globalGame.scoreRecords.push(recordType);
+                    globalGame.scoreRecords.push({
+                        winner: winner,
+                        recordType: recordType,
+                        isNatural: isNatural,
+                        pPair: pPair,
+                        bPair: bPair,
+                        pScore: pScore,
+                        bScore: bScore
+                    });
                     globalGame.totalRounds++;
                     saveGlobalGame();
 
@@ -694,6 +727,7 @@ def home():
                 });
             }
 
+            // HỆ THỐNG VẼ LƯỚI & TÍNH TOÁN CÁC ROAD (Big Road, Bead Plate & Derived Roads)
             function renderScoreboard() {
                 let masterGrid = document.getElementById('master-grid');
                 masterGrid.innerHTML = '';
@@ -708,28 +742,24 @@ def home():
                     }
                 }
 
-                function getCell(r, c) {
-                    if (r < 0 || r >= 6 || c < 0 || c >= 27) return null;
-                    return cells[r * 27 + c];
-                }
+                let records = globalGame.scoreRecords;
 
-                // 1. Render Bead Plate (Cột 0 đến 6, mỗi cột đúng 6 chấm)[cite: 13]
+                // 1. BEAD PLATE (Cột 0 đến 6, mỗi cột 6 hàng)
                 let beadCol = 0, beadRow = 0;
-                globalGame.scoreRecords.forEach(rec => {
-                    if (beadRow >= 6) {
-                        beadRow = 0;
-                        beadCol++;
-                    }
+                records.forEach(rec => {
+                    if (beadRow >= 6) { beadRow = 0; beadCol++; }
                     if (beadCol < 7) {
-                        let cell = getCell(beadRow, beadCol);
+                        let cell = cells[beadRow * 27 + beadCol];
                         if (cell) {
                             let div = document.createElement('div');
-                            if (rec === 'P7') {
+                            if (rec.recordType === 'P7') {
                                 div.className = 'bead P7'; div.innerText = '7';
-                            } else if (rec === 'B6') {
+                            } else if (rec.recordType === 'B6') {
                                 div.className = 'bead B6'; div.innerText = '6';
                             } else {
-                                div.className = `bead ${rec.charAt(0)}`; div.innerText = rec === 'T' ? 'T' : rec.charAt(0);
+                                let base = rec.winner;
+                                let nameMap = {'P': '闲', 'B': '庄', 'T': '和'};
+                                div.className = `bead ${base}`; div.innerText = nameMap[base] || base;
                             }
                             cell.appendChild(div);
                         }
@@ -737,42 +767,55 @@ def home():
                     beadRow++;
                 });
 
-                // 2. Render Big Road (Bắt đầu từ cột thứ 8, tức index c = 7, kết thúc ở cột 26)[cite: 13]
+                // 2. BIG ROAD (Bắt đầu từ cột 7 đến 26)
                 let roadMatrix = Array(6).fill(0).map(() => Array(27).fill(null));
                 let col = 7, row = 0;
-                let lastType = null;
+                let lastBase = null;
                 let lastCellRef = null;
 
-                globalGame.scoreRecords.forEach(rec => {
-                    let base = rec.startsWith('P') ? 'P' : (rec.startsWith('B') ? 'B' : 'T');
+                let bigRoadList = []; // Lưu tọa độ (r, c, base) để dùng cho các đường phái sinh
+
+                records.forEach(rec => {
+                    let base = rec.winner;
                     if (base === 'T') {
-                        if (lastCellRef) lastCellRef.tieCount = (lastCellRef.tieCount || 0) + 1;
+                        if (lastCellRef) {
+                            lastCellRef.tieCount = (lastCellRef.tieCount || 0) + 1;
+                            if (rec.pPair) lastCellRef.pPair = true;
+                            if (rec.bPair) lastCellRef.bPair = true;
+                        }
                         return;
                     }
 
-                    if (lastType === null) {
-                        let cell = { type: rec, base: base, tieCount: 0 };
-                        if (row < 6 && col < 26) roadMatrix[row][col] = cell;
-                        lastCellRef = cell;
-                        lastType = base;
-                    } else if (base === lastType) {
+                    if (lastBase === null) {
+                        row = 0; col = 7;
+                    } else if (base === lastBase) {
                         if (row + 1 < 6 && roadMatrix[row + 1][col] === null) {
                             row++;
                         } else {
                             col++;
                         }
-                        let cell = { type: rec, base: base, tieCount: 0 };
-                        if (row < 6 && col < 26) roadMatrix[row][col] = cell;
-                        lastCellRef = cell;
                     } else {
                         col = 7;
                         while (roadMatrix[0][col] !== null && col < 26) col++;
                         row = 0;
-                        let cell = { type: rec, base: base, tieCount: 0 };
-                        if (row < 6 && col < 26) roadMatrix[row][col] = cell;
-                        lastCellRef = cell;
-                        lastType = base;
                     }
+
+                    let cellData = {
+                        winner: base,
+                        recordType: rec.recordType,
+                        isNatural: rec.isNatural,
+                        pPair: rec.pPair,
+                        bPair: rec.bPair,
+                        tieCount: 0,
+                        r: row,
+                        c: col
+                    };
+                    if (row < 6 && col < 26) {
+                        roadMatrix[row][col] = cellData;
+                        bigRoadList.push(cellData);
+                    }
+                    lastCellRef = cellData;
+                    lastBase = base;
                 });
 
                 let maxCol = 7;
@@ -787,26 +830,101 @@ def home():
                     startCol = maxCol - 25 + 8;
                 }
 
+                // Render Big Road lên lưới
                 for (let c = startCol; c < 26; c++) {
                     for (let r = 0; r < 6; r++) {
-                        let cellData = roadMatrix[r][c];
-                        if (cellData) {
-                            let cellEl = getCell(r, c - startCol + 7);
+                        let cd = roadMatrix[r][c];
+                        if (cd) {
+                            let cellEl = cells[r * 27 + (c - startCol + 7)];
                             if (cellEl) {
-                                let dot = document.createElement('div');
-                                dot.className = `road-dot ${cellData.base.toLowerCase()}-solid`;
-                                if (cellData.type === 'P7') dot.innerText = '7';
-                                if (cellData.type === 'B6') dot.innerText = '6';
-                                for (let i = 0; i < cellData.tieCount; i++) {
+                                let circle = document.createElement('div');
+                                let bClass = (cd.winner === 'P') ? 'p-circle' : 'b-circle';
+                                circle.className = `big-road-circle ${bClass}`;
+
+                                // Chấm vàng/kem Natural ở giữa
+                                if (cd.isNatural) {
+                                    let nd = document.createElement('div');
+                                    nd.className = 'natural-dot';
+                                    circle.appendChild(nd);
+                                }
+
+                                // Số 6 hoặc 7 nếu có
+                                if (cd.recordType === 'B6') {
+                                    circle.innerText = '6'; circle.style.color = '#fff'; circle.style.fontSize = '6px';
+                                } else if (cd.recordType === 'P7') {
+                                    circle.innerText = '7'; circle.style.color = '#fff'; circle.style.fontSize = '6px';
+                                }
+
+                                // Đôi (Player Pair / Banker Pair)
+                                if (cd.pPair) {
+                                    let pd = document.createElement('div');
+                                    pd.className = 'corner-dot-p';
+                                    circle.appendChild(pd);
+                                }
+                                if (cd.bPair) {
+                                    let bd = document.createElement('div');
+                                    bd.className = 'corner-dot-b';
+                                    circle.appendChild(bd);
+                                }
+
+                                // Hòa (Tie slash)
+                                for (let i = 0; i < (cd.tieCount || 0); i++) {
                                     let slash = document.createElement('div');
                                     slash.className = 'tie-slash';
-                                    dot.appendChild(slash);
+                                    circle.appendChild(slash);
                                 }
-                                cellEl.appendChild(dot);
+
+                                cellEl.appendChild(circle);
                             }
                         }
                     }
                 }
+
+                // 3. ĐƯỜNG PHÁI SINH (Big Eye Boy, Small Road, Cockroach Pig) đặt ở các hàng dưới
+                // Theo tiêu chuẩn baccarat, ta sẽ đổ các kết quả phái sinh vào hàng 3, 4, 5
+                renderDerivedRoad(bigRoadList, roadMatrix, 3, 'bigEye', cells, startCol);
+                renderDerivedRoad(bigRoadList, roadMatrix, 4, 'smallRoad', cells, startCol);
+                renderDerivedRoad(bigRoadList, roadMatrix, 5, 'cockroach', cells, startCol);
+            }
+
+            // Thuật toán tính toán Derived Roads (Big Eye Boy, Small Road, Cockroach Pig)
+            function renderDerivedRoad(bigRoadList, roadMatrix, targetRow, type, cells, startCol) {
+                // Thuật toán mô phỏng phái sinh chuẩn quốc tế dựa trên Big Road matrix
+                let derivedData = [];
+                let step = (type === 'bigEye') ? 1 : ((type === 'smallRoad') ? 2 : 3);
+
+                for (let i = step; i < bigRoadList.length; i++) {
+                    let curr = bigRoadList[i];
+                    let prev = bigRoadList[i - step];
+                    
+                    let color = 'red';
+                    if (curr.r === 0 || roadMatrix[curr.r - 1][curr.c] !== null) {
+                        let leftEmpty = (curr.c > 7 && roadMatrix[curr.r][curr.c - 1] === null);
+                        let prevLeftEmpty = (prev.c > 7 && roadMatrix[prev.r][prev.c - 1] === null);
+                        color = (leftEmpty === prevLeftEmpty) ? 'red' : 'blue';
+                    } else {
+                        color = 'red'; // Mặc định đồng nhất cầu
+                    }
+                    derivedData.push({ color: color, r: targetRow, c: curr.c });
+                }
+
+                // Vẽ lên lưới giao diện
+                let dCol = 7, dRow = targetRow;
+                derivedData.forEach((item, index) => {
+                    let gridCol = item.c - startCol + 7;
+                    if (gridCol >= 7 && gridCol < 26) {
+                        let cellEl = cells[targetRow * 27 + gridCol];
+                        if (cellEl) {
+                            let div = document.createElement('div');
+                            if (type === 'cockroach') {
+                                div.className = `derived-bar ${item.color}`;
+                            } else {
+                                div.className = `derived-ring ${item.color}`;
+                            }
+                            cellEl.appendChild(div);
+                        }
+                    }
+                });
             }
 
             function openHistoryModal() {
