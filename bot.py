@@ -166,7 +166,7 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(12px); }
 
-            /* BẢNG SOI CẦU: HOÀN TOÀN BỎ GẠCH NGANG, ĐỦ 6 HÀNG DỌC, CỘT 8 ĐẾN 23 CHO BIG ROAD */
+            /* BẢNG SOI CẦU: ĐÚNG 6 HÀNG DỌC, KHÔNG GẠCH NGANG, BIG ROAD BẮT ĐẦU TỪ CỘT 8 */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 120px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; }
             
@@ -192,7 +192,7 @@ def home():
                 background-size: 15px 15px;
             }
 
-            /* Bảng Bead Plate bên trái: Đúng 7 cột, đúng 6 hàng dọc (15px * 6 = 90px) */
+            /* Bảng Bead Plate bên trái: Đúng 7 cột, đủ 6 hàng dọc (15px * 6 = 90px) */
             .bead-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 1px; height: 92px; align-content: start; }
             .bead-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
             .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
@@ -202,7 +202,7 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* Bảng Big Road bên phải: Bắt đầu chạy ngay từ cột thứ 8 (cột 7 đầu là Bead Plate, Big Road có 16 cột từ 8 đến 23), đúng 6 hàng dọc */
+            /* Bảng Big Road bên phải: Cố định 16 cột (bắt đầu chạy chính xác từ cột thứ 8), đủ 6 hàng dọc */
             .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-template-columns: repeat(16, 15px); gap: 1px; height: 92px; align-content: start; }
             .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
@@ -350,7 +350,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU: KHÔNG CÓ GẠCH NGANG, ĐỦ 6 HÀNG DỌC, BIG ROAD BẮT ĐẦU TỪ CỘT 8 -->
+        <!-- BẢNG SOI CẦU: ĐÚNG 6 HÀNG DỌC, KHÔNG GẠCH NGANG, BIG ROAD LUÔN BẮT ĐẦU TỪ CỘT THỨ 8 -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -380,7 +380,7 @@ def home():
             <div class="road-tables-container">
                 <!-- Bảng trái Bead Plate: Đúng 7 cột, đủ 6 hàng dọc -->
                 <div class="bead-grid-table" id="bead-plate-container"></div>
-                <!-- Bảng phải Big Road: Bắt đầu chạy từ cột 8 đến 23 (16 cột), đủ 6 hàng dọc -->
+                <!-- Bảng phải Big Road: Bắt đầu vẽ từ cột số 8 (index 7 của ma trận gốc), đủ 6 hàng dọc, cố định 16 cột hiển thị -->
                 <div class="road-grid-table" id="big-road-container"></div>
             </div>
         </div>
@@ -420,7 +420,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v8') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v9') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -456,7 +456,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v8', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v9', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -698,7 +698,7 @@ def home():
             }
 
             function renderScoreboard() {
-                // 1. Bảng Bead Plate bên trái: Đúng 7 cột, đúng 6 hàng dọc
+                // 1. Bảng Bead Plate bên trái: Đúng 7 cột, đủ 6 hàng dọc
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 globalGame.scoreRecords.forEach(rec => {
@@ -716,12 +716,13 @@ def home():
                     beadContainer.appendChild(box);
                 });
 
-                // 2. Bảng Big Road bên phải: Cố định 16 cột (bắt đầu từ cột 8 đến 23), đúng 6 hàng dọc
+                // 2. Bảng Big Road bên phải: LUÔN BẮT ĐẦU TỪ CỘT THỨ 8 (index 7 của ma trận lớn)
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
                 
-                let rawMatrix = Array(6).fill(0).map(() => Array(45).fill(null));
-                let col = 0, row = 0;
+                let rawMatrix = Array(6).fill(0).map(() => Array(50).fill(null));
+                // Cột bắt đầu của Big Road là index 7 (tương ứng cột thứ 8)
+                let col = 7, row = 0;
                 let lastType = null;
                 let lastCellRef = null;
 
@@ -747,7 +748,8 @@ def home():
                         rawMatrix[row][col] = cell;
                         lastCellRef = cell;
                     } else {
-                        col = 0;
+                        // Tìm cột trống tiếp theo từ cột 7 trở đi
+                        col = 7;
                         while (rawMatrix[0][col] !== null) col++;
                         row = 0;
                         let cell = { type: rec, base: base, tieCount: 0 };
@@ -757,18 +759,20 @@ def home():
                     }
                 });
 
-                let maxCol = 0;
-                for (let c = 0; c < 45; c++) {
+                // Tìm cột tối đa đang có dữ liệu để thực hiện trượt trái nếu vượt quá 16 cột hiển thị
+                let maxCol = 7;
+                for (let c = 7; c < 50; c++) {
                     for (let r = 0; r < 6; r++) {
                         if (rawMatrix[r][c] !== null) maxCol = c;
                     }
                 }
 
-                let startCol = 0;
-                if (maxCol >= 16) {
+                let startCol = 7;
+                if (maxCol >= 7 + 16) {
                     startCol = maxCol - 15;
                 }
 
+                // Render đúng 16 cột (tương ứng 16 ô chiều ngang của Big Road)
                 for (let c = startCol; c < startCol + 16; c++) {
                     for (let r = 0; r < 6; r++) {
                         let box = document.createElement('div');
