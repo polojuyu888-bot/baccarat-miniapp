@@ -118,13 +118,12 @@ def home():
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% */
+            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (ĐÃ BỎ HOÀN TOÀN KHUNG VIỀN Ô CƯỢC) */
             .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 3px 6px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 8px; color: #f3a9b3; padding: 0 2px; }
             
-            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #7a1523; border-radius: 2px; overflow: hidden; }
-            .side-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #7a1523; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .side-spot:last-child { border-right: none; }
+            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: transparent; }
+            .side-spot { background: rgba(0,0,0,0.25); border: none; border-radius: 2px; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .s-title { font-size: 8px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
@@ -132,9 +131,8 @@ def home():
             .s-rate { font-size: 7px; color: #fff; margin-top: 1px; }
             .s-status { font-size: 5px; color: #9aa0a6; }
 
-            .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #7a1523; border-radius: 2px; overflow: hidden; }
-            .main-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #7a1523; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .main-spot:last-child { border-right: none; }
+            .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 3px; background: transparent; }
+            .main-spot { background: rgba(0,0,0,0.25); border: none; border-radius: 2px; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .m-name { font-size: 11px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
@@ -186,10 +184,8 @@ def home():
 
             .grid-scroll-wrapper { width: 100%; flex: 1; display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
             
-            /* CĂN GIỮA TUYỆT ĐỐI CHỮ - 洗牌中 - */
             .shuffling-notice { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 11px; color: #94a3b8; letter-spacing: 1px; background: #141c24; z-index: 10; }
 
-            /* LƯỚI MA TRẬN 6 DÒNG X 27 CỘT, CHẤM BI THU NHỎ & MỜ NHẸ */
             .master-grid-table { 
                 display: grid; 
                 grid-template-rows: repeat(6, 1fr); 
@@ -205,7 +201,6 @@ def home():
 
             .grid-cell { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            /* NÚT CẦU TRÒN ĐẸP, ĐÈ LÊN TRÊN CHẤM BI */
             .bead { width: 88%; height: 88%; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: normal; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); line-height: 1; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
@@ -213,7 +208,6 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* KHUNG VÒNG TRÒN BIG ROAD DÀY VÀ TRÒN TRỊA */
             .big-road-circle { width: 88%; height: 88%; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: normal; position: relative; z-index: 2; background: transparent; }
             .big-road-circle.p-circle { border: 1.6px solid #3b82f6; }
             .big-road-circle.b-circle { border: 1.6px solid #ef4444; }
@@ -283,7 +277,7 @@ def home():
             </div>
         </div>
 
-        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% -->
+        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (ĐÃ BỎ KHUNG VIỀN HOÀN TOÀN) -->
         <div class="game-panel">
             <div class="round-info-bar">
                 <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
@@ -439,7 +433,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v29') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v30') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -475,7 +469,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v29', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v30', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
