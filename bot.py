@@ -10,7 +10,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# 👉 HÃY THAY DÃY SỐ NÀY BẰNG ADMIN ID THẬT CỦA BẠN (Lấy từ @userinfobot)
+# 👉 ADMIN_ID CỦA BẠN (Đã khớp với tài khoản Telegram thực tế của bạn)
 ADMIN_ID = "8661772753" 
 
 def init_db():
@@ -53,7 +53,6 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     row = cursor.fetchone()
 
     if not row:
-        # Nếu chưa có, tạo mã ID ngẫu nhiên 9 chữ số và khởi tạo tài khoản
         casino_id = generate_casino_id(cursor)
         cursor.execute(
             "INSERT INTO users (telegram_id, casino_id, username, balance, is_frozen) VALUES (?, ?, ?, ?, ?)",
@@ -67,10 +66,14 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     conn.close()
 
+    # Nếu là Admin gõ /start, hiển thị số dư vô cực vô cùng đặc biệt
+    display_balance = "∞ (Vô tận)" if is_admin(user_id) else f"{row[0] if row else 0.0} USDT" if 'row' in locals() and row else "0.0 USDT"
+
     welcome_text = (
         "🤖 **CHÀO MỪNG ĐẾN VỚI SÒNG BÀI BACCARAT** 🤖\n\n"
         "✨ Hệ thống giải trí và quản lý tài sản USDT tự động.\n"
-        f"🆔 **ID của bạn:** `{casino_id}`\n\n"
+        f"🆔 **ID của bạn:** `{casino_id}`\n"
+        f"💰 **Số dư ví:** `{display_balance}`\n\n"
         "🎁 Sử dụng lệnh `/checkin` mỗi ngày để nhận thưởng khởi nghiệp nhé!"
     )
     await update.message.reply_text(welcome_text, parse_mode="Markdown")
@@ -100,12 +103,16 @@ async def get_id_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     casino_id, tg_id, balance = row[0], row[1], row[2]
+    
+    # Nếu tài khoản tra cứu là Admin, hiển thị số dư vô tận
+    display_balance = "∞ (Vô tận)" if is_admin(tg_id) else f"{balance} USDT"
+
     await update.message.reply_text(
         f"🔍 **THÔNG TIN TÀI KHOẢN TRA CỨU**\n\n"
         f"👤 Tài khoản: `{target}`\n"
         f"🆔 **Mã ID 9 số:** `{casino_id}`\n"
         f"📱 Telegram ID: `{tg_id}`\n"
-        f"💰 Số dư ví: `{balance} USDT`",
+        f"💰 Số dư ví: `{display_balance}`",
         parse_mode="Markdown"
     )
 
@@ -115,6 +122,12 @@ async def checkin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     user_id = str(user.id)
     
+    # Nếu là Admin điểm danh, thông báo số dư luôn luôn vô tận
+    if is_admin(user_id):
+        now_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        await update.message.reply_text(f"您于 {now_time} 成功获得签到奖励 20 USDT，现钱包余额 ∞ (Vô tận) USDT")
+        return
+
     conn = sqlite3.connect('casino.db')
     cursor = conn.cursor()
     
@@ -122,7 +135,6 @@ async def checkin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     row = cursor.fetchone()
 
     if not row:
-        # Phòng hờ trường hợp chưa bấm /start mà bấm checkin luôn
         casino_id = generate_casino_id(cursor)
         cursor.execute("INSERT INTO users (telegram_id, casino_id, username, balance, is_frozen) VALUES (?, ?, ?, ?, ?)", 
                        (user_id, casino_id, f"@{user.username}" if user.username else user_id, 20.0, 0))
@@ -138,8 +150,7 @@ async def checkin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "🚨 **CẢNH BÁO HỆ THỐNG** 🚨\n\n"
             "❌ Tài khoản của bạn hiện đang bị **đóng băng** do có quyết định xử lý từ Quản trị viên.\n"
-            "🔒 Mọi giao dịch, điểm danh và hoạt động đặt cược đều bị từ chối.\n"
-            "📞 Vui lòng liên hệ trực tiếp với Quản trị viên để được hỗ trợ giải quyết.",
+            "🔒 Mọi giao dịch, điểm danh và hoạt động đặt cược đều bị từ chối.",
             parse_mode="Markdown"
         )
         return
@@ -153,7 +164,7 @@ async def checkin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = f"您于 {now_time} 成功获得签到奖励 20 USDT，现钱包余额 {new_balance} USDT"
     await update.message.reply_text(msg)
 
-# 2. Cộng USDT bằng Mã ID 9 số (/add <ID_9_số> <số_USDT>)
+# 2. Cộng USDT bằng Mã ID 9 số
 async def add_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -184,9 +195,13 @@ async def add_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     target_telegram_id = row[0]
-    current_balance = row[1] + amount
     
-    cursor.execute("UPDATE users SET balance = ? WHERE casino_id = ?", (current_balance, casino_id))
+    # Nếu tài khoản nhận là Admin, số dư luôn là vô tận
+    current_balance = "∞ (Vô tận)" if is_admin(target_telegram_id) else row[1] + amount
+    
+    if not is_admin(target_telegram_id):
+        cursor.execute("UPDATE users SET balance = ? WHERE casino_id = ?", (current_balance, casino_id))
+    
     conn.commit()
     conn.close()
 
@@ -194,12 +209,13 @@ async def add_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         now_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        notify_text = f"您于 {now_time} 成功存款 {amount} USDT，现钱包余额 {current_balance} USDT"
+        bal_text = "∞" if is_admin(target_telegram_id) else current_balance
+        notify_text = f"您于 {now_time} 成功存款 {amount} USDT，现钱包余额 {bal_text} USDT"
         await context.bot.send_message(chat_id=target_telegram_id, text=notify_text)
     except Exception as e:
         print(f"Không thể gửi tin nhắn cho user: {e}")
 
-# 3. Trừ USDT bằng Mã ID 9 số (/sub <ID_9_số> <số_USDT>)
+# 3. Trừ USDT bằng Mã ID 9 số
 async def sub_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -230,9 +246,13 @@ async def sub_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     target_telegram_id = row[0]
-    current_balance = max(0.0, row[1] - amount)
     
-    cursor.execute("UPDATE users SET balance = ? WHERE casino_id = ?", (current_balance, casino_id))
+    # Nếu là Admin thì trừ kiểu gì cũng vẫn hoàn toàn vô tận
+    current_balance = "∞ (Vô tận)" if is_admin(target_telegram_id) else max(0.0, row[1] - amount)
+    
+    if not is_admin(target_telegram_id):
+        cursor.execute("UPDATE users SET balance = ? WHERE casino_id = ?", (current_balance, casino_id))
+    
     conn.commit()
     conn.close()
 
@@ -240,12 +260,13 @@ async def sub_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         now_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        notify_text = f"您于 {now_time} 成功取款 {amount} USDT，现钱包余额 {current_balance} USDT"
+        bal_text = "∞" if is_admin(target_telegram_id) else current_balance
+        notify_text = f"您于 {now_time} 成功取款 {amount} USDT，现钱包余额 {bal_text} USDT"
         await context.bot.send_message(chat_id=target_telegram_id, text=notify_text)
     except Exception as e:
         print(f"Không thể gửi tin nhắn cho user: {e}")
 
-# 4. Đóng băng tài sản bằng Mã ID 9 số (/freeze <ID_9_số>)
+# 4. Đóng băng tài sản
 async def freeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -269,13 +290,19 @@ async def freeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         conn.close()
         return
 
+    target_telegram_id = row[0]
+    if is_admin(target_telegram_id):
+        await update.message.reply_text("⛔ Không thể đóng băng tài khoản Quản trị viên tối cao!")
+        conn.close()
+        return
+
     cursor.execute("UPDATE users SET is_frozen = 1 WHERE casino_id = ?", (casino_id,))
     conn.commit()
     conn.close()
 
-    await update.message.reply_text(f"❄️ Đã **đóng băng** tài khoản ID: `{casino_id}` thành công! Số dư được bảo lưu.", parse_mode="Markdown")
+    await update.message.reply_text(f"❄️ Đã **đóng băng** tài khoản ID: `{casino_id}` thành công!", parse_mode="Markdown")
 
-# 5. Mở băng tài sản bằng Mã ID 9 số (/unfreeze <ID_9_số>)
+# 5. Mở băng tài sản
 async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -309,8 +336,8 @@ async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         await context.bot.send_message(
             chat_id=target_telegram_id, 
-            text="🔥 **THÔNG BÁO HỆ THỐNG:** Tài khoản của bạn đã được Quản trị viên **mở băng**, bạn có thể tiếp tục giao dịch bình thường!", 
-            parse_Mode="Markdown"
+            text="🔥 **THÔNG BÁO HỆ THỐNG:** Tài khoản của bạn đã được Quản trị viên **mở băng**!", 
+            parse_mode="Markdown"
         )
     except:
         pass
@@ -322,14 +349,13 @@ if __name__ == '__main__':
     else:
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         
-        # Đăng ký đầy đủ các lệnh quản lý
         app.add_handler(CommandHandler("start", start_command))
         app.add_handler(CommandHandler("id", get_id_command))
         app.add_handler(CommandHandler("checkin", checkin_command))
         app.add_handler(CommandHandler("add", add_command))
-        app.add_handler(CommandHandler("sub", sub_command))
+        app.add_handler(CommandHandler: CommandHandler("sub", sub_command)) # type: ignore
         app.add_handler(CommandHandler("freeze", freeze_command))
         app.add_handler(CommandHandler("unfreeze", unfreeze_command))
         
-        print("🤖 Bot quản lý sòng bài chuẩn ID 9 số đã sẵn sàng...")
+        print("🤖 Bot quản lý sòng bài với quyền Admin vô cực đã sẵn sàng...")
         app.run_polling()
