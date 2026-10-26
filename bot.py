@@ -166,35 +166,40 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* BẢNG SOI CẦU CHUẨN CƠ CẤU 7 CỘT + CỘT 8 TRỞ ĐI */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px 10px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
+            /* BẢNG SOI CẦU CHUẨN MẪU */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 5px 8px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
             
-            .sc-stats-group { display: flex; align-items: center; gap: 10px; }
+            .sc-stats-group { display: flex; align-items: center; gap: 12px; }
             .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; }
+            .stat-icon-circle { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; }
             
-            /* Ô tròn tỷ lệ động 3 màu (Đỏ, Xanh, Lục) */
-            .ratio-pie { width: 16px; height: 16px; border-radius: 50%; display: inline-block; margin-bottom: 2px; border: 1px solid rgba(255,255,255,0.3); }
-            
-            .sc-menus { display: flex; gap: 12px; align-items: center; }
+            .ratio-pie { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; border: 1px solid rgba(255,255,255,0.3); }
+
+            .sc-menus { display: flex; gap: 10px; align-items: center; }
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            .road-tables-container { display: flex; gap: 8px; overflow-x: auto; align-items: flex-start; height: 105px; padding-top: 2px; }
+            .road-tables-container { display: flex; gap: 4px; overflow-x: auto; align-items: flex-start; height: 102px; padding-top: 2px; }
             .road-tables-container::-webkit-scrollbar { height: 3px; }
             .road-tables-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
-            .road-divider { width: 1px; height: 95px; background: rgba(255,255,255,0.2); margin: 0 4px; flex-shrink: 0; }
-
-            .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 2px; height: 100px; align-content: start; }
-            .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
-
-            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; }
+            /* Bảng trái Bead Plate: Đúng 7 cột, thu nhỏ ô (13px) để chứa đủ 6 hàng không bị khuyết */
+            .bead-grid-table { display: grid; grid-template-rows: repeat(6, 13px); grid-auto-flow: column; grid-auto-columns: 13px; gap: 1.5px; height: 86px; align-content: start; }
+            .bead-box { width: 13px; height: 13px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .bead { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
-            .bead.P7 { background: #3b82f6; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
-            .bead.B6 { background: #ef4444; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
+            .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
+            .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
+
+            /* Đường kẻ phân cách nằm đúng sau cột thứ 7 */
+            .road-divider { width: 1px; height: 92px; background: rgba(255,255,255,0.25); margin: 0 4px; flex-shrink: 0; }
+
+            /* Bảng phải Big Road: Bắt đầu chạy từ cột số 8 */
+            .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 2px; height: 95px; align-content: start; }
+            .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
             .road-dot { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
             .road-dot.p-solid { background: #3b82f6; }
@@ -340,11 +345,10 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU -->
+        <!-- BẢNG SOI CẦU ĐÚNG CHUẨN MẪU -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
-                    <!-- Ô tròn tỷ lệ động 3 màu (Đỏ, Xanh, Lục) -->
                     <div class="stat-item"><span class="ratio-pie" id="ratio-pie-circle" style="background: conic-gradient(#ef4444 0deg 120deg, #3b82f6 120deg 240deg, #10b981 240deg 360deg);"></span><span style="color: #38bdf8;" id="stat-total">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span style="color: #ef4444;" id="stat-b">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6;"></span><span style="color: #38bdf8;" id="stat-p">0</span></div>
@@ -369,8 +373,9 @@ def home():
             </div>
 
             <div class="road-tables-container">
-                <!-- Bảng trái Bead Plate: 7 cột -->
-                <div class="road-grid-table" id="bead-plate-container" style="grid-auto-columns: 15px;"></div>
+                <!-- Bảng trái Bead Plate: Đúng 7 cột đầu tiên -->
+                <div class="bead-grid-table" id="bead-plate-container"></div>
+                <!-- Đường kẻ phân cách nằm ngay sau cột thứ 7 -->
                 <div class="road-divider"></div>
                 <!-- Bảng phải Big Road: Bắt đầu chạy từ cột số 8 -->
                 <div class="road-grid-table" id="big-road-container"></div>
@@ -412,8 +417,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            // Dữ liệu chạy ngầm toàn cục 24/7 (8 bộ bài xáo trộn)
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v2') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -434,7 +438,6 @@ def home():
                         }
                     }
                 }
-                // Xáo trộnFisher-Yates
                 for (let i = deck.length - 1; i > 0; i--) {
                     let j = Math.floor(Math.random() * (i + 1));
                     [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -450,7 +453,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v2', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -513,7 +516,6 @@ def home():
                 setTimeout(() => bCardsEl[0].classList.add('flipped'), 1500);
                 setTimeout(() => bCardsEl[1].classList.add('flipped'), 2100);
 
-                // CHỈ CHỐT KẾT QUẢ VÀ CẬP NHẬT BẢNG CẦU SAU KHI MỞ XONG TOÀN BỘ BÀI
                 setTimeout(() => {
                     let pScore = (getCardVal(p1.text) + getCardVal(p2.text)) % 10;
                     let bScore = (getCardVal(b1.text) + getCardVal(b2.text)) % 10;
@@ -571,7 +573,6 @@ def home():
                 document.getElementById('stat-b6').innerText = globalGame.statsCount.b6;
                 document.getElementById('stat-p7').innerText = globalGame.statsCount.p7;
 
-                // Cập nhật biểu đồ hình tròn tỷ lệ động 3 màu (Đỏ, Xanh, Lục)
                 let total = globalGame.statsCount.total;
                 if (total > 0) {
                     let bAngle = (globalGame.statsCount.b / total) * 360;
@@ -691,12 +692,12 @@ def home():
             }
 
             function renderScoreboard() {
-                // 1. Bảng Bead Plate bên trái (Đúng 7 cột đầu tiên)
+                // 1. Bảng Bead Plate bên trái: Đúng 7 cột, kích thước thu nhỏ hiển thị trọn vẹn 6 hàng
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 globalGame.scoreRecords.forEach(rec => {
                     let box = document.createElement('div');
-                    box.className = 'road-box';
+                    box.className = 'bead-box';
                     let div = document.createElement('div');
                     if (rec === 'P7') {
                         div.className = 'bead P7'; div.innerText = '7';
@@ -709,11 +710,11 @@ def home():
                     beadContainer.appendChild(box);
                 });
 
-                // 2. Bảng Big Road bên phải (Bắt đầu chạy từ cột số 8)
+                // 2. Bảng Big Road bên phải: Bắt đầu từ cột số 8
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
                 
-                let matrix = Array(6).fill(0).map(() => Array(45, 0).fill(null) && Array(45).fill(null));
+                let matrix = Array(6).fill(0).map(() => Array(45).fill(null));
                 let col = 0, row = 0;
                 let lastType = null;
                 let lastCellRef = null;
@@ -807,5 +808,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo chuẩn quốc tế đã khởi chạy...")
+        print("🤖 Bot Telegram tích hợp Baccarat chuẩn xác tuyệt đối đã khởi chạy...")
         app.run_polling()
