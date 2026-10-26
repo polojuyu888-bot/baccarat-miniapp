@@ -183,7 +183,7 @@ def home():
 
             .road-tables-container { 
                 display: flex; 
-                gap: 0px; 
+                gap: 6px; 
                 overflow: hidden; 
                 align-items: flex-start; 
                 height: 96px; 
@@ -193,7 +193,7 @@ def home():
             }
 
             /* Bảng Bead Plate bên trái: Đúng 7 cột, đủ 6 hàng dọc (15px * 6 = 90px) */
-            .bead-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 1px; height: 92px; align-content: start; }
+            .bead-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 1px; height: 92px; align-content: start; flex-shrink: 0; }
             .bead-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
             .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
             .bead.P { background: #3b82f6; color: #fff; }
@@ -202,8 +202,8 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* Bảng Big Road bên phải: Cố định 16 cột (bắt đầu từ cột 8 đến 23), đủ 6 hàng dọc */
-            .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-template-columns: repeat(16, 15px); gap: 1px; height: 92px; align-content: start; }
+            /* Bảng Big Road bên phải: Cố định 16 cột (bắt đầu đúng từ cột thứ 8), đủ 6 hàng dọc */
+            .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-template-columns: repeat(16, 15px); gap: 1px; height: 92px; align-content: start; flex-shrink: 0; }
             .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
             .road-dot { width: 12px; height: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
@@ -350,7 +350,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU: ĐÚNG 6 HÀNG DỌC, CỐ ĐỊNH BIG ROAD BẮT ĐẦU TỪ CỘT 8 -->
+        <!-- BẢNG SOI CẦU -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -378,9 +378,9 @@ def home():
             </div>
 
             <div class="road-tables-container">
-                <!-- Bảng trái Bead Plate: Đúng 7 cột, đủ 6 hàng dọc -->
+                <!-- Bảng Bead Plate bên trái: 7 cột -->
                 <div class="bead-grid-table" id="bead-plate-container"></div>
-                <!-- Bảng phải Big Road: Bắt đầu vẽ từ cột số 8 (index 7), cố định 16 cột -->
+                <!-- Bảng Big Road bên phải: Cố định bắt đầu từ cột số 8 -->
                 <div class="road-grid-table" id="big-road-container"></div>
             </div>
         </div>
@@ -420,8 +420,8 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            // Đổi phiên bản v10 để xóa sạch hoàn toàn bộ nhớ đệm cũ gây lỗi lệch cột
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v10') || 'null');
+            // Đổi phiên bản v11 để làm sạch hoàn toàn bộ nhớ đệm trình duyệt cũ
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v11') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -457,7 +457,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v10', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v11', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -699,7 +699,7 @@ def home():
             }
 
             function renderScoreboard() {
-                // 1. Bảng Bead Plate bên trái: Đúng 7 cột, đủ 6 hàng dọc
+                // 1. Bảng Bead Plate bên trái: 7 cột cố định
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 globalGame.scoreRecords.forEach(rec => {
@@ -717,7 +717,7 @@ def home():
                     beadContainer.appendChild(box);
                 });
 
-                // 2. Bảng Big Road bên phải: LUÔN BẮT ĐẦU TỪ CỘT THỨ 8 (index 7), cố định 16 cột hiển thị
+                // 2. Bảng Big Road bên phải: LUÔN BẮT ĐẦU TỪ CỘT THỨ 8 (index 7 của ma trận lớn)
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
                 
