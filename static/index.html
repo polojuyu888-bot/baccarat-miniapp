@@ -303,16 +303,12 @@
         }, 1000);
 
         function startDealingAndFlipping() {
-            // Reset cards to hidden
             document.getElementById('player-cards').innerHTML = '<div class="playing-card hidden">?</div><div class="playing-card hidden">?</div>';
             document.getElementById('banker-cards').innerHTML = '<div class="playing-card hidden">?</div><div class="playing-card hidden">?</div>';
 
             setTimeout(() => {
-                // Simulate card values generated
                 let pCards = [generateCard(), generateCard()];
                 let bCards = [generateCard(), generateCard()];
-                
-                // Hiển thị quân bài lật từ trái qua phải
                 revealCardsGradual(pCards, bCards);
             }, 1000);
         }
@@ -333,13 +329,11 @@
             pContainer.innerHTML = '';
             bContainer.innerHTML = '';
 
-            // Phát và lật lần lượt từng quân
             setTimeout(() => addAndFlipCard(pContainer, pCards[0]), 300);
             setTimeout(() => addAndFlipCard(bContainer, bCards[0]), 600);
             setTimeout(() => addAndFlipCard(pContainer, pCards[1]), 900);
             setTimeout(() => addAndFlipCard(bContainer, bCards[1]), 1200);
 
-            // Reset ván sau
             setTimeout(() => {
                 isBettingPhase = true;
                 timeLeft = 15;
