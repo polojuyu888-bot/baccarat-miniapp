@@ -166,13 +166,15 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* BẢNG SOI CẦU ĐẲNG CẤP HOÀN CHỈNH */
+            /* BẢNG SOI CẦU CHUẨN CƠ CẤU 7 CỘT + CỘT 8 TRỞ ĐI */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px 10px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
             
             .sc-stats-group { display: flex; align-items: center; gap: 10px; }
             .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; }
-            .stat-icon-circle { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; }
+            
+            /* Ô tròn tỷ lệ động 3 màu (Đỏ, Xanh, Lục) */
+            .ratio-pie { width: 16px; height: 16px; border-radius: 50%; display: inline-block; margin-bottom: 2px; border: 1px solid rgba(255,255,255,0.3); }
             
             .sc-menus { display: flex; gap: 12px; align-items: center; }
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
@@ -187,7 +189,6 @@ def home():
             .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 2px; height: 100px; align-content: start; }
             .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            /* Bảng trái Bead Plate (6 hàng, tự sang cột khi quá 6) */
             .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
@@ -195,7 +196,6 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
 
-            /* Bảng phải Big Road (Xếp theo hàng/chuỗi liên tiếp) */
             .road-dot { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
             .road-dot.p-solid { background: #3b82f6; }
             .road-dot.b-solid { background: #ef4444; }
@@ -344,7 +344,8 @@ def home():
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: linear-gradient(135deg, #ef4444 33%, #3b82f6 33%, #334155 66%);"></span><span style="color: #38bdf8;" id="stat-total">0</span></div>
+                    <!-- Ô tròn tỷ lệ động 3 màu (Đỏ, Xanh, Lục) -->
+                    <div class="stat-item"><span class="ratio-pie" id="ratio-pie-circle" style="background: conic-gradient(#ef4444 0deg 120deg, #3b82f6 120deg 240deg, #10b981 240deg 360deg);"></span><span style="color: #38bdf8;" id="stat-total">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span style="color: #ef4444;" id="stat-b">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6;"></span><span style="color: #38bdf8;" id="stat-p">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #10b981;"></span><span style="color: #4ade80;" id="stat-t">0</span></div>
@@ -362,14 +363,16 @@ def home():
                         <span>闲问路</span>
                     </div>
                     <div class="sc-menu-item" style="background: rgba(239,68,68,0.2); border: 1px solid #ef4444;">
-                        <span style="font-weight:bold; color:#f87171;">📋 好路投注 (Ván: <span id="round-count">0</span>/50)</span>
+                        <span style="font-weight:bold; color:#f87171;">📋 好路投注 (Ván: <span id="round-count">0</span>)</span>
                     </div>
                 </div>
             </div>
 
             <div class="road-tables-container">
-                <div class="road-grid-table" id="bead-plate-container"></div>
+                <!-- Bảng trái Bead Plate: 7 cột -->
+                <div class="road-grid-table" id="bead-plate-container" style="grid-auto-columns: 15px;"></div>
                 <div class="road-divider"></div>
+                <!-- Bảng phải Big Road: Bắt đầu chạy từ cột số 8 -->
                 <div class="road-grid-table" id="big-road-container"></div>
             </div>
         </div>
@@ -409,22 +412,45 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            // Lưu trữ game state toàn cục thông qua localStorage để chạy ngầm liên tục 24/7, không bị reset khi thoát bàn
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game') || 'null');
+            // Dữ liệu chạy ngầm toàn cục 24/7 (8 bộ bài xáo trộn)
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
                     totalRounds: 0,
                     statsCount: { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 },
-                    startTime: Date.now()
+                    shoe: generateShoe()
                 };
             }
 
+            function generateShoe() {
+                let deck = [];
+                const suits = ['♠', '♣', '♥', '♦'];
+                const vals = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+                for (let i = 0; i < 8; i++) {
+                    for (let s of suits) {
+                        for (let v of vals) {
+                            deck.push({ text: v + s, color: (s === '♥' || s === '♦') ? 'red' : '' });
+                        }
+                    }
+                }
+                // Xáo trộnFisher-Yates
+                for (let i = deck.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [deck[i], deck[j]] = [deck[j], deck[i]];
+                }
+                return deck;
+            }
+
+            if (!globalGame.shoe || globalGame.shoe.length < 10) {
+                globalGame.shoe = generateShoe();
+            }
+
             let timeLeft = 15;
-            let gamePhase = 'betting'; // 'betting', 'dealing', 'result'
+            let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -433,7 +459,6 @@ def home():
             }
             generateUniqueTable();
 
-            // Khôi phục giao diện ngay khi vào bàn từ dữ liệu chạy ngầm
             updateStatsDisplay();
             renderScoreboard();
             document.getElementById('round-count').innerText = globalGame.totalRounds;
@@ -448,7 +473,6 @@ def home():
                 document.getElementById('hanoi-time').innerText = `${h}:${m}:${s} (UTC+07)`;
             }, 1000);
 
-            // Đồng hồ đếm ngược vòng chơi chạy ngầm liên tục
             setInterval(() => {
                 if (gamePhase === 'betting') {
                     timeLeft--;
@@ -463,8 +487,13 @@ def home():
             }, 1000);
 
             function startRandomDealing() {
-                let p1 = getRandomCard(), p2 = getRandomCard();
-                let b1 = getRandomCard(), b2 = getRandomCard();
+                if (globalGame.shoe.length < 10) {
+                    globalGame.shoe = generateShoe();
+                }
+                let p1 = globalGame.shoe.pop();
+                let p2 = globalGame.shoe.pop();
+                let b1 = globalGame.shoe.pop();
+                let b2 = globalGame.shoe.pop();
 
                 document.getElementById('p-card-0').innerText = p1.text;
                 document.getElementById('p-card-0').className = `card-face card-front ${p1.color}`;
@@ -474,7 +503,7 @@ def home():
                 document.getElementById('b-card-0').innerText = b1.text;
                 document.getElementById('b-card-0').className = `card-face card-front ${b1.color}`;
                 document.getElementById('b-card-1').innerText = b2.text;
-                document.getElementById('b-card-1').className = `card-face card-front ${b1.color === 'red' ? 'red' : ''}`; // Sửa màu chuẩn
+                document.getElementById('b-card-1').className = `card-face card-front ${b2.color}`;
 
                 let pCardsEl = document.getElementById('p-cards-area').querySelectorAll('.playing-card');
                 let bCardsEl = document.getElementById('b-cards-area').querySelectorAll('.playing-card');
@@ -484,7 +513,7 @@ def home():
                 setTimeout(() => bCardsEl[0].classList.add('flipped'), 1500);
                 setTimeout(() => bCardsEl[1].classList.add('flipped'), 2100);
 
-                // QUAN TRỌNG: Chỉ khi mở xong toàn bộ bài (sau 2.8 giây), bảng cầu mới tính toán và hiển thị kết quả
+                // CHỈ CHỐT KẾT QUẢ VÀ CẬP NHẬT BẢNG CẦU SAU KHI MỞ XONG TOÀN BỘ BÀI
                 setTimeout(() => {
                     let pScore = (getCardVal(p1.text) + getCardVal(p2.text)) % 10;
                     let bScore = (getCardVal(b1.text) + getCardVal(b2.text)) % 10;
@@ -514,40 +543,12 @@ def home():
 
                     resolveBets(winner);
 
-                    if (globalGame.totalRounds >= 50) {
-                        gamePhase = 'shuffling';
-                        timeLeft = 45;
-                        document.getElementById('game-status').innerText = 'Đang rửa bài (Shuffle)...';
-                        setTimeout(() => {
-                            globalGame.totalRounds = 0;
-                            globalGame.scoreRecords = [];
-                            globalGame.statsCount = { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 };
-                            saveGlobalGame();
-                            updateStatsDisplay();
-                            renderScoreboard();
-                            gamePhase = 'betting';
-                            timeLeft = 15;
-                            document.getElementById('game-status').innerText = 'Đang đặt cược';
-                            document.getElementById('game-status').style.color = '#2ecc71';
-                            resetTableCards();
-                        }, 45000);
-                    } else {
-                        gamePhase = 'betting';
-                        timeLeft = 15;
-                        document.getElementById('game-status').innerText = 'Đang đặt cược';
-                        document.getElementById('game-status').style.color = '#2ecc71';
-                        resetTableCards();
-                    }
+                    gamePhase = 'betting';
+                    timeLeft = 15;
+                    document.getElementById('game-status').innerText = 'Đang đặt cược';
+                    document.getElementById('game-status').style.color = '#2ecc71';
+                    resetTableCards();
                 }, 3000);
-            }
-
-            function getRandomCard() {
-                const suits = ['♠', '♣', '♥', '♦'];
-                const vals = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-                let v = vals[Math.floor(Math.random() * vals.length)];
-                let s = suits[Math.floor(Math.random() * suits.length)];
-                let isRed = (s === '♥' || s === '♦');
-                return { text: v + s, color: isRed ? 'red' : '' };
             }
 
             function getCardVal(cardStr) {
@@ -569,6 +570,14 @@ def home():
                 document.getElementById('stat-t').innerText = globalGame.statsCount.t;
                 document.getElementById('stat-b6').innerText = globalGame.statsCount.b6;
                 document.getElementById('stat-p7').innerText = globalGame.statsCount.p7;
+
+                // Cập nhật biểu đồ hình tròn tỷ lệ động 3 màu (Đỏ, Xanh, Lục)
+                let total = globalGame.statsCount.total;
+                if (total > 0) {
+                    let bAngle = (globalGame.statsCount.b / total) * 360;
+                    let pAngle = bAngle + (globalGame.statsCount.p / total) * 360;
+                    document.getElementById('ratio-pie-circle').style.background = `conic-gradient(#ef4444 0deg ${bAngle}deg, #3b82f6 ${bAngle}deg ${pAngle}deg, #10b981 ${pAngle}deg 360deg)`;
+                }
             }
 
             function selectChip(val, el) {
@@ -681,8 +690,8 @@ def home():
                 });
             }
 
-            // Thuật toán Bead Plate bên trái: 6 hàng, hết 6 hàng tự chuyển sang cột sát bên cạnh (từ trái qua phải)
             function renderScoreboard() {
+                // 1. Bảng Bead Plate bên trái (Đúng 7 cột đầu tiên)
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 globalGame.scoreRecords.forEach(rec => {
@@ -700,11 +709,11 @@ def home():
                     beadContainer.appendChild(box);
                 });
 
-                // Thuật toán Big Road bên phải: Sắp xếp theo hàng ngang/chuỗi liên tiếp (khi đứt chuỗi chuyển hàng/cột mới)
+                // 2. Bảng Big Road bên phải (Bắt đầu chạy từ cột số 8)
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
                 
-                let matrix = Array(6).fill(0).map(() => Array(40).fill(null));
+                let matrix = Array(6).fill(0).map(() => Array(45, 0).fill(null) && Array(45).fill(null));
                 let col = 0, row = 0;
                 let lastType = null;
                 let lastCellRef = null;
@@ -741,7 +750,7 @@ def home():
                     }
                 });
 
-                for (let c = 0; c < 40; c++) {
+                for (let c = 0; c < 45; c++) {
                     for (let r = 0; r < 6; r++) {
                         let box = document.createElement('div');
                         box.className = 'road-box';
@@ -798,5 +807,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat chạy ngầm 24/7 hoàn hảo đã khởi chạy...")
+        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo chuẩn quốc tế đã khởi chạy...")
         app.run_polling()
