@@ -166,11 +166,10 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* Giao diện Bảng Soi Cầu Casino Đẳng Cấp (Giống hệt ảnh mẫu) */
+            /* BẢNG SOI CẦU CASINO VIP */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px 10px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
             
-            /* Dãy thống kê & menu đường cầu trên cùng */
             .sc-stats-group { display: flex; align-items: center; gap: 10px; }
             .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; }
             .stat-icon-circle { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; }
@@ -179,25 +178,34 @@ def home():
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            /* Khu vực chứa các bảng cầu thu nhỏ, gọn gàng, sát nhau */
-            .road-tables-container { display: flex; gap: 8px; overflow-x: auto; align-items: flex-start; height: 100px; padding-top: 2px; }
+            .road-tables-container { display: flex; gap: 10px; overflow-x: auto; align-items: flex-start; height: 105px; padding-top: 2px; }
             .road-tables-container::-webkit-scrollbar { height: 3px; }
             .road-tables-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
-            .bead-plate-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 2px; height: 90px; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 6px; }
-            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; flex-shrink: 0; }
+            .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 2px; height: 100px; align-content: start; }
+            .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
+
+            /* Bảng trái Bead Plate giữ nguyên hoàn hảo */
+            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
             .bead.P7 { background: #3b82f6; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1.5px solid #facc15; font-size: 6px; }
 
-            .mini-road-grid { display: grid; grid-template-columns: repeat(16, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 2px; height: 90px; }
-            .mini-dot { width: 10px; height: 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; border: 1.5px solid transparent; flex-shrink: 0; }
-            .mini-dot.p-ring { border-color: #3b82f6; background: transparent; }
-            .mini-dot.b-ring { border-color: #ef4444; background: transparent; }
-            .mini-dot.p-solid { background: #3b82f6; }
-            .mini-dot.b-solid { background: #ef4444; }
+            /* Big Road & Derived Road tích hợp vạch gạch chéo xanh lá khi ra Hòa */
+            .road-dot { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
+            .road-dot.p-solid { background: #3b82f6; }
+            .road-dot.b-solid { background: #ef4444; }
+
+            /* Dấu gạch chéo / màu xanh lá khi ra Tie đè lên ô trước */
+            .tie-slash { position: absolute; width: 15px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
+
+            .derived-dot { width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid transparent; position: relative; }
+            .derived-dot.p-ring { border-color: #3b82f6; }
+            .derived-dot.b-ring { border-color: #ef4444; }
+            .derived-dot.p-solid { background: #3b82f6; }
+            .derived-dot.b-solid { background: #ef4444; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -337,10 +345,9 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU CHUẨN ĐẸP HOÀN HẢO Y HỆT ẢNH MẪU -->
+        <!-- BẢNG SOI CẦU TÍCH HỢP VẠCH GẠCH CHÉO HÒA -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
-                <!-- Dãy thống kê màu sắc khớp đúng 100% chuẩn ảnh mẫu -->
                 <div class="sc-stats-group">
                     <div class="stat-item"><span class="stat-icon-circle" style="background: linear-gradient(135deg, #ef4444 33%, #3b82f6 33%, #334155 66%);"></span><span style="color: #38bdf8;" id="stat-total">0</span></div>
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span style="color: #ef4444;" id="stat-b">0</span></div>
@@ -350,7 +357,6 @@ def home():
                     <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span style="color: #38bdf8;" id="stat-p7">0</span></div>
                 </div>
 
-                <!-- Menu các bảng đường cầu phía trên góc phải -->
                 <div class="sc-menus">
                     <div class="sc-menu-item">
                         <div class="sc-menu-icons"><span style="width:5px; height:5px; background:#3b82f6; border-radius:50%;"></span><span style="width:5px; height:5px; background:#ef4444; border-radius:50%;"></span><span style="width:4px; height:4px; background:#ef4444; transform:rotate(45deg); display:inline-block;"></span></div>
@@ -366,11 +372,10 @@ def home():
                 </div>
             </div>
 
-            <!-- Các bảng cầu xếp gọn gàng, trực quan -->
             <div class="road-tables-container">
-                <div class="bead-plate-grid" id="bead-plate-container"></div>
-                <div class="mini-road-grid" id="big-road-container"></div>
-                <div class="mini-road-grid" id="derived-road-1"></div>
+                <div class="road-grid-table" id="bead-plate-container"></div>
+                <div class="road-grid-table" id="big-road-container"></div>
+                <div class="road-grid-table" id="derived-road-1"></div>
             </div>
         </div>
 
@@ -660,45 +665,108 @@ def home():
                 });
             }
 
+            // Thuật toán Big Road xử lý Tie (Thêm vạch gạch chéo xanh lá vào ô trước)
+            function calculateBigRoad(records) {
+                let grid = Array(6).fill(0).map(() => Array(40).fill(null));
+                let col = 0, row = 0;
+                let lastType = null;
+                let lastCellRef = null;
+
+                records.forEach(rec => {
+                    let base = rec.startsWith('P') ? 'P' : (rec.startsWith('B') ? 'B' : 'T');
+                    
+                    if (base === 'T') {
+                        if (lastCellRef) {
+                            lastCellRef.tieCount = (lastCellRef.tieCount || 0) + 1;
+                        }
+                        return;
+                    }
+
+                    if (lastType === null) {
+                        let cell = { type: rec, base: base, tieCount: 0 };
+                        grid[row][col] = cell;
+                        lastCellRef = cell;
+                        lastType = base;
+                    } else if (base === lastType) {
+                        if (row + 1 < 6 && grid[row + 1][col] === null) {
+                            row++;
+                        } else {
+                            col++;
+                        }
+                        let cell = { type: rec, base: base, tieCount: 0 };
+                        grid[row][col] = cell;
+                        lastCellRef = cell;
+                    } else {
+                        col = 0;
+                        while (grid[0][col] !== null) col++;
+                        row = 0;
+                        let cell = { type: rec, base: base, tieCount: 0 };
+                        grid[row][col] = cell;
+                        lastCellRef = cell;
+                        lastType = base;
+                    }
+                });
+                return grid;
+            }
+
             function renderScoreboard() {
-                // Render Bead Plate (Bảng chính bên trái)
+                // 1. Bead Plate bên trái (Giữ nguyên hoàn hảo)
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 scoreRecords.forEach(rec => {
+                    let box = document.createElement('div');
+                    box.className = 'road-box';
                     let div = document.createElement('div');
                     if (rec === 'P7') {
-                        div.className = 'bead P7';
-                        div.innerText = '7';
+                        div.className = 'bead P7'; div.innerText = '7';
                     } else if (rec === 'B6') {
-                        div.className = 'bead B6';
-                        div.innerText = '6';
+                        div.className = 'bead B6'; div.innerText = '6';
                     } else {
-                        div.className = `bead ${rec}`;
-                        div.innerText = rec === 'T' ? 'T' : rec;
+                        div.className = `bead ${rec.charAt(0)}`; div.innerText = rec === 'T' ? 'T' : rec.charAt(0);
                     }
-                    beadContainer.appendChild(div);
+                    box.appendChild(div);
+                    beadContainer.appendChild(box);
                 });
 
-                // Render Big Road mô phỏng trực quan
+                // 2. Big Road chính giữa (Có vạch gạch chéo xanh khi ra Tie)
                 let bigRoadContainer = document.getElementById('big-road-container');
                 bigRoadContainer.innerHTML = '';
-                scoreRecords.forEach(rec => {
-                    let dot = document.createElement('div');
-                    let base = (rec === 'P' || rec === 'P7') ? 'p' : ((rec === 'B' || rec === 'B6') ? 'b' : 't');
-                    dot.className = `mini-dot ${base}-solid`;
-                    bigRoadContainer.appendChild(dot);
-                });
+                let matrix = calculateBigRoad(scoreRecords);
+                for (let r = 0; r < 6; r++) {
+                    for (let c = 0; c < 35; c++) {
+                        let box = document.createElement('div');
+                        box.className = 'road-box';
+                        let cell = matrix[r][c];
+                        if (cell) {
+                            let dot = document.createElement('div');
+                            dot.className = `road-dot ${cell.base.toLowerCase()}-solid`;
+                            if (cell.type === 'P7') dot.innerText = '7';
+                            if (cell.type === 'B6') dot.innerText = '6';
+                            
+                            // Nếu có ván Hòa (Tie), thêm vạch gạch chéo xanh lá
+                            for (let i = 0; i < cell.tieCount; i++) {
+                                let slash = document.createElement('div');
+                                slash.className = 'tie-slash';
+                                dot.appendChild(slash);
+                            }
+                            box.appendChild(dot);
+                        }
+                        bigRoadContainer.appendChild(box);
+                    }
+                }
 
-                // Render Derived Road mô phỏng
+                // 3. Derived Road bên phải
                 let derivedContainer = document.getElementById('derived-road-1');
                 derivedContainer.innerHTML = '';
                 scoreRecords.forEach((rec, idx) => {
-                    if (idx % 2 === 0) {
-                        let dot = document.createElement('div');
-                        let base = (idx % 4 === 0) ? 'p-ring' : 'b-ring';
-                        dot.className = `mini-dot ${base}`;
-                        derivedContainer.appendChild(dot);
-                    }
+                    if (rec === 'T') return;
+                    let box = document.createElement('div');
+                    box.className = 'road-box';
+                    let dot = document.createElement('div');
+                    let isP = rec.startsWith('P');
+                    dot.className = `derived-dot ${idx % 2 === 0 ? (isP ? 'p-ring' : 'b-ring') : (isP ? 'p-solid' : 'b-solid')}`;
+                    box.appendChild(dot);
+                    derivedContainer.appendChild(box);
                 });
             }
 
@@ -737,5 +805,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat phong cách Casino VIP đã khởi chạy thành công...")
+        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo tuyệt đối đã khởi chạy thành công...")
         app.run_polling()
