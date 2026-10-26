@@ -6,7 +6,7 @@ from datetime import datetime
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse
 import uvicorn
 import threading
 
@@ -42,6 +42,7 @@ def generate_casino_id(cursor):
         if not cursor.fetchone():
             return new_id
 
+# 0. Lệnh /start chào mừng và cấp ID 9 chữ số ngẫu nhiên (Số dư mặc định 0 cho người mới)
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     init_db()
     user = update.effective_user
@@ -81,6 +82,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     await update.message.reply_text(welcome_text, parse_mode="Markdown")
 
+# Lệnh tra cứu ID của người chơi dành cho Admin (/id @username)
 async def get_id_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -116,6 +118,7 @@ async def get_id_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown"
     )
 
+# 1. Điểm danh nhận thưởng USDT hằng ngày (Mỗi ngày 3 USDT)
 async def checkin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     init_db()
     user = update.effective_user
@@ -162,6 +165,7 @@ async def checkin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     msg = f"您于 {now_time} 成功获得签到奖励 3 USDT，现钱包余额 {new_balance} USDT"
     await update.message.reply_text(msg)
 
+# 2. Cộng USDT bằng Mã ID 9 số
 async def add_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -212,6 +216,7 @@ async def add_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         print(f"Không thể gửi tin nhắn cho user: {e}")
 
+# 3. Trừ USDT bằng Mã ID 9 số
 async def sub_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -262,6 +267,7 @@ async def sub_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         print(f"Không thể gửi tin nhắn cho user: {e}")
 
+# 4. Đóng băng tài sản
 async def freeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -297,6 +303,7 @@ async def freeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(f"❄️ Đã **đóng băng** tài khoản ID: `{casino_id}` thành công!", parse_mode="Markdown")
 
+# 5. Mở băng tài sản
 async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     admin_id = str(update.effective_user.id)
     if not is_admin(admin_id):
@@ -336,14 +343,101 @@ async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except:
         pass
 
-# FastAPI: Tự động chuyển hướng (Redirect) Mini App thẳng tới trang web sòng bài chuyên nghiệp của bạn
+# FastAPI: Giao diện Mini App Baccarat chuyên nghiệp độc quyền nội bộ
 web_app = FastAPI()
 
-@web_app.get("/")
+@web_app.get("/", response_class=HTMLResponse)
 def home():
-    # Thay link dưới đây bằng đúng đường dẫn sòng bài thực tế của bạn (ví dụ: https://8gyl88.com)
-    target_casino_url = "https://8gyl88.com"
-    return RedirectResponse(url=target_casino_url)
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Baccarat Live Casino</title>
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+        <style>
+            body { background-color: #8b0000; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 0; user-select: none; }
+            .header { background: #111; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #d4af37; }
+            .balance-box { background: #222; padding: 5px 12px; border-radius: 20px; border: 1px solid #d4af37; color: #d4af37; font-weight: bold; font-size: 14px; }
+            .table-container { background: #0b6623; border: 6px solid #d4af37; border-radius: 15px; margin: 10px; padding: 15px; box-shadow: inset 0 0 20px rgba(0,0,0,0.6); text-align: center; }
+            .bet-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+            .bet-btn { padding: 20px; font-size: 18px; font-weight: bold; border-radius: 10px; border: none; cursor: pointer; color: white; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+            .btn-player { background: #1e3a8a; border: 2px solid #60a5fa; }
+            .btn-banker { background: #991b1b; border: 2px solid #f87171; }
+            .btn-tie { background: #14532d; border: 2px solid #4ade80; grid-column: span 2; padding: 12px; }
+            .chip-container { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
+            .chip { width: 45px; height: 45px; border-radius: 50%; background: #d4af37; color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; border: 3px dashed #fff; cursor: pointer; font-size: 12px; }
+            .chip.active { border-style: solid; transform: scale(1.1); box-shadow: 0 0 10px #ff0; }
+            .roadmap { background: #1a1a1a; border-radius: 8px; margin: 10px; padding: 10px; height: 80px; display: flex; gap: 5px; overflow-x: auto; align-items: center; border: 1px solid #444; }
+            .road-item { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; flex-shrink: 0; }
+            .road-P { background: #3b82f6; color: #fff; }
+            .road-B { background: #ef4444; color: #fff; }
+            .road-T { background: #22c55e; color: #fff; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <span style="font-weight: bold; color: #d4af37;">👑 VIP BACCARAT TABLE 1</span>
+            <div class="balance-box">💰 <span id="user-balance">0.00</span> USDT</div>
+        </div>
+
+        <div class="roadmap" id="roadmap">
+            <div class="road-item road-B">庄</div>
+            <div class="road-item road-P">闲</div>
+            <div class="road-item road-P">闲</div>
+            <div class="road-item road-B">庄</div>
+            <div class="road-item road-T">和</div>
+            <div class="road-item road-B">庄</div>
+        </div>
+
+        <div class="table-container">
+            <h3 style="margin: 0 0 10px 0; color: #ffd700; text-shadow: 1px 1px 2px #000;">请 投 注 (PLACE YOUR BETS)</h3>
+            <div style="font-size: 13px; color: #e2e8f0; margin-bottom: 10px;">当前选中筹码: <b id="selected-chip" style="color: #ffd700;">10 USDT</b></div>
+            
+            <div class="chip-container">
+                <div class="chip active" onclick="selectChip(1, this)">1</div>
+                <div class="chip" onclick="selectChip(5, this)">5</div>
+                <div class="chip" onclick="selectChip(10, this)" style="background: #3b82f6; color:#fff;">10</div>
+                <div class="chip" onclick="selectChip(50, this)" style="background: #9333ea; color:#fff;">50</div>
+                <div class="chip" onclick="selectChip(100, this)" style="background: #ef4444; color:#fff;">100</div>
+            </div>
+
+            <div class="bet-grid">
+                <button class="bet-btn btn-player" onclick="placeBet('PLAYER')">
+                    闲 (PLAYER)<br><span style="font-size: 12px; font-weight: normal;">1 : 1</span>
+                </button>
+                <button class="bet-btn btn-banker" onclick="placeBet('BANKER')">
+                    庄 (BANKER)<br><span style="font-size: 12px; font-weight: normal;">1 : 0.95</span>
+                </button>
+                <button class="bet-btn btn-tie" onclick="placeBet('TIE')">
+                    和 (TIE) — 1 : 8
+                </button>
+            </div>
+        </div>
+
+        <script>
+            let tg = window.Telegram.WebApp;
+            tg.expand();
+
+            let currentChip = 10;
+            let balance = 100.0; // Sẽ đồng bộ dữ liệu thực tế từ Bot
+
+            function selectChip(amount, element) {
+                document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+                element.classList.add('active');
+                currentChip = amount;
+                document.getElementById('selected-chip').innerText = amount + ' USDT';
+            }
+
+            function placeBet(type) {
+                alert('成功下注 ' + currentChip + ' USDT 选 ' + type);
+            }
+        </script>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content, status_code=200)
 
 def run_web():
     uvicorn.run(web_app, host="0.0.0.0", port=int(os.getenv("PORT", 10000)))
