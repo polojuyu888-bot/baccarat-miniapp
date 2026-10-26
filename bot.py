@@ -94,68 +94,66 @@ def home():
             * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
             body { background-color: #580d19; color: #fff; overflow: hidden; display: flex; flex-direction: column; height: 100vh; user-select: none; }
             
-            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); padding: 3px 8px; font-size: 10px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); padding: 3px 8px; font-size: 10px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
             .top-left, .top-right { display: flex; align-items: center; gap: 5px; }
             .btn-exit { background: none; border: none; color: #fff; font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 3px; }
             .balance-box { background: rgba(255,255,255,0.15); padding: 1px 5px; border-radius: 8px; display: flex; align-items: center; gap: 3px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            /* TỈ LỆ KHUNG DEALER PHÍA TRÊN CHUẨN MẪU ẢNH 2 */
-            .dealer-screen { position: relative; width: 100%; height: 105px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
+            /* PHẦN 1: LIVE VIDEO - CHIẾM ĐÚNG 40% CHIỀU CAO */
+            .dealer-screen { position: relative; width: 100%; height: 40vh; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; flex-shrink: 0; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
-            .table-info-overlay { position: absolute; top: 3px; left: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; border-left: 2px solid #e74c3c; }
-            .time-box { position: absolute; top: 3px; right: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; text-align: right; }
+            .table-info-overlay { position: absolute; top: 4px; left: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 3px; font-size: 9px; border-left: 2px solid #e74c3c; }
+            .time-box { position: absolute; top: 4px; right: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 3px; font-size: 9px; text-align: right; }
 
-            .cards-on-table { position: absolute; bottom: 3px; width: 100%; display: flex; justify-content: space-around; padding: 0 10px; z-index: 5; pointer-events: none; }
-            .table-side { display: flex; gap: 2px; align-items: center; background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px; }
+            .cards-on-table { position: absolute; bottom: 6px; width: 100%; display: flex; justify-content: space-around; padding: 0 10px; z-index: 5; pointer-events: none; }
+            .table-side { display: flex; gap: 3px; align-items: center; background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; }
             
-            .playing-card { width: 16px; height: 24px; perspective: 1000px; }
+            .playing-card { width: 18px; height: 26px; perspective: 1000px; }
             .card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s ease; }
             .playing-card.flipped .card-inner { transform: rotateY(180deg); }
-            .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 2px; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+            .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 2px; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
             .card-back { background: #2563eb; color: transparent; border: 1px solid #fff; }
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            /* KHU VỰC ĐẶT CƯỢC THU GỌN GÀNG, ĐƯỜNG KẺ CHUẨN ẢNH MẪU */
-            .game-panel { background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; gap: 2px; }
-            .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 8px; color: #f3a9b3; padding: 0 2px; }
+            /* PHẦN 2: KHUNG CÁ CƯỢC - CHIẾM ĐÚNG 40% CHIỀU CAO */
+            .game-panel { width: 100%; height: 40vh; background: #580d19; padding: 4px 6px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
+            .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: #f3a9b3; padding: 0 2px; }
             
-            /* BẢNG CƯỢC PHỤ (5 Ô TRÊN) */
-            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #7a1523; border-radius: 2px; overflow: hidden; }
-            .side-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #7a1523; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; min-height: 30px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #7a1523; border-radius: 3px; overflow: hidden; }
+            .side-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #7a1523; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .side-spot:last-child { border-right: none; }
-            .s-title { font-size: 8px; font-weight: bold; }
+            .s-title { font-size: 9px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
             .s-title.orange { color: #fb923c; }
-            .s-rate { font-size: 7px; color: #fff; margin-top: 1px; }
-            .s-status { font-size: 5px; color: #9aa0a6; margin-top: 1px; }
+            .s-rate { font-size: 8px; color: #fff; margin-top: 1px; }
+            .s-status { font-size: 6px; color: #9aa0a6; }
 
-            /* BẢNG CƯỢC CHÍNH (PLAYER - TIE - BANKER) */
-            .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #7a1523; border-radius: 2px; overflow: hidden; }
-            .main-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #7a1523; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; min-height: 38px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 1px; background: rgba(0,0,0,0.35); border: 1px solid #7a1523; border-radius: 3px; overflow: hidden; }
+            .main-spot { background: rgba(0,0,0,0.2); border-right: 1px solid #7a1523; padding: 4px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .main-spot:last-child { border-right: none; }
-            .m-name { font-size: 12px; font-weight: bold; }
+            .m-name { font-size: 13px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
-            .m-rate { font-size: 9px; font-weight: bold; color: #fff; margin: 1px 0; }
-            .m-stats { font-size: 6px; color: #cbd5e1; }
+            .m-rate { font-size: 10px; font-weight: bold; color: #fff; margin: 1px 0; }
+            .m-stats { font-size: 7px; color: #cbd5e1; }
             
-            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
+            .my-bet-tag { position: absolute; bottom: 2px; right: 3px; font-size: 8px; background: #f1c40f; color: #000; padding: 1px 4px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
-            .action-row { display: flex; justify-content: space-between; gap: 3px; }
-            .action-btn { flex: 1; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15); padding: 2px; border-radius: 2px; color: #fff; font-size: 8px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
+            .action-row { display: flex; justify-content: space-between; gap: 4px; }
+            .action-btn { flex: 1; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.15); padding: 3px; border-radius: 3px; color: #fff; font-size: 9px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
 
-            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.45); padding: 2px 5px; border-radius: 4px; justify-content: space-between; gap: 2px; }
-            .menu-chip-btn { width: 18px; height: 18px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 8px; }
+            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.45); padding: 3px 6px; border-radius: 5px; justify-content: space-between; gap: 3px; }
+            .menu-chip-btn { width: 22px; height: 22px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 9px; }
             
-            .chips-scroll { display: flex; gap: 3px; overflow-x: auto; scrollbar-width: none; align-items: center; }
+            .chips-scroll { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; align-items: center; }
             .chips-scroll::-webkit-scrollbar { display: none; }
             
-            .chip { width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 7px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+            .chip { width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 8px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
             .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 5px #f1c40f; }
             .c-10 { background: #3b82f6; color: #fff; }
             .c-20 { background: #10b981; color: #fff; }
@@ -164,26 +162,26 @@ def home():
             .c-200 { background: #ef4444; color: #fff; }
             .c-2k { background: #eab308; color: #000; }
 
-            .commission-toggle { display: flex; align-items: center; gap: 2px; font-size: 7px; cursor: pointer; }
-            .toggle-switch { width: 16px; height: 9px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
-            .toggle-switch::before { content: ''; position: absolute; width: 5px; height: 5px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+            .commission-toggle { display: flex; align-items: center; gap: 2px; font-size: 8px; cursor: pointer; }
+            .toggle-switch { width: 18px; height: 10px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
+            .toggle-switch::before { content: ''; position: absolute; width: 6px; height: 6px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
             input.comm-input { display: none; }
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
-            input.comm-input:checked + .toggle-switch::before { transform: translateX(7px); }
+            input.comm-input:checked + .toggle-switch::before { transform: translateX(8px); }
 
-            /* BẢNG SOI CẦU: GỌN GÀNG, HIỂN THỊ ĐỦ 6 HÀNG X 27 CỘT VÀ ĐƯỜNG PHÁI SINH DƯỚI CÙNG */
-            .scoreboard-section { flex: 1; background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1px; margin-bottom: 1px; }
+            /* PHẦN 3: SOI CẦU (ROADMAP) - CHIẾM ĐÚNG 20% CHIỀU CAO */
+            .scoreboard-section { width: 100%; height: 20vh; background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 2px 6px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; flex-shrink: 0; }
+            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1px; }
             
-            .sc-stats-group { display: flex; align-items: center; gap: 5px; }
+            .sc-stats-group { display: flex; align-items: center; gap: 6px; }
             .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 7px; font-weight: bold; color: #ffffff !important; }
             .stat-item span { color: #ffffff !important; }
 
             .stat-icon-circle { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
             .ratio-pie { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
 
-            .sc-menus { display: flex; gap: 3px; align-items: center; }
-            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 6px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 3px; border-radius: 2px; }
+            .sc-menus { display: flex; gap: 4px; align-items: center; }
+            .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 6px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 2px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
             .grid-scroll-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; }
@@ -192,18 +190,18 @@ def home():
             /* LƯỚI MA TRẬN 6 HÀNG X 27 CỘT CHUẨN XÁC */
             .master-grid-table { 
                 display: grid; 
-                grid-template-rows: repeat(6, 13px); 
-                grid-template-columns: repeat(27, 13px); 
+                grid-template-rows: repeat(6, 12px); 
+                grid-template-columns: repeat(27, 12px); 
                 gap: 0px; 
-                height: 78px; 
-                width: 351px; 
+                height: 72px; 
+                width: 324px; 
                 align-content: start; 
                 background-image: radial-gradient(rgba(255, 255, 255, 0.28) 1.1px, transparent 1.1px);
-                background-size: 13px 13px;
+                background-size: 12px 12px;
                 margin: 0 auto;
             }
 
-            .grid-cell { width: 13px; height: 13px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .grid-cell { width: 12px; height: 12px; display: flex; justify-content: center; align-items: center; position: relative; }
 
             .bead { width: 10px; height: 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: 900; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); line-height: 1; }
             .bead.P { background: #3b82f6; color: #fff; }
@@ -219,13 +217,13 @@ def home():
             .natural-dot { width: 2.5px; height: 2.5px; background: #fef08a; border-radius: 50%; position: absolute; }
             .corner-dot-p { position: absolute; bottom: -1px; right: -1px; width: 2.5px; height: 2.5px; background: #3b82f6; border-radius: 50%; z-index: 4; }
             .corner-dot-b { position: absolute; top: -1px; left: -1px; width: 2.5px; height: 2.5px; background: #ef4444; border-radius: 50%; z-index: 4; }
-            .tie-slash { position: absolute; width: 13px; height: 1.5px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
+            .tie-slash { position: absolute; width: 12px; height: 1.5px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
 
             .derived-ring { width: 5px; height: 5px; border-radius: 50%; position: relative; z-index: 3; }
             .derived-ring.red { border: 1px solid #ef4444; background: transparent; }
             .derived-ring.blue { border: 1px solid #3b82f6; background: transparent; }
             
-            .derived-bar { width: 4.5px; height: 4.5px; position: relative; z-index: 3; transform: rotate(45deg); }
+            .derived-bar { width: 4px; height: 4px; position: relative; z-index: 3; transform: rotate(45deg); }
             .derived-bar.red { border-right: 1px solid #ef4444; border-bottom: 1px solid #ef4444; }
             .derived-bar.blue { border-right: 1px solid #3b82f6; border-bottom: 1px solid #3b82f6; }
 
@@ -255,6 +253,7 @@ def home():
             </div>
         </div>
 
+        <!-- PHẦN 1: LIVE VIDEO (40%) -->
         <div class="dealer-screen">
             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Dealer Live">
             <div class="table-info-overlay">
@@ -280,6 +279,7 @@ def home():
             </div>
         </div>
 
+        <!-- PHẦN 2: KHUNG CÁ CƯỢC (40%) -->
         <div class="game-panel">
             <div class="round-info-bar">
                 <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
@@ -287,7 +287,6 @@ def home():
                 <span>Hạn mức: 10~20000</span>
             </div>
 
-            <!-- BẢNG CƯỢC PHỤ -->
             <div class="side-grid">
                 <div class="side-spot" onclick="placeBet('player_pair')">
                     <div class="s-title cyan">闲对</div>
@@ -321,7 +320,6 @@ def home():
                 </div>
             </div>
 
-            <!-- BẢNG CƯỢC CHÍNH CHUẨN XÁC MẪU ẢNH 2 -->
             <div class="main-grid">
                 <div class="main-spot" onclick="placeBet('player')">
                     <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: #94a3b8;">36%</span>
@@ -369,7 +367,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU -->
+        <!-- PHẦN 3: SOI CẦU / ROADMAP (20%) -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -436,7 +434,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v24') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v26') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -472,7 +470,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v24', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v26', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
