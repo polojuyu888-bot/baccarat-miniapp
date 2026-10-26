@@ -118,12 +118,12 @@ def home():
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (ĐÃ BỎ HOÀN TOÀN KHUNG VIỀN Ô CƯỢC) */
+            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (HOÀN TOÀN KHÔNG CÓ KHUNG VIỀN Ô CƯỢC, CHỈ CÒN CHỮ NỔI) */
             .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 3px 6px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 8px; color: #f3a9b3; padding: 0 2px; }
             
             .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: transparent; }
-            .side-spot { background: rgba(0,0,0,0.25); border: none; border-radius: 2px; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-spot { background: transparent; border: none; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .s-title { font-size: 8px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
@@ -132,7 +132,7 @@ def home():
             .s-status { font-size: 5px; color: #9aa0a6; }
 
             .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 3px; background: transparent; }
-            .main-spot { background: rgba(0,0,0,0.25); border: none; border-radius: 2px; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .main-spot { background: transparent; border: none; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .m-name { font-size: 11px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
@@ -277,7 +277,7 @@ def home():
             </div>
         </div>
 
-        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (ĐÃ BỎ KHUNG VIỀN HOÀN TOÀN) -->
+        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (HOÀN TOÀN KHÔNG CÓ KHUNG VIỀN Ô CƯỢC) -->
         <div class="game-panel">
             <div class="round-info-bar">
                 <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
@@ -433,7 +433,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v30') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v31') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -469,7 +469,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v30', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v31', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
