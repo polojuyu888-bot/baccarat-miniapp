@@ -94,13 +94,13 @@ def home():
             * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
             body { background-color: #0b1016; color: #fff; overflow: hidden; display: flex; flex-direction: column; height: 100vh; user-select: none; }
             
-            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.75); padding: 5px 10px; font-size: 11px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .top-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.75); padding: 4px 8px; font-size: 11px; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.1); }
             .top-left, .top-right { display: flex; align-items: center; gap: 6px; }
-            .btn-exit { background: none; border: none; color: #fff; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+            .btn-exit { background: none; border: none; color: #fff; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
             .balance-box { background: rgba(255,255,255,0.12); padding: 2px 6px; border-radius: 10px; display: flex; align-items: center; gap: 4px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            .dealer-screen { position: relative; width: 100%; height: 135px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
+            .dealer-screen { position: relative; width: 100%; height: 120px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
             .table-info-overlay { position: absolute; top: 4px; left: 6px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; font-size: 9px; border-left: 3px solid #e74c3c; }
@@ -109,7 +109,7 @@ def home():
             .cards-on-table { position: absolute; bottom: 4px; width: 100%; display: flex; justify-content: space-around; padding: 0 10px; z-index: 5; pointer-events: none; }
             .table-side { display: flex; gap: 3px; align-items: center; background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 4px; }
             
-            .playing-card { width: 20px; height: 28px; perspective: 1000px; }
+            .playing-card { width: 18px; height: 26px; perspective: 1000px; }
             .card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s ease; }
             .playing-card.flipped .card-inner { transform: rotateY(180deg); }
             .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 3px; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
@@ -117,40 +117,42 @@ def home():
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            .game-panel { flex: 1; display: flex; flex-direction: column; background: #680d1b; padding: 3px; justify-content: space-between; overflow: hidden; }
-            .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #f3a9b3; padding: 0 4px; }
+            .game-panel { flex: 1; display: flex; flex-direction: column; background: #600b17; padding: 2px 4px; justify-content: space-between; overflow: hidden; }
+            .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: #f3a9b3; padding: 0 2px; }
             
-            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin: 1px 0; }
-            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 1px; text-align: center; cursor: pointer; position: relative; min-height: 36px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; }
+            .side-spot { background: rgba(0,0,0,0.25); border-right: 1px solid rgba(255,255,255,0.15); padding: 2px 1px; text-align: center; cursor: pointer; position: relative; min-height: 32px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-spot:last-child { border-right: none; }
             .s-title { font-size: 8px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
             .s-title.orange { color: #fb923c; }
             .s-rate { font-size: 7px; color: #fff; margin: 1px 0; }
-            .s-sub { font-size: 5px; color: #fca5a5; line-height: 1; }
+            .s-sub { font-size: 5px; color: #fca5a5; line-height: 1; transform: scale(0.9); }
             .s-status { font-size: 5px; color: #9aa0a6; }
 
-            .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; margin-bottom: 1px; }
-            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .m-name { font-size: 12px; font-weight: bold; }
+            .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; overflow: hidden; margin: 1px 0; }
+            .main-spot { background: rgba(0,0,0,0.25); border-right: 1px solid rgba(255,255,255,0.15); padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 36px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .main-spot:last-child { border-right: none; }
+            .m-name { font-size: 11px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
             .m-rate { font-size: 9px; font-weight: bold; color: #fff; }
-            .m-stats { font-size: 7px; color: #cbd5e1; }
+            .m-stats { font-size: 6px; color: #cbd5e1; }
             
-            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 8px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 3px; font-weight: bold; display: none; z-index: 5; }
+            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 3px; font-weight: bold; display: none; z-index: 5; }
 
-            .action-row { display: flex; justify-content: space-between; gap: 4px; margin-bottom: 1px; }
-            .action-btn { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 2px; border-radius: 3px; color: #fff; font-size: 9px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
+            .action-row { display: flex; justify-content: space-between; gap: 3px; margin-bottom: 1px; }
+            .action-btn { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 2px; border-radius: 3px; color: #fff; font-size: 8px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
 
-            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.5); padding: 3px 6px; border-radius: 6px; justify-content: space-between; gap: 3px; }
-            .menu-chip-btn { width: 22px; height: 22px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 10px; }
+            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.5); padding: 2px 5px; border-radius: 5px; justify-content: space-between; gap: 3px; }
+            .menu-chip-btn { width: 20px; height: 20px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 9px; }
             
             .chips-scroll { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; align-items: center; }
             .chips-scroll::-webkit-scrollbar { display: none; }
             
-            .chip { width: 24px; height: 24px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 9px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+            .chip { width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 8px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
             .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 6px #f1c40f; }
             .c-10 { background: #3b82f6; color: #fff; }
             .c-20 { background: #10b981; color: #fff; }
@@ -160,22 +162,22 @@ def home():
             .c-2k { background: #eab308; color: #000; }
 
             .commission-toggle { display: flex; align-items: center; gap: 2px; font-size: 8px; cursor: pointer; }
-            .toggle-switch { width: 20px; height: 11px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
-            .toggle-switch::before { content: ''; position: absolute; width: 7px; height: 7px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+            .toggle-switch { width: 18px; height: 10px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
+            .toggle-switch::before { content: ''; position: absolute; width: 6px; height: 6px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
             input.comm-input { display: none; }
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
-            input.comm-input:checked + .toggle-switch::before { transform: translateX(9px); }
+            input.comm-input:checked + .toggle-switch::before { transform: translateX(8px); }
 
-            /* BẢNG SOI CẦU CHIỀU CAO 175PX */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 175px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+            /* BẢNG SOI CẦU: CAO 190PX ĐỂ CHỨA TRỌN VẸN CÁC ĐƯỜNG PHÁI SINH Ở PHÍA DƯỚI */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 3px 6px; height: 190px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; margin-bottom: 2px; }
             
             .sc-stats-group { display: flex; align-items: center; gap: 6px; }
-            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; font-weight: bold; color: #ffffff !important; }
+            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 8px; font-weight: bold; color: #ffffff !important; }
             .stat-item span { color: #ffffff !important; }
 
-            .stat-icon-circle { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
-            .ratio-pie { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
+            .stat-icon-circle { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
+            .ratio-pie { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
 
             .sc-menus { display: flex; gap: 4px; align-items: center; }
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 7px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 3px; }
@@ -184,48 +186,47 @@ def home():
             .grid-scroll-wrapper { width: 100%; overflow-x: auto; scrollbar-width: none; }
             .grid-scroll-wrapper::-webkit-scrollbar { display: none; }
 
-            /* LƯỚI MA TRẬN 6 HÀNG X 27 CỘT CHUẨN XÁC */
+            /* LƯỚI MA TRẬN 6 HÀNG X 27 CỘT (MỖI Ô 14PX ĐỂ GỌN GÀNG 3 ĐƯỜNG PHÁI SINH PHÍA DƯỚI) */
             .master-grid-table { 
                 display: grid; 
-                grid-template-rows: repeat(6, 16px); 
-                grid-template-columns: repeat(27, 16px); 
+                grid-template-rows: repeat(6, 14px); 
+                grid-template-columns: repeat(27, 14px); 
                 gap: 0px; 
-                height: 96px; 
-                width: 432px; 
+                height: 84px; 
+                width: 378px; 
                 align-content: start; 
-                background-image: radial-gradient(rgba(255, 255, 255, 0.28) 1.3px, transparent 1.3px);
-                background-size: 16px 16px;
+                background-image: radial-gradient(rgba(255, 255, 255, 0.28) 1.2px, transparent 1.2px);
+                background-size: 14px 14px;
                 margin: 0 auto;
             }
 
-            .grid-cell { width: 16px; height: 16px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .grid-cell { width: 14px; height: 14px; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            /* 1. BEAD PLATE: TĂNG FONT CHỮ LÊN 9.5PX (TO GẦN BẰNG ĐƯỜNG KÍNH VIÊN BI 13PX NHƯNG KHÔNG TRÀN RA NGOÀI) */
-            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 9.5px; font-weight: 900; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); line-height: 1; }
+            /* BEAD PLATE & BIG ROAD */
+            .bead { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: 900; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.5); line-height: 1; }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
-            .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 7px; }
-            .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 7px; }
+            .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 6px; }
+            .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 6px; }
 
-            /* 2. BIG ROAD: Vòng tròn rỗng (outline) */
-            .big-road-circle { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; position: relative; z-index: 2; background: transparent; }
-            .big-road-circle.p-circle { border: 2px solid #3b82f6; }
-            .big-road-circle.b-circle { border: 2px solid #ef4444; }
+            .big-road-circle { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; position: relative; z-index: 2; background: transparent; }
+            .big-road-circle.p-circle { border: 1.5px solid #3b82f6; }
+            .big-road-circle.b-circle { border: 1.5px solid #ef4444; }
             
-            .natural-dot { width: 4px; height: 4px; background: #fef08a; border-radius: 50%; position: absolute; }
-            .corner-dot-p { position: absolute; bottom: -1px; right: -1px; width: 4px; height: 4px; background: #3b82f6; border-radius: 50%; z-index: 4; }
-            .corner-dot-b { position: absolute; top: -1px; left: -1px; width: 4px; height: 4px; background: #ef4444; border-radius: 50%; z-index: 4; }
-            .tie-slash { position: absolute; width: 16px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
+            .natural-dot { width: 3px; height: 3px; background: #fef08a; border-radius: 50%; position: absolute; }
+            .corner-dot-p { position: absolute; bottom: -1px; right: -1px; width: 3px; height: 3px; background: #3b82f6; border-radius: 50%; z-index: 4; }
+            .corner-dot-b { position: absolute; top: -1px; left: -1px; width: 3px; height: 3px; background: #ef4444; border-radius: 50%; z-index: 4; }
+            .tie-slash { position: absolute; width: 14px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 6; pointer-events: none; }
 
-            /* 3. DERIVED ROADS: Đường phái sinh */
-            .derived-ring { width: 7px; height: 7px; border-radius: 50%; position: relative; z-index: 3; }
-            .derived-ring.red { border: 1.5px solid #ef4444; background: transparent; }
-            .derived-ring.blue { border: 1.5px solid #3b82f6; background: transparent; }
+            /* DERIVED ROADS: NẰM GỌN GÀNG Ở HÀNG 3, 4, 5 PHÍA DƯỚI */
+            .derived-ring { width: 6px; height: 6px; border-radius: 50%; position: relative; z-index: 3; }
+            .derived-ring.red { border: 1.2px solid #ef4444; background: transparent; }
+            .derived-ring.blue { border: 1.2px solid #3b82f6; background: transparent; }
             
-            .derived-bar { width: 6px; height: 6px; position: relative; z-index: 3; transform: rotate(45deg); }
-            .derived-bar.red { border-right: 1.5px solid #ef4444; border-bottom: 1.5px solid #ef4444; }
-            .derived-bar.blue { border-right: 1.5px solid #3b82f6; border-bottom: 1.5px solid #3b82f6; }
+            .derived-bar { width: 5px; height: 5px; position: relative; z-index: 3; transform: rotate(45deg); }
+            .derived-bar.red { border-right: 1.2px solid #ef4444; border-bottom: 1.2px solid #ef4444; }
+            .derived-bar.blue { border-right: 1.2px solid #3b82f6; border-bottom: 1.2px solid #3b82f6; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -281,7 +282,7 @@ def home():
         <div class="game-panel">
             <div class="round-info-bar">
                 <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
-                <span style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 10px; color: #facc15;" id="timer-val">⏳ 15s</span>
+                <span style="background: rgba(0,0,0,0.4); padding: 2px 5px; border-radius: 8px; color: #facc15;" id="timer-val">⏳ 15s</span>
                 <span>Hạn mức: 10~20000</span>
             </div>
 
@@ -289,52 +290,52 @@ def home():
                 <div class="side-spot" onclick="placeBet('player_pair')">
                     <div class="s-title cyan">闲对</div>
                     <div class="s-rate">1:11</div>
-                    <div class="s-status">6局未出</div>
+                    <div class="s-status">6局</div>
                     <div class="my-bet-tag" id="amt-player_pair">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('lucky_7')">
                     <div class="s-title cyan">幸运七</div>
-                    <div class="s-sub">闲7点赢<br>2张 1:6<br>3张 1:15</div>
-                    <div class="s-status">8局未出</div>
+                    <div class="s-sub">闲7: 1:6</div>
+                    <div class="s-status">8局</div>
                     <div class="my-bet-tag" id="amt-lucky_7">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('super_lucky_7')">
                     <div class="s-title gold">超级幸运七</div>
-                    <div class="s-sub">闲7赢庄6<br>4张 1:30<br>6张 1:100</div>
-                    <div class="s-status">18局未出</div>
+                    <div class="s-sub">4张 1:30</div>
+                    <div class="s-status">18局</div>
                     <div class="my-bet-tag" id="amt-super_lucky_7">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('lucky_6')">
                     <div class="s-title orange">幸运六</div>
-                    <div class="s-sub">庄6点赢<br>2张 1:12<br>3张 1:20</div>
-                    <div class="s-status">22局未出</div>
+                    <div class="s-sub">庄6: 1:12</div>
+                    <div class="s-status">22局</div>
                     <div class="my-bet-tag" id="amt-lucky_6">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('banker_pair')">
                     <div class="s-title orange">庄对</div>
                     <div class="s-rate">1:11</div>
-                    <div class="s-status">11局未出</div>
+                    <div class="s-status">11局</div>
                     <div class="my-bet-tag" id="amt-banker_pair">0</div>
                 </div>
             </div>
 
             <div class="main-grid">
                 <div class="main-spot" onclick="placeBet('player')">
-                    <span style="position: absolute; top: 4px; right: 6px; font-size: 8px; color: #94a3b8;">36%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 7px; color: #94a3b8;">36%</span>
                     <div class="m-name player">闲</div>
                     <div class="m-rate" id="rate-player">1 : 1</div>
                     <div class="m-stats">👥 14 🪙 1K</div>
                     <div class="my-bet-tag" id="amt-player">0</div>
                 </div>
                 <div class="main-spot" onclick="placeBet('tie')">
-                    <span style="position: absolute; top: 4px; right: 6px; font-size: 8px; color: #94a3b8;">0%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 7px; color: #94a3b8;">0%</span>
                     <div class="m-name tie">和</div>
                     <div class="m-rate">1 : 8</div>
                     <div class="m-stats">7局未出</div>
                     <div class="my-bet-tag" id="amt-tie">0</div>
                 </div>
                 <div class="main-spot" onclick="placeBet('banker')">
-                    <span style="position: absolute; top: 4px; right: 6px; font-size: 8px; color: #94a3b8;">64%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 7px; color: #94a3b8;">64%</span>
                     <div class="m-name banker">庄</div>
                     <div class="m-rate" id="rate-banker">1 : 0.95</div>
                     <div class="m-stats">👥 7 🪙 1.8K</div>
@@ -365,7 +366,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU -->
+        <!-- BẢNG SOI CẦU: CÁC ĐƯỜNG PHÁI SINH ĐƯỢC TÁCH XUỐNG DƯỚI CÙNG GỌN GÀNG -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -432,7 +433,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v20') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v22') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -468,7 +469,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v20', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v22', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -740,7 +741,6 @@ def home():
 
                 let records = globalGame.scoreRecords;
 
-                // 1. BEAD PLATE (Cột 0 -> 6, 6 hàng)
                 let beadCol = 0, beadRow = 0;
                 records.forEach(rec => {
                     if (beadRow >= 6) { beadRow = 0; beadCol++; }
@@ -763,7 +763,6 @@ def home():
                     beadRow++;
                 });
 
-                // 2. BIG ROAD (Cột 7 -> 26)
                 let roadMatrix = Array(6).fill(0).map(() => Array(27).fill(null));
                 let col = 7, row = 0;
                 let lastBase = null;
@@ -843,9 +842,9 @@ def home():
                                 }
 
                                 if (cd.recordType === 'B6') {
-                                    circle.innerText = '6'; circle.style.color = '#fff'; circle.style.fontSize = '6px';
+                                    circle.innerText = '6'; circle.style.color = '#fff'; circle.style.fontSize = '5px';
                                 } else if (cd.recordType === 'P7') {
-                                    circle.innerText = '7'; circle.style.color = '#fff'; circle.style.fontSize = '6px';
+                                    circle.innerText = '7'; circle.style.color = '#fff'; circle.style.fontSize = '5px';
                                 }
 
                                 if (cd.pPair) {
@@ -871,7 +870,7 @@ def home():
                     }
                 }
 
-                // 3. DERIVED ROADS
+                // 3 ĐƯỜNG PHÁI SINH ĐƯỢC TÁCH XUỐNG CÁC HÀNG DƯỚI CÙNG (HÀNG 3, 4, 5) ĐỂ KHÔNG BỊ RỐI MẮT
                 renderDerivedRoad(bigRoadList, roadMatrix, 3, 'bigEye', cells, startCol);
                 renderDerivedRoad(bigRoadList, roadMatrix, 4, 'smallRoad', cells, startCol);
                 renderDerivedRoad(bigRoadList, roadMatrix, 5, 'cockroach', cells, startCol);
