@@ -336,7 +336,7 @@ async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except:
         pass
 
-# FastAPI: Giao diện Mini App Baccarat chuẩn có hình hoạt họa 3D người chia bài phía trên
+# FastAPI: Giao diện Mini App chuẩn xác với nhân vật Dealer 3D chia bài chính hãng
 web_app = FastAPI()
 
 @web_app.get("/", response_class=HTMLResponse)
@@ -353,11 +353,11 @@ def home():
             * { box-sizing: border-box; }
             body { background-color: #520813; color: #fff; font-family: Arial, "Helvetica Neue", sans-serif; margin: 0; padding: 0; user-select: none; }
             
-            /* Khung hình hoạt họa 3D Dealer ngồi trước bàn chia bài */
+            /* Khung Dealer 3D chia bài chuẩn */
             .dealer-3d-container { 
                 position: relative; 
                 width: 100%; 
-                height: 190px; 
+                height: 180px; 
                 background: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=800&q=80') center/cover no-repeat; 
                 border-bottom: 2px solid #d4af37; 
                 display: flex; 
@@ -367,17 +367,17 @@ def home():
             }
             .dealer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(82,8,19,0.95) 100%); }
             
-            /* Nhân vật hoạt họa 3D người ngồi chia bài ở chính giữa */
+            /* Avatar Dealer 3D người thật/hoạt họa ngồi chia bài chính xác */
             .dealer-3d-character { 
                 position: absolute; 
                 top: 8px; 
                 left: 50%; 
                 transform: translateX(-50%); 
-                width: 105px; 
-                height: 105px; 
+                width: 85px; 
+                height: 85px; 
                 border-radius: 50%; 
-                border: 3px solid #ffd700; 
-                background: url('https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=400&q=80') center/cover no-repeat; 
+                border: 2px solid #ffd700; 
+                background: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80') center/cover no-repeat; 
                 box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); 
                 z-index: 5; 
             }
@@ -449,7 +449,7 @@ def home():
     </head>
     <body>
 
-        <!-- 1. Màn hình Dealer hoạt họa 3D người ngồi trước bàn chia bài -->
+        <!-- 1. Màn hình Dealer 3D chia bài chuẩn xác -->
         <div class="dealer-3d-container">
             <div class="dealer-overlay"></div>
             <div class="live-badge">3D LIVE VIP</div>
