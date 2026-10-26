@@ -336,7 +336,7 @@ async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except:
         pass
 
-# FastAPI: Giao diện Mini App Baccarat chuẩn chỉnh đồ họa 3D nhân vật ảo
+# FastAPI: Giao diện chuẩn xác theo đúng ảnh mẫu giao diện bàn cược 3D ngang
 web_app = FastAPI()
 
 @web_app.get("/", response_class=HTMLResponse)
@@ -351,55 +351,124 @@ def home():
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <style>
             * { box-sizing: border-box; }
-            body { background-color: #520813; color: #fff; font-family: Arial, "Helvetica Neue", sans-serif; margin: 0; padding: 0; user-select: none; }
+            body { background-color: #0b1f14; color: #fff; font-family: Arial, "Helvetica Neue", sans-serif; margin: 0; padding: 0; user-select: none; }
             
-            /* Khung Dealer 3D phía trên */
-            .dealer-3d-container { 
-                position: relative; 
-                width: 100%; 
-                height: 180px; 
-                background: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=800&q=80') center/cover no-repeat; 
-                border-bottom: 2px solid #d4af37; 
-                display: flex; 
-                flex-direction: column; 
-                justify-content: flex-end; 
-                align-items: center; 
+            /* Khung Dealer 3D toàn cảnh ngang hệt như ảnh mẫu */
+            .live-table-banner {
+                position: relative;
+                width: 100%;
+                height: 195px;
+                background: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+                border-bottom: 3px solid #d4af37;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: center;
+                overflow: hidden;
             }
-            .dealer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(82,8,19,0.95) 100%); }
-            
-            /* Nhân vật hoạt họa 3D (Ảnh đồ họa phong cách 3D game) */
-            .dealer-3d-character { 
-                position: absolute; 
-                top: 8px; 
-                left: 50%; 
-                transform: translateX(-50%); 
-                width: 80px; 
-                height: 80px; 
-                border-radius: 50%; 
-                border: 2px solid #ffd700; 
-                background: url('https://api.dicebear.com/7.x/bottts/svg?seed=Baccarat3DDealerAI') #1e293b center/cover no-repeat; 
-                box-shadow: 0 0 15px rgba(255, 215, 0, 0.8); 
-                z-index: 5; 
+            .banner-overlay {
+                position: absolute;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background: radial-gradient(circle, rgba(0,0,0,0.1) 0%, rgba(11,31,20,0.85) 100%);
             }
             
-            .live-badge { position: absolute; top: 6px; left: 6px; background: rgba(220, 38, 38, 0.9); color: white; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 4px; display: flex; align-items: center; gap: 4px; z-index: 10; }
-            .live-badge::before { content: ''; width: 5px; height: 5px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
-            @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+            /* Nhân vật nữ Dealer 3D ngồi giữa bàn */
+            .dealer-character-img {
+                position: absolute;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 110px;
+                height: 110px;
+                border-radius: 50%;
+                border: 2px solid #d4af37;
+                background: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+                z-index: 4;
+            }
 
-            .dealer-table-3d { position: relative; z-index: 3; display: flex; width: 92%; justify-content: space-around; align-items: center; margin-bottom: 6px; }
-            .cards-box { background: rgba(15, 23, 42, 0.85); border: 1px solid #d4af37; border-radius: 6px; padding: 4px; width: 44%; text-align: center; }
-            .p-title { font-weight: bold; font-size: 10px; margin-bottom: 2px; }
-            .cards-flex { display: flex; justify-content: center; gap: 3px; }
-            .card { width: 24px; height: 34px; background: #fff; color: #000; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; }
-            .card.red { color: #dc2626; }
-            .score-badge { display: inline-block; background: #d4af37; color: #000; font-size: 9px; font-weight: bold; padding: 1px 4px; border-radius: 6px; margin-top: 2px; }
+            /* Đồng hồ đếm ngược và chữ 下注中 (Đang đặt cược) bên trái */
+            .dealer-left-info {
+                position: absolute;
+                top: 15px;
+                left: 15px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                z-index: 5;
+            }
+            .clock-circle {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                border: 2px solid #22c55e;
+                background: rgba(0,0,0,0.6);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                font-weight: bold;
+                color: #22c55e;
+                box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+            }
+            .betting-status-text {
+                font-size: 11px;
+                font-weight: bold;
+                color: #fff;
+                margin-top: 3px;
+                text-shadow: 1px 1px 2px #000;
+            }
+
+            /* Nút trái tim "打赏" (Thưởng/Tip) bên phải */
+            .dealer-right-info {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                z-index: 5;
+            }
+            .tip-button {
+                background: #f43f5e;
+                color: white;
+                font-size: 11px;
+                font-weight: bold;
+                padding: 4px 10px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+                cursor: pointer;
+            }
+
+            /* Hộp bài hiển thị ở bàn 3D */
+            .table-cards-preview {
+                position: relative;
+                z-index: 3;
+                display: flex;
+                width: 90%;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+            }
+            .preview-box {
+                background: rgba(15, 23, 42, 0.9);
+                border: 1px solid #d4af37;
+                border-radius: 6px;
+                padding: 4px 8px;
+                text-align: center;
+                width: 45%;
+            }
+            .preview-title { font-size: 10px; font-weight: bold; margin-bottom: 2px; }
+            .preview-flex { display: flex; justify-content: center; gap: 4px; }
+            .p-card { width: 22px; height: 30px; background: #fff; color: #000; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 10px; }
+            .p-card.red { color: #dc2626; }
+            .preview-score { display: inline-block; background: #d4af37; color: #000; font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 6px; margin-top: 2px; }
 
             /* Dòng thông tin trên cùng */
-            .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #f3a9b3; background: rgba(0,0,0,0.3); }
-            .timer-circle { width: 26px; height: 26px; border-radius: 50%; border: 2px solid #facc15; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 12px; background: rgba(0,0,0,0.5); }
+            .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #cbd5e1; background: rgba(0,0,0,0.4); }
             
             /* Khung cược chính */
-            .table-board { background: #680d1b; border: 1px solid #8e1828; margin: 4px; border-radius: 12px; padding: 6px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); position: relative; }
+            .table-board { background: #0c3b22; border: 2px solid #14532d; margin: 4px; border-radius: 10px; padding: 6px; box-shadow: inset 0 0 12px rgba(0,0,0,0.6); position: relative; }
             
             /* Cửa cược phụ (5 ô) */
             .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 6px; }
@@ -414,7 +483,7 @@ def home():
             .sb-sub { font-size: 8px; color: #fca5a5; scale: 0.9; }
             .sb-status { font-size: 8px; color: #9aa0a6; margin-top: 2px; }
 
-            /* Cửa cược chính (3 ô lớn) */
+            /* Cửa cược chính (3 ô lớn: 闲 - 和 - 庄) */
             .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
             .main-box { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 10px 4px; text-align: center; position: relative; cursor: pointer; min-height: 85px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .main-box:active { background: rgba(255, 255, 255, 0.15); }
@@ -432,12 +501,12 @@ def home():
             .chip-icon { width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle, #a855f7 0%, #6b21a8 100%); border: 2px dashed #fff; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: bold; color: white; box-shadow: 0 3px 6px rgba(0,0,0,0.6); }
 
             /* Nút Hủy & X2 */
-            .bottom-actions { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; margin-top: 4px; }
-            .action-btn { background: transparent; border: none; color: #e2e8f0; font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 6px; cursor: pointer; opacity: 0.9; }
+            .bottom-actions { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; margin-top: 2px; }
+            .action-btn { background: transparent; border: none; color: #e2e8f0; font-size: 13px; font-weight: bold; display: flex; align-items: center; gap: 6px; cursor: pointer; opacity: 0.9; }
             .action-btn:active { opacity: 0.6; transform: scale(0.96); }
 
             /* Thanh chọn Chip phía dưới */
-            .chip-bar { background: #3b060d; padding: 8px 12px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #680d1b; position: sticky; bottom: 0; }
+            .chip-bar { background: #062414; padding: 8px 12px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #14532d; position: sticky; bottom: 0; }
             .chip-item { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; cursor: pointer; border: 2px dashed #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
             .chip-item.active { border-style: solid; border-color: #ffd700; transform: scale(1.15); box-shadow: 0 0 10px #ffd700; }
             .c-10 { background: #22c55e; color: #fff; }
@@ -449,41 +518,50 @@ def home():
     </head>
     <body>
 
-        <!-- 1. Màn hình Dealer Hoạt họa 3D chuẩn xác -->
-        <div class="dealer-3d-container">
-            <div class="dealer-overlay"></div>
-            <div class="live-badge">3D LIVE VIP</div>
-            <div class="dealer-3d-character"></div>
+        <!-- 1. Banner sòng bài 3D toàn cảnh ngang hệt ảnh mẫu -->
+        <div class="live-table-banner">
+            <div class="banner-overlay"></div>
+            
+            <!-- Đồng hồ & Trạng thái Đang đặt cược (Bên trái) -->
+            <div class="dealer-left-info">
+                <div class="clock-circle" id="countdown">14</div>
+                <div class="betting-status-text">下注中</div>
+            </div>
 
-            <div class="dealer-table-3d">
-                <div class="cards-box">
-                    <div class="p-title" style="color: #60a5fa;">闲 (PLAYER)</div>
-                    <div class="cards-flex">
-                        <div class="card red">A ♥</div>
-                        <div class="card">A ♣</div>
+            <!-- Nhân vật nữ Dealer 3D ngồi giữa -->
+            <div class="dealer-character-img"></div>
+
+            <!-- Nút Tim Thưởng (Bên phải) -->
+            <div class="dealer-right-info">
+                <div class="tip-button">❤️ 打赏</div>
+            </div>
+
+            <!-- Bài xem trước trên bàn -->
+            <div class="table-cards-preview">
+                <div class="preview-box">
+                    <div class="preview-title" style="color: #60a5fa;">闲 (PLAYER)</div>
+                    <div class="preview-flex">
+                        <div class="p-card red">A ♥</div>
+                        <div class="p-card">A ♣</div>
                     </div>
-                    <div class="score-badge">2 点</div>
+                    <div class="preview-score">2 点</div>
                 </div>
-                <div class="cards-box">
-                    <div class="p-title" style="color: #f87171;">庄 (BANKER)</div>
-                    <div class="cards-flex">
-                        <div class="card red">9 ♦</div>
-                        <div class="card">10 ♠</div>
+                <div class="preview-box">
+                    <div class="preview-title" style="color: #f87171;">庄 (BANKER)</div>
+                    <div class="preview-flex">
+                        <div class="p-card red">9 ♦</div>
+                        <div class="p-card">10 ♠</div>
                     </div>
-                    <div class="score-badge">9 点</div>
+                    <div class="preview-score">9 点</div>
                 </div>
             </div>
         </div>
 
-        <!-- 2. Dòng thông tin trên cùng (UTC+8, Thời gian thực, Giới hạn cược) -->
+        <!-- 2. Dòng thông tin trên cùng (Giờ Bắc Kinh, Giới hạn cược, Mã bàn) -->
         <div class="top-bar">
             <span id="beijing-time">22:07 (UTC+08)</span>
-            <div class="timer-circle" id="countdown">12</div>
             <span>限红: 10~20,000</span>
-        </div>
-
-        <div style="padding: 0 6px; font-size: 10px; color: #cbd5e1; margin-bottom: 2px;">
-            局号: <span id="table-id">GBE4AB3EC4C1</span>
+            <span>局号: <span id="table-id">GBE4AB3EC4C1</span></span>
         </div>
 
         <!-- 3. Khung bàn đặt cược -->
@@ -528,7 +606,7 @@ def home():
                 </div>
             </div>
 
-            <!-- Cửa cược chính (3 ô lớn) -->
+            <!-- Cửa cược chính (3 ô lớn: 闲 - 和 - 庄) -->
             <div class="main-grid">
                 <div class="main-box" onclick="placeBet('player')">
                     <span class="percent-badge">36%</span>
@@ -604,10 +682,10 @@ def home():
             generateTableID();
 
             // Đếm ngược
-            let timerVal = 12;
+            let timerVal = 14;
             setInterval(() => {
                 timerVal--;
-                if (timerVal < 0) timerVal = 12;
+                if (timerVal < 0) timerVal = 14;
                 document.getElementById('countdown').innerText = timerVal;
             }, 1000);
 
