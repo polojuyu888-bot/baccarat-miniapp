@@ -106,7 +106,6 @@ def home():
             .table-info-overlay { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid #e74c3c; }
             .time-box { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; text-align: right; }
 
-            /* Khu vực bài chia trên bàn với hiệu ứng lật 3D mượt mà */
             .cards-on-table { position: absolute; bottom: 8px; width: 100%; display: flex; justify-content: space-around; padding: 0 15px; z-index: 5; pointer-events: none; }
             .table-side { display: flex; gap: 4px; align-items: center; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; }
             
@@ -167,10 +166,12 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* Bảng Soi Cầu chuẩn dạng cột cuộn, max 6 cột hiển thị */
+            /* Bảng Soi Cầu chuẩn chỉnh y hệt ảnh */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 6px; }
             .sc-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #94a3b8; margin-bottom: 4px; }
-            .sc-stats-nums { display: flex; gap: 12px; font-weight: bold; color: #facc15; font-size: 11px; }
+            
+            /* Dãy số liệu thống kê phía trên giống ảnh 2 và ảnh 4 */
+            .sc-stats-nums { display: flex; gap: 14px; font-weight: bold; font-size: 12px; }
             
             .bead-plate-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-template-rows: repeat(6, 1fr); grid-auto-flow: column; gap: 3px; overflow-x: auto; max-height: 115px; }
             .bead { width: 16px; height: 16px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 8px; font-weight: bold; flex-shrink: 0; }
@@ -180,7 +181,6 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 2px solid #facc15; }
             .bead.B6 { background: #ef4444; color: #fff; border: 2px solid #facc15; }
 
-            /* Modal */
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
             .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; font-size: 14px; font-weight: bold; }
@@ -218,7 +218,6 @@ def home():
                 <div style="font-size: 8px; color: #aaa;">Hạn mức: 10~20000</div>
             </div>
 
-            <!-- 4 ô vuông chờ chia bài (2 Player, 2 Banker) tự động hiển thị -->
             <div class="cards-on-table">
                 <div class="table-side" id="p-cards-area">
                     <span style="font-size:9px; color:#38bdf8;">闲</span>
@@ -325,12 +324,14 @@ def home():
                 <div class="sc-indicators" style="font-size:10px;">
                     <span>庄问路 闲问路 好路投注 (Ván: <span id="round-count">0</span>/50)</span>
                 </div>
-                <div class="sc-stats-nums" id="sc-stats-nums">
-                    <span id="stat-total">0</span>
-                    <span id="stat-b">0</span>
-                    <span id="stat-p">0</span>
-                    <span id="stat-p7">0</span>
-                    <span id="stat-b6">0</span>
+                <!-- Dãy thống kê màu sắc khớp đúng 100% yêu cầu: Tổng ván, Banker đỏ, Player xanh dương, Tie xanh lục, P7, B6 -->
+                <div class="sc-stats-nums">
+                    <span style="color: #3b82f6;" id="stat-total">0</span>
+                    <span style="color: #ef4444;" id="stat-b">0</span>
+                    <span style="color: #3b82f6;" id="stat-p">0</span>
+                    <span style="color: #10b981;" id="stat-t">0</span>
+                    <span style="color: #ef4444;" id="stat-b6">0</span>
+                    <span style="color: #3b82f6;" id="stat-p7">0</span>
                 </div>
             </div>
             <div class="bead-plate-grid" id="bead-plate-container"></div>
@@ -375,7 +376,7 @@ def home():
             let timeLeft = 15;
             let gamePhase = 'betting';
 
-            let statsCount = { total: 0, b: 0, p: 0, p7: 0, b6: 0 };
+            let statsCount = { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 };
 
             function generateUniqueTable() {
                 let randHex = Math.random().toString(16).substring(2, 10).toUpperCase();
@@ -408,7 +409,6 @@ def home():
             }, 1000);
 
             function startRandomDealing() {
-                // Kết quả ngẫu nhiên 100% không định trước
                 let p1 = getRandomCard(), p2 = getRandomCard();
                 let b1 = getRandomCard(), b2 = getRandomCard();
 
@@ -422,7 +422,6 @@ def home():
                 document.getElementById('b-card-1').innerText = b2.text;
                 document.getElementById('b-card-1').className = `card-face card-front ${b2.color}`;
 
-                // Hiệu ứng mở bài mượt mà từ trái qua phải (Player trước, Banker sau)
                 let pCardsEl = document.getElementById('p-cards-area').querySelectorAll('.playing-card');
                 let bCardsEl = document.getElementById('b-cards-area').querySelectorAll('.playing-card');
 
@@ -446,6 +445,7 @@ def home():
                 statsCount.total++;
                 if (winner === 'B') statsCount.b++;
                 if (winner === 'P') statsCount.p++;
+                if (winner === 'T') statsCount.t++;
                 if (recordType === 'P7') statsCount.p7++;
                 if (recordType === 'B6') statsCount.b6++;
 
@@ -458,7 +458,7 @@ def home():
 
                 resolveBets(winner);
 
-                // Cơ chế rửa bài 50 ván (chờ 45s)
+                // Cơ chế rửa bài 50 ván -> Reset toàn bộ ván và số liệu về 0
                 if (totalRounds >= 50) {
                     gamePhase = 'shuffling';
                     timeLeft = 45;
@@ -466,7 +466,7 @@ def home():
                     setTimeout(() => {
                         totalRounds = 0;
                         scoreRecords = [];
-                        statsCount = { total: 0, b: 0, p: 0, p7: 0, b6: 0 };
+                        statsCount = { total: 0, b: 0, p: 0, t: 0, b6: 0, p7: 0 };
                         updateStatsDisplay();
                         renderScoreboard();
                         gamePhase = 'betting';
@@ -511,8 +511,9 @@ def home():
                 document.getElementById('stat-total').innerText = statsCount.total;
                 document.getElementById('stat-b').innerText = statsCount.b;
                 document.getElementById('stat-p').innerText = statsCount.p;
-                document.getElementById('stat-p7').innerText = statsCount.p7;
+                document.getElementById('stat-t').innerText = statsCount.t;
                 document.getElementById('stat-b6').innerText = statsCount.b6;
+                document.getElementById('stat-p7').innerText = statsCount.p7;
             }
 
             function selectChip(val, el) {
@@ -679,5 +680,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat chuẩn ngẫu nhiên 100% đã khởi chạy thành công...")
+        print("🤖 Bot Telegram tích hợp Baccarat chuẩn xác đã khởi chạy thành công...")
         app.run_polling()
