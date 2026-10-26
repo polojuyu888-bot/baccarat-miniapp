@@ -166,15 +166,16 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
 
-            /* BẢNG SOI CẦU CHUẨN MẪU */
+            /* BẢNG SOI CẦU ĐỒNG BỘ MÀU TRẮNG TUYỆT ĐỐI */
             .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 5px 8px; min-height: 145px; display: flex; flex-direction: column; justify-content: space-between; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 4px; }
             
             .sc-stats-group { display: flex; align-items: center; gap: 12px; }
-            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; }
+            .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: bold; color: #ffffff !important; }
+            .stat-item span { color: #ffffff !important; }
+
             .stat-icon-circle { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; }
-            
-            .ratio-pie { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; border: 1px solid rgba(255,255,255,0.3); }
+            .ratio-pie { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-bottom: 2px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
 
             .sc-menus { display: flex; gap: 10px; align-items: center; }
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 9px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; }
@@ -184,7 +185,7 @@ def home():
             .road-tables-container::-webkit-scrollbar { height: 3px; }
             .road-tables-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 
-            /* Bảng trái Bead Plate: Đúng 7 cột, thu nhỏ ô (13px) để chứa đủ 6 hàng không bị khuyết */
+            /* Bảng trái Bead Plate: Đúng 7 cột */
             .bead-grid-table { display: grid; grid-template-rows: repeat(6, 13px); grid-auto-flow: column; grid-auto-columns: 13px; gap: 1.5px; height: 86px; align-content: start; }
             .bead-box { width: 13px; height: 13px; display: flex; justify-content: center; align-items: center; position: relative; }
             .bead { width: 11px; height: 11px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
@@ -194,10 +195,10 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* Đường kẻ phân cách nằm đúng sau cột thứ 7 */
+            /* Đường kẻ phân cách sau cột thứ 7 */
             .road-divider { width: 1px; height: 92px; background: rgba(255,255,255,0.25); margin: 0 4px; flex-shrink: 0; }
 
-            /* Bảng phải Big Road: Bắt đầu chạy từ cột số 8 */
+            /* Bảng phải Big Road: Bắt đầu từ cột số 8 */
             .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 2px; height: 95px; align-content: start; }
             .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
@@ -345,16 +346,16 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU ĐÚNG CHUẨN MẪU -->
+        <!-- BẢNG SOI CẦU ĐỒNG BỘ SỐ TRẮNG VÀ BIỂU TƯỢNG ĐÚNG CHUẨN -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
-                    <div class="stat-item"><span class="ratio-pie" id="ratio-pie-circle" style="background: conic-gradient(#ef4444 0deg 120deg, #3b82f6 120deg 240deg, #10b981 240deg 360deg);"></span><span style="color: #38bdf8;" id="stat-total">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span style="color: #ef4444;" id="stat-b">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6;"></span><span style="color: #38bdf8;" id="stat-p">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #10b981;"></span><span style="color: #4ade80;" id="stat-t">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span style="color: #ef4444;" id="stat-b6">0</span></div>
-                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span style="color: #38bdf8;" id="stat-p7">0</span></div>
+                    <div class="stat-item"><span class="ratio-pie" id="ratio-pie-circle"></span><span id="stat-total">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444;"></span><span id="stat-b">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6;"></span><span id="stat-p">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #10b981;"></span><span id="stat-t">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #ef4444; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">6</span><span id="stat-b6">0</span></div>
+                    <div class="stat-item"><span class="stat-icon-circle" style="background: #3b82f6; border:1px solid #facc15; font-size:6px; display:flex; justify-content:center; align-items:center; color:#fff;">7</span><span id="stat-p7">0</span></div>
                 </div>
 
                 <div class="sc-menus">
@@ -373,9 +374,9 @@ def home():
             </div>
 
             <div class="road-tables-container">
-                <!-- Bảng trái Bead Plate: Đúng 7 cột đầu tiên -->
+                <!-- Bảng trái Bead Plate: Đúng 7 cột -->
                 <div class="bead-grid-table" id="bead-plate-container"></div>
-                <!-- Đường kẻ phân cách nằm ngay sau cột thứ 7 -->
+                <!-- Đường kẻ phân cách sau cột thứ 7 -->
                 <div class="road-divider"></div>
                 <!-- Bảng phải Big Road: Bắt đầu chạy từ cột số 8 -->
                 <div class="road-grid-table" id="big-road-container"></div>
@@ -417,7 +418,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v2') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v3') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -453,7 +454,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v2', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v3', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -574,10 +575,13 @@ def home():
                 document.getElementById('stat-p7').innerText = globalGame.statsCount.p7;
 
                 let total = globalGame.statsCount.total;
-                if (total > 0) {
+                let pieEl = document.getElementById('ratio-pie-circle');
+                if (total === 0) {
+                    pieEl.style.background = '#334155';
+                } else {
                     let bAngle = (globalGame.statsCount.b / total) * 360;
                     let pAngle = bAngle + (globalGame.statsCount.p / total) * 360;
-                    document.getElementById('ratio-pie-circle').style.background = `conic-gradient(#ef4444 0deg ${bAngle}deg, #3b82f6 ${bAngle}deg ${pAngle}deg, #10b981 ${pAngle}deg 360deg)`;
+                    pieEl.style.background = `conic-gradient(#ef4444 0deg ${bAngle}deg, #3b82f6 ${bAngle}deg ${pAngle}deg, #10b981 ${pAngle}deg 360deg)`;
                 }
             }
 
@@ -692,7 +696,7 @@ def home():
             }
 
             function renderScoreboard() {
-                // 1. Bảng Bead Plate bên trái: Đúng 7 cột, kích thước thu nhỏ hiển thị trọn vẹn 6 hàng
+                // 1. Bảng Bead Plate bên trái: Đúng 7 cột
                 let beadContainer = document.getElementById('bead-plate-container');
                 beadContainer.innerHTML = '';
                 globalGame.scoreRecords.forEach(rec => {
@@ -808,5 +812,5 @@ if __name__ == '__main__':
         app = ApplicationBuilder().token(BOT_TOKEN).build()
         app.add_handler(CommandHandler("start", start_command))
         
-        print("🤖 Bot Telegram tích hợp Baccarat chuẩn xác tuyệt đối đã khởi chạy...")
+        print("🤖 Bot Telegram tích hợp Baccarat hoàn hảo đã khởi chạy thành công...")
         app.run_polling()
