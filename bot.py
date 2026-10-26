@@ -336,7 +336,7 @@ async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except:
         pass
 
-# FastAPI: Giao diện Mini App Baccarat chuẩn đầy đủ khung Dealer 3D và bàn cược
+# FastAPI: Giao diện Mini App Baccarat chuẩn có hình hoạt họa 3D người chia bài phía trên
 web_app = FastAPI()
 
 @web_app.get("/", response_class=HTMLResponse)
@@ -353,10 +353,35 @@ def home():
             * { box-sizing: border-box; }
             body { background-color: #520813; color: #fff; font-family: Arial, "Helvetica Neue", sans-serif; margin: 0; padding: 0; user-select: none; }
             
-            /* Khung hình Dealer Virtual 3D phía trên */
-            .dealer-3d-container { position: relative; width: 100%; height: 160px; background: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=800&q=80') center/cover no-repeat; border-bottom: 2px solid #d4af37; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
-            .dealer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(82,8,19,0.95) 100%); }
-            .dealer-avatar-3d { position: absolute; top: 6px; width: 65px; height: 65px; border-radius: 50%; border: 2px solid #ffd700; background: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80') center/cover no-repeat; box-shadow: 0 0 10px rgba(212, 175, 55, 0.6); z-index: 2; }
+            /* Khung hình hoạt họa 3D Dealer ngồi trước bàn chia bài */
+            .dealer-3d-container { 
+                position: relative; 
+                width: 100%; 
+                height: 190px; 
+                background: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=800&q=80') center/cover no-repeat; 
+                border-bottom: 2px solid #d4af37; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: flex-end; 
+                align-items: center; 
+            }
+            .dealer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(82,8,19,0.95) 100%); }
+            
+            /* Nhân vật hoạt họa 3D người ngồi chia bài ở chính giữa */
+            .dealer-3d-character { 
+                position: absolute; 
+                top: 8px; 
+                left: 50%; 
+                transform: translateX(-50%); 
+                width: 105px; 
+                height: 105px; 
+                border-radius: 50%; 
+                border: 3px solid #ffd700; 
+                background: url('https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=400&q=80') center/cover no-repeat; 
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.7); 
+                z-index: 5; 
+            }
+            
             .live-badge { position: absolute; top: 6px; left: 6px; background: rgba(220, 38, 38, 0.9); color: white; padding: 2px 6px; font-size: 10px; font-weight: bold; border-radius: 4px; display: flex; align-items: center; gap: 4px; z-index: 10; }
             .live-badge::before { content: ''; width: 5px; height: 5px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
             @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
@@ -424,11 +449,11 @@ def home():
     </head>
     <body>
 
-        <!-- 1. Màn hình Dealer Virtual 3D phía trên -->
+        <!-- 1. Màn hình Dealer hoạt họa 3D người ngồi trước bàn chia bài -->
         <div class="dealer-3d-container">
             <div class="dealer-overlay"></div>
             <div class="live-badge">3D LIVE VIP</div>
-            <div class="dealer-avatar-3d"></div>
+            <div class="dealer-3d-character"></div>
 
             <div class="dealer-table-3d">
                 <div class="cards-box">
@@ -528,7 +553,7 @@ def home():
                 </div>
             </div>
 
-            <!-- Nút 取消 & X2 -->
+            <!-- Nút Hủy & X2 -->
             <div class="bottom-actions">
                 <button class="action-btn" onclick="cancelBets()">
                     <span style="font-size: 15px;">✕</span> 取消
