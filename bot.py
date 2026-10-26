@@ -336,7 +336,7 @@ async def unfreeze_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except:
         pass
 
-# FastAPI: Giao diện Mini App Baccarat với Dealer hoạt họa 3D sắc nét
+# FastAPI: Giao diện Mini App Baccarat thiết kế chuẩn 100% theo ảnh chụp mẫu
 web_app = FastAPI()
 
 @web_app.get("/", response_class=HTMLResponse)
@@ -346,160 +346,172 @@ def home():
     <html lang="zh">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>3D Live Baccarat Casino</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Live Baccarat VIP</title>
         <script src="https://telegram.org/js/telegram-web-app.js"></script>
         <style>
-            body { background-color: #0b0f19; color: #fff; font-family: Arial, sans-serif; margin: 0; padding: 0; user-select: none; }
+            * { box-sizing: border-box; }
+            body { background-color: #520813; color: #fff; font-family: Arial, "Helvetica Neue", sans-serif; margin: 0; padding: 0; user-select: none; }
             
-            /* Khung hình ảnh Dealer Hoạt họa 3D phía trên */
-            .dealer-3d-container { position: relative; width: 100%; height: 210px; background: url('https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=800&q=80') center/cover no-repeat; border-bottom: 2px solid #d4af37; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
-            .dealer-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.45); }
+            /* Dòng thông tin trên cùng */
+            .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 12px; font-size: 11px; color: #f3a9b3; background: rgba(0,0,0,0.3); }
+            .timer-circle { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #facc15; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 13px; background: rgba(0,0,0,0.5); }
             
-            /* Avatar 3D hoạt họa Dealer */
-            .dealer-avatar-3d { position: absolute; top: 15px; width: 75px; height: 75px; border-radius: 50%; border: 2px solid #ffd700; background: url('https://api.dicebear.com/7.x/bottts/svg?seed=dealer3d') #1e293b center/cover; box-shadow: 0 4px 10px rgba(0,0,0,0.6); z-index: 2; }
-            .live-badge { position: absolute; top: 10px; left: 10px; background: rgba(220, 38, 38, 0.9); color: white; padding: 3px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; display: flex; align-items: center; gap: 4px; z-index: 10; }
-            .live-badge::before { content: ''; width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
-            @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
-
-            /* Bàn bài mô phỏng 3D */
-            .dealer-table-3d { position: relative; z-index: 3; display: flex; width: 92%; justify-content: space-around; align-items: center; margin-bottom: 12px; }
-            .cards-box { background: rgba(15, 23, 42, 0.85); border: 1px solid #d4af37; border-radius: 8px; padding: 6px; width: 44%; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.4); }
-            .p-title { font-weight: bold; font-size: 12px; margin-bottom: 4px; }
-            .cards-flex { display: flex; justify-content: center; gap: 4px; }
-            .card { width: 30px; height: 42px; background: #fff; color: #000; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 13px; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-            .card.red { color: #dc2626; }
-            .score-badge { display: inline-block; background: #d4af37; color: #000; font-size: 10px; font-weight: bold; padding: 1px 6px; border-radius: 8px; margin-top: 3px; }
-            .table-info { position: absolute; bottom: 4px; left: 8px; font-size: 10px; color: #cbd5e1; z-index: 3; }
-
-            /* Roadmap (Bảng cầu) */
-            .roadmap-bar { background: #111; padding: 5px 10px; display: flex; align-items: center; gap: 6px; overflow-x: auto; border-bottom: 1px solid #222; }
-            .road-ball { width: 18px; height: 18px; border-radius: 50%; font-size: 9px; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-            .r-banker { background: #ef4444; color: white; }
-            .r-player { background: #3b82f6; color: white; }
-            .r-tie { background: #22c55e; color: white; }
-
-            /* Bàn cược chính */
-            .betting-board { background: #580000; padding: 8px; }
+            /* Khung cược chính phong cách Sòng Bạc */
+            .table-board { background: #680d1b; border: 1px solid #8e1828; margin: 4px; border-radius: 12px; padding: 6px; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); position: relative; }
             
-            /* Lưới cược phụ đầy đủ */
-            .side-bets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-bottom: 6px; }
-            .side-bet-card { background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 4px; padding: 5px 2px; text-align: center; cursor: pointer; }
-            .side-bet-card:active { background: rgba(255, 215, 0, 0.3); }
-            .sb-title { font-size: 10px; font-weight: bold; color: #fde047; }
-            .sb-odds { font-size: 9px; color: #cbd5e1; }
+            /* Cửa cược phụ (Hàng trên: 5 ô) */
+            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; margin-bottom: 6px; }
+            .side-box { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 6px 2px; text-align: center; position: relative; cursor: pointer; min-height: 65px; display: flex; flex-direction: column; justify-content: center; }
+            .side-box:active { background: rgba(255, 255, 255, 0.15); }
+            .sb-name { font-size: 11px; font-weight: bold; }
+            .sb-name.cyan { color: #38bdf8; }
+            .sb-name.gold { color: #fde047; }
+            .sb-name.orange { color: #fb923c; }
+            .help-icon { position: absolute; top: 2px; right: 2px; font-size: 9px; width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: #ccc; }
+            .sb-odds { font-size: 10px; margin: 2px 0; color: #fff; font-weight: bold; }
+            .sb-sub { font-size: 8px; color: #fca5a5; scale: 0.9; }
+            .sb-status { font-size: 8px; color: #9aa0a6; margin-top: 2px; }
 
-            /* Cửa chính 闲, 和, 庄 */
-            .main-bets-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 6px; }
-            .main-bet-btn { padding: 10px 4px; border-radius: 6px; border: none; font-weight: bold; text-align: center; cursor: pointer; color: white; }
-            .btn-player { background: #1d4ed8; border: 1px solid #60a5fa; }
-            .btn-tie { background: #15803d; border: 1px solid #4ade80; }
-            .btn-banker { background: #b91c1c; border: 1px solid #f87171; }
+            /* Cửa cược chính (Hàng dưới: 3 ô lớn) */
+            .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; }
+            .main-box { background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; padding: 10px 4px; text-align: center; position: relative; cursor: pointer; min-height: 85px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .main-box:active { background: rgba(255, 255, 255, 0.15); }
+            .mb-name { font-size: 20px; font-weight: bold; }
+            .mb-name.player { color: #38bdf8; }
+            .mb-name.tie { color: #4ade80; }
+            .mb-name.banker { color: #f87171; }
+            .mb-odds { font-size: 12px; font-weight: bold; color: #fff; margin: 2px 0; }
+            .mb-stats { font-size: 9px; color: #9aa0a6; display: flex; align-items: center; gap: 3px; }
+            .percent-badge { position: absolute; top: 6px; right: 6px; font-size: 9px; padding: 1px 4px; border-radius: 8px; background: rgba(0,0,0,0.4); color: #cbd5e1; }
+
+            /* Hiển thị Chip đặt cược chồng lên ô */
+            .chip-stack { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; z-index: 10; pointer-events: none; }
+            .chip-amount { background: rgba(0,0,0,0.85); color: #fff; font-size: 9px; font-weight: bold; padding: 1px 5px; border-radius: 8px; border: 1px solid #ffd700; margin-bottom: 2px; }
+            .chip-icon { width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle, #a855f7 0%, #6b21a8 100%); border: 2px dashed #fff; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: bold; color: white; box-shadow: 0 3px 6px rgba(0,0,0,0.6); }
+
+            /* Thanh điều khiển cuối cùng (Nút Hủy & X2) */
+            .bottom-actions { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; margin-top: 6px; }
+            .action-btn { background: transparent; border: none; color: #e2e8f0; font-size: 14px; font-weight: bold; display: flex; align-items: center; gap: 6px; cursor: pointer; opacity: 0.9; }
+            .action-btn:active { opacity: 0.6; transform: scale(0.96); }
 
             /* Thanh chọn Chip phía dưới */
-            .chip-bar { background: #111827; padding: 8px 10px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #1f2937; position: sticky; bottom: 0; }
-            .chip { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; cursor: pointer; border: 2px dashed #fff; }
-            .chip.active { border-style: solid; border-color: #ffd700; transform: scale(1.12); box-shadow: 0 0 8px #ffd700; }
-            .chip-1 { background: #e2e8f0; color: #000; }
-            .chip-5 { background: #3b82f6; color: #fff; }
-            .chip-10 { background: #22c55e; color: #fff; }
-            .chip-50 { background: #a855f7; color: #fff; }
-            .chip-100 { background: #ef4444; color: #fff; }
+            .chip-bar { background: #3b060d; padding: 8px 12px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #680d1b; position: sticky; bottom: 0; }
+            .chip-item { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; cursor: pointer; border: 2px dashed #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+            .chip-item.active { border-style: solid; border-color: #ffd700; transform: scale(1.15); box-shadow: 0 0 10px #ffd700; }
+            .c-10 { background: #22c55e; color: #fff; }
+            .c-50 { background: #3b82f6; color: #fff; }
+            .c-100 { background: #a855f7; color: #fff; }
+            .c-500 { background: #ef4444; color: #fff; }
+            .c-1000 { background: #eab308; color: #000; }
         </style>
     </head>
     <body>
 
-        <!-- 1. Màn hình Dealer Hoạt họa 3D phía trên -->
-        <div class="dealer-3d-container">
-            <div class="dealer-overlay"></div>
-            <div class="live-badge">3D LIVE V.IP</div>
-            <div class="dealer-avatar-3d"></div>
-
-            <div class="dealer-table-3d">
-                <!-- Bài 闲 Player -->
-                <div class="cards-box">
-                    <div class="p-title" style="color: #60a5fa;">闲 (PLAYER)</div>
-                    <div class="cards-flex">
-                        <div class="card red">A ♥</div>
-                        <div class="card">A ♣</div>
-                    </div>
-                    <div class="score-badge">2 点</div>
-                </div>
-
-                <!-- Bài 庄 Banker -->
-                <div class="cards-box">
-                    <div class="p-title" style="color: #f87171;">庄 (BANKER)</div>
-                    <div class="cards-flex">
-                        <div class="card red">9 ♦</div>
-                        <div class="card">10 ♠</div>
-                    </div>
-                    <div class="score-badge">9 点</div>
-                </div>
-            </div>
-
-            <div class="table-info">桌号: GB282692348E | 限红: 20-200,000</div>
+        <!-- 1. Dòng thông tin trên cùng (Thời gian UTC+8, Số bàn, Giới hạn cược) -->
+        <div class="top-bar">
+            <span id="beijing-time">15:48 (UTC+08)</span>
+            <div class="timer-circle" id="countdown">15</div>
+            <span>限红: 10~20,000</span>
         </div>
 
-        <!-- 2. Bảng cầu (Roadmap) -->
-        <div class="roadmap-bar">
-            <span style="font-size: 10px; color: #94a3b8; font-weight: bold;">路单:</span>
-            <div class="road-ball r-banker">庄</div>
-            <div class="road-ball r-banker">庄</div>
-            <div class="road-ball r-player">闲</div>
-            <div class="road-ball r-banker">庄</div>
-            <div class="road-ball r-tie">和</div>
-            <div class="road-ball r-player">闲</div>
-            <div class="road-ball r-banker">庄</div>
+        <div style="padding: 0 4px; font-size: 10px; color: #cbd5e1; margin-bottom: 2px;">
+            局号: <span id="table-id">GB10269234DA</span>
         </div>
 
-        <!-- 3. Khu vực đặt cược đầy đủ chi tiết -->
-        <div class="betting-board">
+        <!-- 2. Khung bàn đặt cược -->
+        <div class="table-board">
             
-            <!-- Cửa cược phụ đầy đủ -->
-            <div class="side-bets-grid">
-                <div class="side-bet-card" onclick="placeBet('闲对 (Player Pair)')">
-                    <div class="sb-title">闲对</div>
-                    <div class="sb-odds">1 : 11</div>
+            <!-- Hàng trên: Cửa cược phụ (5 ô) -->
+            <div class="side-grid">
+                <!-- 闲对 -->
+                <div class="side-box" onclick="placeBet('player_pair')">
+                    <span class="help-icon">?</span>
+                    <div class="sb-name cyan">闲对</div>
+                    <div class="sb-odds">1:11</div>
+                    <div class="sb-status">6局未出</div>
+                    <div id="chip-player_pair"></div>
                 </div>
-                <div class="side-bet-card" onclick="placeBet('幸运七 (Lucky 7)')">
-                    <div class="sb-title">幸运七</div>
-                    <div class="sb-odds">1 : 6~15</div>
+                <!-- 幸运七 -->
+                <div class="side-box" onclick="placeBet('lucky_7')">
+                    <span class="help-icon">?</span>
+                    <div class="sb-name cyan">幸运七</div>
+                    <div class="sb-sub">闲7点赢<br>2张牌 1:6<br>3张牌 1:15</div>
+                    <div class="sb-status">8局未出</div>
+                    <div id="chip-lucky_7"></div>
                 </div>
-                <div class="side-bet-card" onclick="placeBet('超级幸运七 (Super Lucky 7)')">
-                    <div class="sb-title">超级幸运七</div>
-                    <div class="sb-odds">最高 1:100</div>
+                <!-- 超级幸运七 -->
+                <div class="side-box" onclick="placeBet('super_lucky_7')">
+                    <span class="help-icon">?</span>
+                    <div class="sb-name gold">超级幸运七</div>
+                    <div class="sb-sub">闲7赢庄6<br>4张牌 1:30/5张牌 1:40<br>6张牌 1:100</div>
+                    <div class="sb-status">18局未出</div>
+                    <div id="chip-super_lucky_7"></div>
                 </div>
-                <div class="side-bet-card" onclick="placeBet('幸运六 (Lucky 6)')">
-                    <div class="sb-title">幸运六</div>
-                    <div class="sb-odds">1 : 12~20</div>
+                <!-- 幸运六 -->
+                <div class="side-box" onclick="placeBet('lucky_6')">
+                    <span class="help-icon">?</span>
+                    <div class="sb-name orange">幸运六</div>
+                    <div class="sb-sub">庄6点赢<br>2张牌 1:12<br>3张牌 1:20</div>
+                    <div class="sb-status">22局未出</div>
+                    <div id="chip-lucky_6"></div>
+                </div>
+                <!-- 庄对 -->
+                <div class="side-box" onclick="placeBet('banker_pair')">
+                    <span class="help-icon">?</span>
+                    <div class="sb-name orange">庄对</div>
+                    <div class="sb-odds">1:11</div>
+                    <div class="sb-status">11局未出</div>
+                    <div id="chip-banker_pair"></div>
                 </div>
             </div>
 
-            <!-- Cửa cược chính -->
-            <div class="main-bets-grid">
-                <button class="main-bet-btn btn-player" onclick="placeBet('闲 (PLAYER)')">
-                    <div style="font-size: 13px;">闲 (PLAYER)</div>
-                    <div style="font-size: 10px; opacity: 0.9;">1 : 1</div>
+            <!-- Hàng dưới: Cửa cược chính (3 ô lớn) -->
+            <div class="main-grid">
+                <!-- 闲 (PLAYER) -->
+                <div class="main-box" onclick="placeBet('player')">
+                    <span class="percent-badge">36%</span>
+                    <div class="mb-name player">闲</div>
+                    <div class="mb-odds">1:1</div>
+                    <div class="mb-stats">👥 14 🪙 1K</div>
+                    <div id="chip-player"></div>
+                </div>
+                <!-- 和 (TIE) -->
+                <div class="main-box" onclick="placeBet('tie')">
+                    <span class="percent-badge">0%</span>
+                    <div class="mb-name tie">和</div>
+                    <div class="mb-odds">1:8</div>
+                    <div class="mb-stats">7局未出</div>
+                    <div id="chip-tie"></div>
+                </div>
+                <!-- 庄 (BANKER) -->
+                <div class="main-box" onclick="placeBet('banker')">
+                    <span class="percent-badge">64%</span>
+                    <div class="mb-name banker">庄</div>
+                    <div class="mb-odds">1:1</div>
+                    <div class="mb-stats">👥 7 🪙 1.8K</div>
+                    <div id="chip-banker"></div>
+                </div>
+            </div>
+
+            <!-- 3. Thanh nút 取消 (Hủy) & X2 (Nhân đôi) -->
+            <div class="bottom-actions">
+                <button class="action-btn" onclick="cancelBets()">
+                    <span style="font-size: 16px;">✕</span> 取消
                 </button>
-                <button class="main-bet-btn btn-tie" onclick="placeBet('和 (TIE)')">
-                    <div style="font-size: 13px;">和 (TIE)</div>
-                    <div style="font-size: 10px; opacity: 0.9;">1 : 8</div>
-                </button>
-                <button class="main-bet-btn btn-banker" onclick="placeBet('庄 (BANKER)')">
-                    <div style="font-size: 13px;">庄 (BANKER)</div>
-                    <div style="font-size: 10px; opacity: 0.9;">1 : 0.95</div>
+                <button class="action-btn" onclick="doubleBets()">
+                    <span style="font-size: 16px;">︽</span> X2
                 </button>
             </div>
         </div>
 
-        <!-- 4. Thanh chọn Chip phía dưới -->
+        <!-- 4. Thanh chọn Chip tiền phía dưới -->
         <div class="chip-bar">
-            <span style="font-size: 11px; color: #fbbf24; font-weight: bold;">筹码: <span id="chip-val">10</span></span>
-            <div class="chip chip-1" onclick="selectChip(1, this)">1</div>
-            <div class="chip chip-5" onclick="selectChip(5, this)">5</div>
-            <div class="chip chip-10 active" onclick="selectChip(10, this)">10</div>
-            <div class="chip chip-50" onclick="selectChip(50, this)">50</div>
-            <div class="chip chip-100" onclick="selectChip(100, this)">100</div>
+            <div class="chip-item c-10 active" onclick="selectChip(10, this)">10</div>
+            <div class="chip-item c-50" onclick="selectChip(50, this)">50</div>
+            <div class="chip-item c-100" onclick="selectChip(100, this)">100</div>
+            <div class="chip-item c-500" onclick="selectChip(500, this)">500</div>
+            <div class="chip-item c-1000" onclick="selectChip(1000, this)">1k</div>
         </div>
 
         <script>
@@ -507,16 +519,87 @@ def home():
             tg.expand();
 
             let currentChip = 10;
+            let bets = {}; // Lưu danh sách cược hiện tại
 
-            function selectChip(amount, element) {
-                document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-                element.classList.add('active');
+            // Tự động cập nhật giờ Bắc Kinh (UTC+8)
+            function updateBeijingTime() {
+                let now = new Date();
+                let utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+                let bjTime = new Date(utc + (3600000 * 8));
+                let h = String(bjTime.getHours()).padStart(2, '0');
+                let m = String(bjTime.getMinutes()).padStart(2, '0');
+                document.getElementById('beijing-time').innerText = h + ':' + m + ' (UTC+08)';
+            }
+            setInterval(updateBeijingTime, 1000);
+            updateBeijingTime();
+
+            // Tạo mã số bàn ngẫu nhiên không trùng lặp
+            function generateTableID() {
+                let chars = '0123456789ABCDEF';
+                let res = 'GB';
+                for (let i = 0; i < 10; i++) {
+                    res += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                document.getElementById('table-id').innerText = res;
+            }
+            generateTableID();
+
+            // Đếm ngược thời gian
+            let timerVal = 15;
+            setInterval(() => {
+                timerVal--;
+                if (timerVal < 0) timerVal = 15;
+                document.getElementById('countdown').innerText = timerVal;
+            }, 1000);
+
+            // Chọn mức cược Chip
+            function selectChip(amount, el) {
+                document.querySelectorAll('.chip-item').forEach(c => c.classList.remove('active'));
+                el.classList.add('active');
                 currentChip = amount;
-                document.getElementById('chip-val').innerText = amount;
             }
 
-            function placeBet(betType) {
-                alert('下注成功 (' + currentChip + ' USDT): ' + betType);
+            // Đặt cược không popup, hiển thị chip trực tiếp lên ô
+            function placeBet(area) {
+                if (!bets[area]) bets[area] = 0;
+                bets[area] += currentChip;
+                renderChips();
+            }
+
+            // Hiển thị Chip và tổng số tiền trên từng ô cược
+            function renderChips() {
+                let areas = ['player_pair', 'lucky_7', 'super_lucky_7', 'lucky_6', 'banker_pair', 'player', 'tie', 'banker'];
+                areas.forEach(area => {
+                    let container = document.getElementById('chip-' + area);
+                    if (container) {
+                        if (bets[area] && bets[area] > 0) {
+                            container.innerHTML = `
+                                <div class="chip-stack">
+                                    <div class="chip-amount">${bets[area]}</div>
+                                    <div class="chip-icon">Chip</div>
+                                </div>
+                            `;
+                        } else {
+                            container.innerHTML = '';
+                        }
+                    }
+                });
+            }
+
+            // Nút 取消: Hủy đặt cược và hoàn tiền
+            function cancelBets() {
+                bets = {};
+                renderChips();
+            }
+
+            // Nút X2: Nhân đôi số tiền cược
+            function doubleBets() {
+                Object.keys(bets).forEach(area => {
+                    if (bets[area] > 0) {
+                        bets[area] *= 2;
+                    }
+                });
+                renderChips();
             }
         </script>
     </body>
