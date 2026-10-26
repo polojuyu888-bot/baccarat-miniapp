@@ -359,3 +359,38 @@ if __name__ == '__main__':
         
         print("🤖 Bot quản lý sòng bài với quyền Admin vô cực đã sẵn sàng...")
         app.run_polling()
+from fastapi import FastAPI
+import uvicorn
+import threading
+
+# Tạo một ứng dụng web nhẹ để nhận lịch ping giữ kết nối
+web_app = FastAPI()
+
+@web_app.get("/")
+def home():
+    return {"status": "Bot is active!"}
+
+def run_web():
+    uvicorn.run(web_app, host="0.0.0.0", port=int(os.getenv("PORT", 10000)))
+
+if __name__ == '__main__':
+    init_db()
+    if not BOT_TOKEN:
+        print("❌ Lỗi: Chưa cấu hình BOT_TOKEN trên môi trường!")
+    else:
+        # Khởi chạy web server ở một luồng riêng (thread) để không chặn bot Telegram
+        web_thread = threading.Thread(target=run_web, daemon=True)
+        web_thread.start()
+
+        app = ApplicationBuilder().token(BOT_TOKEN).build()
+        
+        app.add_handler(CommandHandler("start", start_command))
+        app.add_handler(CommandHandler("id", get_id_command))
+        app.add_handler(CommandHandler("checkin", checkin_command))
+        app.add_handler(CommandHandler("add", add_command))
+        app.add_handler(CommandHandler("sub", sub_command))
+        app.add_handler(CommandHandler("freeze", freeze_command))
+        app.add_handler(CommandHandler("unfreeze", unfreeze_command))
+        
+        print("🤖 Bot quản lý sòng bài với quyền Admin vô cực đã sẵn sàng...")
+        app.run_polling()
