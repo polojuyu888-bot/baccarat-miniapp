@@ -100,7 +100,7 @@ def home():
             .balance-box { background: rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            .dealer-screen { position: relative; width: 100%; height: 210px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
+            .dealer-screen { position: relative; width: 100%; height: 200px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
             .table-info-overlay { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid #e74c3c; }
@@ -109,48 +109,48 @@ def home():
             .cards-on-table { position: absolute; bottom: 8px; width: 100%; display: flex; justify-content: space-around; padding: 0 15px; z-index: 5; pointer-events: none; }
             .table-side { display: flex; gap: 4px; align-items: center; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; }
             
-            .playing-card { width: 28px; height: 38px; perspective: 1000px; }
+            .playing-card { width: 26px; height: 36px; perspective: 1000px; }
             .card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s ease; }
             .playing-card.flipped .card-inner { transform: rotateY(180deg); }
-            .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 11px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+            .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
             .card-back { background: #2563eb; color: transparent; border: 1px solid #fff; }
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            .game-panel { flex: 1; display: flex; flex-direction: column; background: #680d1b; padding: 6px; justify-content: space-between; }
+            .game-panel { flex: 1; display: flex; flex-direction: column; background: #680d1b; padding: 5px; justify-content: space-between; }
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #f3a9b3; padding: 0 4px; }
             
-            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin: 4px 0; }
-            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 4px 2px; text-align: center; cursor: pointer; position: relative; min-height: 58px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .s-title { font-size: 10px; font-weight: bold; }
+            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; margin: 2px 0; }
+            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; min-height: 52px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .s-title { font-size: 9px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
             .s-title.orange { color: #fb923c; }
-            .s-rate { font-size: 9px; color: #fff; margin: 1px 0; }
-            .s-sub { font-size: 7px; color: #fca5a5; line-height: 1; }
-            .s-status { font-size: 7px; color: #9aa0a6; margin-top: 1px; }
+            .s-rate { font-size: 8px; color: #fff; margin: 1px 0; }
+            .s-sub { font-size: 6px; color: #fca5a5; line-height: 1; }
+            .s-status { font-size: 6px; color: #9aa0a6; margin-top: 1px; }
 
-            .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 4px; }
-            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 8px 4px; text-align: center; cursor: pointer; position: relative; min-height: 75px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .m-name { font-size: 18px; font-weight: bold; }
+            .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 2px; }
+            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 4px; text-align: center; cursor: pointer; position: relative; min-height: 65px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .m-name { font-size: 16px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
-            .m-rate { font-size: 11px; font-weight: bold; color: #fff; }
+            .m-rate { font-size: 10px; font-weight: bold; color: #fff; }
             .m-stats { font-size: 8px; color: #cbd5e1; margin-top: 2px; }
             
             .my-bet-tag { position: absolute; bottom: 2px; right: 4px; font-size: 9px; background: #f1c40f; color: #000; padding: 1px 4px; border-radius: 4px; font-weight: bold; display: none; z-index: 5; }
 
-            .action-row { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
-            .action-btn { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 5px; border-radius: 4px; color: #fff; font-size: 11px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; }
+            .action-row { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 2px; }
+            .action-btn { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 4px; border-radius: 4px; color: #fff; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; }
 
-            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.5); padding: 6px 8px; border-radius: 8px; justify-content: space-between; gap: 4px; }
-            .menu-chip-btn { width: 32px; height: 32px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 12px; }
+            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 8px; justify-content: space-between; gap: 4px; }
+            .menu-chip-btn { width: 30px; height: 30px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 11px; }
             
             .chips-scroll { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; align-items: center; padding: 2px; }
             .chips-scroll::-webkit-scrollbar { display: none; }
             
-            .chip { width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 10px; cursor: pointer; border: 2px dashed #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+            .chip { width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 10px; cursor: pointer; border: 2px dashed #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
             .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 8px #f1c40f; }
             .c-10 { background: #3b82f6; color: #fff; }
             .c-20 { background: #10b981; color: #fff; }
@@ -160,22 +160,22 @@ def home():
             .c-2k { background: #eab308; color: #000; }
 
             .commission-toggle { display: flex; align-items: center; gap: 3px; font-size: 9px; cursor: pointer; }
-            .toggle-switch { width: 28px; height: 15px; background: #cbd5e1; border-radius: 10px; position: relative; transition: 0.3s; }
-            .toggle-switch::before { content: ''; position: absolute; width: 11px; height: 11px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+            .toggle-switch { width: 26px; height: 14px; background: #cbd5e1; border-radius: 10px; position: relative; transition: 0.3s; }
+            .toggle-switch::before { content: ''; position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
             input.comm-input { display: none; }
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
-            input.comm-input:checked + .toggle-switch::before { transform: translateX(13px); }
+            input.comm-input:checked + .toggle-switch::before { transform: translateX(12px); }
 
-            /* BẢNG SOI CẦU: ĐÚNG CHUẨN 6 HÀNG DỌC, CỘT 8 ĐẾN 23, KHÔNG CÓ THANH CUỘN */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 122px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+            /* BẢNG SOI CẦU: HOÀN TOÀN BỎ GẠCH NGANG, ĐỦ 6 HÀNG DỌC, CỘT 8 ĐẾN 23 CHO BIG ROAD */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 120px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; }
             
             .sc-stats-group { display: flex; align-items: center; gap: 10px; }
             .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: bold; color: #ffffff !important; }
             .stat-item span { color: #ffffff !important; }
 
-            .stat-icon-circle { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
-            .ratio-pie { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
+            .stat-icon-circle { width: 11px; height: 11px; border-radius: 50%; display: inline-block; margin-bottom: 1px; }
+            .ratio-pie { width: 11px; height: 11px; border-radius: 50%; display: inline-block; margin-bottom: 1px; border: 1px solid rgba(255,255,255,0.3); background: #334155; }
 
             .sc-menus { display: flex; gap: 8px; align-items: center; }
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 8px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 3px; }
@@ -183,16 +183,16 @@ def home():
 
             .road-tables-container { 
                 display: flex; 
-                gap: 4px; 
+                gap: 0px; 
                 overflow: hidden; 
                 align-items: flex-start; 
-                height: 98px; 
+                height: 96px; 
                 padding-top: 2px;
                 background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
                 background-size: 15px 15px;
             }
 
-            /* Bảng trái Bead Plate: Đúng 7 cột, đúng 6 hàng dọc (15px * 6 = 90px) */
+            /* Bảng Bead Plate bên trái: Đúng 7 cột, đúng 6 hàng dọc (15px * 6 = 90px) */
             .bead-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-auto-flow: column; grid-auto-columns: 15px; gap: 1px; height: 92px; align-content: start; }
             .bead-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
             .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
@@ -202,10 +202,7 @@ def home():
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* Đường kẻ phân cách nằm đúng sau cột thứ 7 */
-            .road-divider { width: 1px; height: 92px; background: rgba(255,255,255,0.3); margin: 0 3px; flex-shrink: 0; }
-
-            /* Bảng phải Big Road: Bắt đầu từ cột số 8, cố định 16 cột (tổng 23 cột), đúng 6 hàng dọc */
+            /* Bảng Big Road bên phải: Bắt đầu chạy ngay từ cột thứ 8 (cột 7 đầu là Bead Plate, Big Road có 16 cột từ 8 đến 23), đúng 6 hàng dọc */
             .road-grid-table { display: grid; grid-template-rows: repeat(6, 15px); grid-template-columns: repeat(16, 15px); gap: 1px; height: 92px; align-content: start; }
             .road-box { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
 
@@ -353,7 +350,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU CHUẨN 6 HÀNG DỌC, CỘT 8 ĐẾN 23, KHÔNG CÓ THANH CUỘN -->
+        <!-- BẢNG SOI CẦU: KHÔNG CÓ GẠCH NGANG, ĐỦ 6 HÀNG DỌC, BIG ROAD BẮT ĐẦU TỪ CỘT 8 -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -381,11 +378,9 @@ def home():
             </div>
 
             <div class="road-tables-container">
-                <!-- Bảng trái Bead Plate: Đúng 7 cột, đúng 6 hàng dọc -->
+                <!-- Bảng trái Bead Plate: Đúng 7 cột, đủ 6 hàng dọc -->
                 <div class="bead-grid-table" id="bead-plate-container"></div>
-                <!-- Đường kẻ phân cách sau cột thứ 7 -->
-                <div class="road-divider"></div>
-                <!-- Bảng phải Big Road: Cột 8 đến 23 (16 cột), đúng 6 hàng dọc -->
+                <!-- Bảng phải Big Road: Bắt đầu chạy từ cột 8 đến 23 (16 cột), đủ 6 hàng dọc -->
                 <div class="road-grid-table" id="big-road-container"></div>
             </div>
         </div>
@@ -425,7 +420,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v7') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v8') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -461,7 +456,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v7', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v8', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
