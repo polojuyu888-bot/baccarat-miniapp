@@ -100,19 +100,19 @@ def home():
             .balance-box { background: rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            .dealer-screen { position: relative; width: 100%; height: 190px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
+            .dealer-screen { position: relative; width: 100%; height: 180px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
-            .table-info-overlay { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid #e74c3c; }
-            .time-box { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; text-align: right; }
+            .table-info-overlay { position: absolute; top: 6px; left: 6px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid #e74c3c; }
+            .time-box { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; text-align: right; }
 
-            .cards-on-table { position: absolute; bottom: 8px; width: 100%; display: flex; justify-content: space-around; padding: 0 15px; z-index: 5; pointer-events: none; }
-            .table-side { display: flex; gap: 4px; align-items: center; background: rgba(0,0,0,0.4); padding: 4px 8px; border-radius: 6px; }
+            .cards-on-table { position: absolute; bottom: 6px; width: 100%; display: flex; justify-content: space-around; padding: 0 15px; z-index: 5; pointer-events: none; }
+            .table-side { display: flex; gap: 4px; align-items: center; background: rgba(0,0,0,0.4); padding: 3px 6px; border-radius: 6px; }
             
-            .playing-card { width: 24px; height: 34px; perspective: 1000px; }
+            .playing-card { width: 22px; height: 32px; perspective: 1000px; }
             .card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s ease; }
             .playing-card.flipped .card-inner { transform: rotateY(180deg); }
-            .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+            .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-size: 9px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
             .card-back { background: #2563eb; color: transparent; border: 1px solid #fff; }
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
@@ -121,7 +121,7 @@ def home():
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #f3a9b3; padding: 0 4px; }
             
             .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin: 2px 0; }
-            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 48px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 46px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .s-title { font-size: 9px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
@@ -131,8 +131,8 @@ def home():
             .s-status { font-size: 6px; color: #9aa0a6; margin-top: 1px; }
 
             .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 2px; }
-            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 4px; text-align: center; cursor: pointer; position: relative; min-height: 58px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .m-name { font-size: 15px; font-weight: bold; }
+            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 4px; text-align: center; cursor: pointer; position: relative; min-height: 54px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .m-name { font-size: 14px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
@@ -145,12 +145,12 @@ def home():
             .action-btn { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2); padding: 3px; border-radius: 4px; color: #fff; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; }
 
             .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.5); padding: 4px 8px; border-radius: 8px; justify-content: space-between; gap: 4px; }
-            .menu-chip-btn { width: 28px; height: 28px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 11px; }
+            .menu-chip-btn { width: 26px; height: 26px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 11px; }
             
             .chips-scroll { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; align-items: center; padding: 2px; }
             .chips-scroll::-webkit-scrollbar { display: none; }
             
-            .chip { width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 10px; cursor: pointer; border: 2px dashed #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+            .chip { width: 28px; height: 28px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 10px; cursor: pointer; border: 2px dashed #fff; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
             .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 8px #f1c40f; }
             .c-10 { background: #3b82f6; color: #fff; }
             .c-20 { background: #10b981; color: #fff; }
@@ -166,9 +166,9 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(11px); }
 
-            /* BẢNG SOI CẦU: KHÓA CỨNG 27 CỘT (NGANG) X 6 HÀNG (DỌC) */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 118px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; }
+            /* BẢNG SOI CẦU: MỞ RỘNG CHIỀU CAO ĐỦ 105PX ĐỂ KHÔNG BAO GIỜ BỊ KHUẤT DÒNG CUỐI */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 128px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 3px; margin-bottom: 2px; }
             
             .sc-stats-group { display: flex; align-items: center; gap: 8px; }
             .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: bold; color: #ffffff !important; }
@@ -181,37 +181,36 @@ def home():
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 8px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 3px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            /* HỆ THỐNG LƯỚI TỔNG THỂ KHÓA CỨNG ĐÚNG 27 CỘT, 6 HÀNG DỌC TUYỆT ĐỐI */
+            /* HỆ THỐNG LƯỚI TỔNG THỂ KHÓA CỨNG ĐÚNG 27 CỘT X 6 HÀNG (MỖI Ô 16PX ĐỂ CÂN ĐỐI TÂM TUYỆT ĐỐI) */
             .master-grid-table { 
                 display: grid; 
-                grid-template-rows: repeat(6, 15px); 
-                grid-template-columns: repeat(27, 15px); 
-                gap: 1px; 
-                height: 92px; 
-                width: 405px; /* 27 * 15px = 405px khớp chuẩn tuyệt đối */
+                grid-template-rows: repeat(6, 16px); 
+                grid-template-columns: repeat(27, 16px); 
+                gap: 0px; 
+                height: 96px; 
+                width: 432px; /* 27 * 16px = 432px */
                 align-content: start; 
-                background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
-                background-size: 15px 15px;
+                background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1.2px, transparent 1.2px);
+                background-size: 16px 16px;
                 overflow: hidden;
                 margin: 0 auto;
             }
 
-            .grid-cell { width: 15px; height: 15px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .grid-cell { width: 16px; height: 16px; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            /* Bead Plate (Cột 1 đến 7) */
-            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; }
+            /* Bead Plate & Big Road: Căn chuẩn tâm tuyệt đối đè lên các chấm mờ */
+            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            /* Big Road (Từ cột 8 đến 26, để trống cột 27) */
-            .road-dot { width: 12px; height: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; }
+            .road-dot { width: 12px; height: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
             .road-dot.p-solid { background: #3b82f6; }
             .road-dot.b-solid { background: #ef4444; }
 
-            .tie-slash { position: absolute; width: 15px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
+            .tie-slash { position: absolute; width: 16px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -351,7 +350,7 @@ def home():
             </div>
         </div>
 
-        <!-- BẢNG SOI CẦU CHUẨN 27 CỘT X 6 HÀNG -->
+        <!-- BẢNG SOI CẦU -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -378,7 +377,7 @@ def home():
                 </div>
             </div>
 
-            <!-- HỆ THỐNG LƯỚI TỔNG THỂ 27 CỘT X 6 HÀNG -->
+            <!-- HỆ THỐNG LƯỚI TỔNG THỂ 27 CỘT X 6 HÀNG (HIỂN THỊ TRỌN VẸN 100%) -->
             <div class="master-grid-table" id="master-grid"></div>
         </div>
 
@@ -417,8 +416,8 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            // Dùng key v13 để xóa sạch hoàn toàn cache cũ trên trình duyệt
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v13') || 'null');
+            // Dùng key v14 để xóa sạch cache cũ trên trình duyệt
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v14') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -454,7 +453,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v13', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v14', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -699,14 +698,11 @@ def home():
                 let masterGrid = document.getElementById('master-grid');
                 masterGrid.innerHTML = '';
 
-                // Tạo sẵn lưới 27 cột x 6 hàng = 162 ô
                 let cells = [];
                 for (let r = 0; r < 6; r++) {
                     for (let c = 0; c < 27; c++) {
                         let cell = document.createElement('div');
                         cell.className = 'grid-cell';
-                        cell.dataset.row = r;
-                        cell.dataset.col = c;
                         masterGrid.appendChild(cell);
                         cells.push(cell);
                     }
@@ -717,7 +713,7 @@ def home():
                     return cells[r * 27 + c];
                 }
 
-                // 1. Render Bead Plate (Cột 0 đến 6 tương ứng cột 1 đến 7)[cite: 13]
+                // 1. Render Bead Plate (Cột 0 đến 6, mỗi cột đúng 6 chấm)[cite: 13]
                 let beadCol = 0, beadRow = 0;
                 globalGame.scoreRecords.forEach(rec => {
                     if (beadRow >= 6) {
@@ -741,9 +737,9 @@ def home():
                     beadRow++;
                 });
 
-                // 2. Render Big Road (Bắt đầu từ cột thứ 8, tức index c = 7, giới hạn đến cột 25 tương ứng dòng 26)[cite: 13]
+                // 2. Render Big Road (Bắt đầu từ cột thứ 8, tức index c = 7, kết thúc ở cột 26)[cite: 13]
                 let roadMatrix = Array(6).fill(0).map(() => Array(27).fill(null));
-                let col = 7, row = 0; // Cột 8 (index 7) là cột bắt đầu[cite: 13]
+                let col = 7, row = 0;
                 let lastType = null;
                 let lastCellRef = null;
 
@@ -779,7 +775,6 @@ def home():
                     }
                 });
 
-                // Nếu vượt quá cột 26, thực hiện thụt cột đầu tiên (trượt trái để giữ tối đa đến dòng 26)[cite: 13]
                 let maxCol = 7;
                 for (let c = 7; c < 27; c++) {
                     for (let r = 0; r < 6; r++) {
