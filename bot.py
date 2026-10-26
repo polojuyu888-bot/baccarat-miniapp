@@ -100,7 +100,7 @@ def home():
             .balance-box { background: rgba(255,255,255,0.12); padding: 4px 10px; border-radius: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            .dealer-screen { position: relative; width: 100%; height: 180px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
+            .dealer-screen { position: relative; width: 100%; height: 170px; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
             
             .table-info-overlay { position: absolute; top: 6px; left: 6px; background: rgba(0,0,0,0.6); padding: 4px 8px; border-radius: 4px; font-size: 10px; border-left: 3px solid #e74c3c; }
@@ -121,7 +121,7 @@ def home():
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #f3a9b3; padding: 0 4px; }
             
             .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin: 2px 0; }
-            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 46px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .side-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 2px; text-align: center; cursor: pointer; position: relative; min-height: 44px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .s-title { font-size: 9px; font-weight: bold; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
@@ -131,7 +131,7 @@ def home():
             .s-status { font-size: 6px; color: #9aa0a6; margin-top: 1px; }
 
             .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-bottom: 2px; }
-            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 4px; text-align: center; cursor: pointer; position: relative; min-height: 54px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            .main-spot { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 4px; text-align: center; cursor: pointer; position: relative; min-height: 50px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .m-name { font-size: 14px; font-weight: bold; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
@@ -166,9 +166,9 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(11px); }
 
-            /* BẢNG SOI CẦU: MỞ RỘNG CHIỀU CAO ĐỦ 105PX ĐỂ KHÔNG BAO GIỜ BỊ KHUẤT DÒNG CUỐI */
-            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px; height: 128px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 3px; margin-bottom: 2px; }
+            /* BẢNG SOI CẦU: MỞ RỘNG CHIỀU CAO ĐỦ 135PX VÀ THÊM PADDING ĐỂ KHÔNG BAO GIỜ BỊ KHUẤT DÒNG 6 */
+            .scoreboard-section { background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 4px 6px 8px 6px; height: 135px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+            .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 3px; margin-bottom: 3px; }
             
             .sc-stats-group { display: flex; align-items: center; gap: 8px; }
             .stat-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; font-weight: bold; color: #ffffff !important; }
@@ -181,36 +181,36 @@ def home():
             .sc-menu-item { display: flex; flex-direction: column; align-items: center; font-size: 8px; color: #94a3b8; cursor: pointer; background: rgba(255,255,255,0.05); padding: 1px 4px; border-radius: 3px; }
             .sc-menu-icons { display: flex; gap: 2px; align-items: center; margin-bottom: 1px; }
 
-            /* HỆ THỐNG LƯỚI TỔNG THỂ KHÓA CỨNG ĐÚNG 27 CỘT X 6 HÀNG (MỖI Ô 16PX ĐỂ CÂN ĐỐI TÂM TUYỆT ĐỐI) */
+            /* HỆ THỐNG LƯỚI TỔNG THỂ KHÓA CỨNG ĐÚNG 27 CỘT X 6 HÀNG (MỖI Ô 17PX ĐỂ RỘNG RÃI, KHÔNG BAO GIỜ BỊ CẮT CỤT) */
             .master-grid-table { 
                 display: grid; 
-                grid-template-rows: repeat(6, 16px); 
-                grid-template-columns: repeat(27, 16px); 
+                grid-template-rows: repeat(6, 17px); 
+                grid-template-columns: repeat(27, 17px); 
                 gap: 0px; 
-                height: 96px; 
-                width: 432px; /* 27 * 16px = 432px */
+                height: 102px; 
+                width: 459px; /* 27 * 17px = 459px */
                 align-content: start; 
-                background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1.2px, transparent 1.2px);
-                background-size: 16px 16px;
+                background-image: radial-gradient(rgba(255, 255, 255, 0.24) 1.3px, transparent 1.3px);
+                background-size: 17px 17px;
                 overflow: hidden;
                 margin: 0 auto;
             }
 
-            .grid-cell { width: 16px; height: 16px; display: flex; justify-content: center; align-items: center; position: relative; }
+            .grid-cell { width: 17px; height: 17px; display: flex; justify-content: center; align-items: center; position: relative; }
 
-            /* Bead Plate & Big Road: Căn chuẩn tâm tuyệt đối đè lên các chấm mờ */
-            .bead { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+            /* Bead Plate & Big Road: Căn chuẩn tâm tuyệt đối, không bị khuất viền */
+            .bead { width: 14px; height: 14px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 6px; font-weight: bold; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
             .bead.P { background: #3b82f6; color: #fff; }
             .bead.B { background: #ef4444; color: #fff; }
             .bead.T { background: #10b981; color: #fff; }
             .bead.P7 { background: #3b82f6; color: #fff; border: 1px solid #facc15; font-size: 5px; }
             .bead.B6 { background: #ef4444; color: #fff; border: 1px solid #facc15; font-size: 5px; }
 
-            .road-dot { width: 12px; height: 12px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+            .road-dot { width: 13px; height: 13px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 5px; font-weight: bold; color: #fff; position: relative; z-index: 2; box-shadow: 0 1px 2px rgba(0,0,0,0.4); }
             .road-dot.p-solid { background: #3b82f6; }
             .road-dot.b-solid { background: #ef4444; }
 
-            .tie-slash { position: absolute; width: 16px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
+            .tie-slash { position: absolute; width: 17px; height: 2px; background: #10b981; transform: rotate(-45deg); z-index: 5; pointer-events: none; }
 
             .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 100; justify-content: center; align-items: center; }
             .modal-content { background: #1c232a; width: 92%; max-height: 82vh; border-radius: 8px; padding: 15px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.15); }
@@ -416,8 +416,8 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            // Dùng key v14 để xóa sạch cache cũ trên trình duyệt
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v14') || 'null');
+            // Dùng key v15 để làm sạch bộ nhớ đệm trình duyệt
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v15') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -453,7 +453,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v14', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v15', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
