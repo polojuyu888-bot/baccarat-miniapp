@@ -100,17 +100,17 @@ def home():
             .balance-box { background: rgba(255,255,255,0.15); padding: 1px 5px; border-radius: 8px; display: flex; align-items: center; gap: 3px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            /* PHẦN 1: VIDEO / DEALER - 40% */
+            /* PHẦN 1: ẢNH BÀN CƯỢC BACCARAT - 40% */
             .dealer-screen { position: relative; width: 100%; height: 40vh; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; flex-shrink: 0; }
-            .dealer-screen img, .dealer-screen video { width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
+            .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
             
             .table-info-overlay { position: absolute; top: 3px; left: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; border-left: 2px solid #e74c3c; z-index: 6; }
             .time-box { position: absolute; top: 3px; right: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; text-align: right; z-index: 6; }
 
-            .cards-on-table { position: absolute; bottom: 4px; width: 100%; display: flex; justify-content: space-around; padding: 0 10px; z-index: 5; pointer-events: none; }
-            .table-side { display: flex; gap: 2px; align-items: center; background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px; }
+            .cards-on-table { position: absolute; bottom: 8px; width: 100%; display: flex; justify-content: space-around; padding: 0 20px; z-index: 5; pointer-events: none; }
+            .table-side { display: flex; gap: 3px; align-items: center; background: rgba(0,0,0,0.5); padding: 2px 6px; border-radius: 4px; }
             
-            .playing-card { width: 16px; height: 24px; perspective: 1000px; }
+            .playing-card { width: 18px; height: 26px; perspective: 1000px; }
             .card-inner { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: transform 0.8s ease; }
             .playing-card.flipped .card-inner { transform: rotateY(180deg); }
             .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 2px; display: flex; justify-content: center; align-items: center; font-size: 7px; font-weight: bold; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
@@ -320,10 +320,9 @@ def home():
             </div>
         </div>
 
-        <!-- PHẦN 1: VIDEO / DEALER (Đã thay ảnh anime mới) -->
+        <!-- PHẦN 1: ẢNH BÀN CƯỢC BACCARAT CHUẨN - 40% -->
         <div class="dealer-screen">
-            <!-- Bạn có thể đổi thành thẻ <video autoplay muted loop src="link_video.mp4"></video> nếu xuất thành video thực tế -->
-            <img src="https://i.ibb.co/1G05H1Y/anime-dealer.jpg" alt="Dealer Live">
+            <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=1000&q=80" alt="Baccarat Table">
             <div class="table-info-overlay">
                 <div id="table-name" style="font-weight: bold;">B11 BACCARAT</div>
                 <div style="font-size: 7px; color: #aaa;" id="table-id-code">GB65EF638FDA</div>
@@ -335,12 +334,12 @@ def home():
 
             <div class="cards-on-table">
                 <div class="table-side" id="p-cards-area">
-                    <span style="font-size:8px; color:#38bdf8;">闲</span>
+                    <span style="font-size:8px; color:#38bdf8; font-weight:bold;">闲</span>
                     <div class="playing-card"><div class="card-inner"><div class="card-face card-back">?</div><div class="card-face card-front" id="p-card-0">?</div></div></div>
                     <div class="playing-card"><div class="card-inner"><div class="card-face card-back">?</div><div class="card-face card-front" id="p-card-1">?</div></div></div>
                 </div>
                 <div class="table-side" id="b-cards-area">
-                    <span style="font-size:8px; color:#ef4444;">庄</span>
+                    <span style="font-size:8px; color:#ef4444; font-weight:bold;">庄</span>
                     <div class="playing-card"><div class="card-inner"><div class="card-face card-back">?</div><div class="card-face card-front" id="b-card-0">?</div></div></div>
                     <div class="playing-card"><div class="card-inner"><div class="card-face card-back">?</div><div class="card-face card-front" id="b-card-1">?</div></div></div>
                 </div>
@@ -505,7 +504,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v43') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v44') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -541,7 +540,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v43', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v44', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
