@@ -107,6 +107,21 @@ def home():
             .table-info-overlay { position: absolute; top: 3px; left: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; border-left: 2px solid #e74c3c; z-index: 6; }
             .time-box { position: absolute; top: 3px; right: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; text-align: right; z-index: 6; }
 
+            /* Khung bài hiển thị trên Dealer khi đồng hồ đếm đến 13s */
+            .dealer-dealing-area {
+                position: absolute;
+                top: 45%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                display: none;
+                gap: 50px;
+                z-index: 20;
+            }
+            .dealer-side-group {
+                display: flex;
+                gap: 6px;
+            }
+
             /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% */
             .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; position: relative; }
             
@@ -241,7 +256,7 @@ def home():
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
             input.comm-input:checked + .toggle-switch::before { transform: translateX(6px); }
 
-            /* KHU VỰC KẾT QUẢ BÀI CHIA ĐÔI: TRÁI XANH DƯƠNG (PLAYER), PHẢI ĐỎ (BANKER) */
+            /* KHU VỰC KẾT QUẢ BÀI CHIA ĐÔI DƯỚI (KÍCH THƯỚC TO, DỒN SÁT GIỮA, THỨ TỰ QUÂN THỨ 3 NGOÀI CÙNG) */
             .dealt-cards-overlay-bar {
                 position: absolute;
                 bottom: 0;
@@ -258,50 +273,52 @@ def home():
                 width: 100%;
                 height: 100%;
             }
+            /* Trái: Player (Xanh dương) - Dồn sát lề phải (về giữa) */
             .split-side-player {
-                background: linear-gradient(135deg, rgba(29, 78, 216, 0.9) 0%, rgba(30, 58, 138, 0.95) 100%);
+                background: linear-gradient(135deg, rgba(29, 78, 216, 0.95) 0%, rgba(30, 58, 138, 0.98) 100%);
                 display: flex;
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-end;
                 justify-content: center;
                 gap: 3px;
                 border-right: 1px solid rgba(255,255,255,0.2);
-                padding: 2px 10px;
+                padding-right: 12px;
             }
+            /* Phải: Banker (Đỏ) - Dồn sát lề trái (về giữa) */
             .split-side-banker {
                 background: linear-gradient(135deg, rgba(185, 28, 28, 0.95) 0%, rgba(127, 29, 29, 0.98) 100%);
                 display: flex;
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
                 justify-content: center;
                 gap: 3px;
-                padding: 2px 10px;
+                padding-left: 12px;
             }
 
             .side-header-line {
-                font-size: 11px;
+                font-size: 13px;
                 font-weight: bold;
                 display: flex;
                 align-items: center;
-                gap: 6px;
+                gap: 8px;
                 color: #fff;
             }
 
             .cards-flex {
                 display: flex;
                 align-items: center;
-                gap: 4px;
+                gap: 5px;
             }
             
-            /* THẺ BÀI 3D VÀ MẶT SAU DB */
+            /* KÍCH THƯỚC THẺ BÀI TO HƠN, RÕ NÉT */
             .big-playing-card {
-                width: 28px;
-                height: 42px;
+                width: 36px;
+                height: 52px;
                 perspective: 1000px;
             }
             .big-playing-card.horizontal {
-                width: 42px;
-                height: 28px;
+                width: 52px;
+                height: 36px;
             }
             .big-card-inner {
                 width: 100%;
@@ -318,13 +335,13 @@ def home():
                 width: 100%;
                 height: 100%;
                 backface-visibility: hidden;
-                border-radius: 3px;
+                border-radius: 4px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 10px;
+                font-size: 13px;
                 font-weight: bold;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.6);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.6);
                 border: 1px solid #ccc;
             }
             .big-card-back {
@@ -335,12 +352,12 @@ def home():
                 color: #fff;
             }
             .db-badge {
-                width: 16px;
-                height: 16px;
+                width: 20px;
+                height: 20px;
                 border-radius: 50%;
                 background: #fff;
                 color: #b91c1c;
-                font-size: 6px;
+                font-size: 8px;
                 font-weight: bold;
                 display: flex;
                 justify-content: center;
@@ -446,6 +463,18 @@ def home():
                 <div id="hanoi-time" style="font-weight: bold;">15:48 (UTC+07)</div>
                 <div style="font-size: 7px; color: #aaa;">Hạn mức: 10~20000</div>
             </div>
+
+            <!-- Khung bài xuất hiện ở Dealer live khi đồng hồ đếm đến 13s -->
+            <div class="dealer-dealing-area" id="dealer-dealing-area">
+                <div class="dealer-side-group">
+                    <div class="big-playing-card"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div></div></div>
+                    <div class="big-playing-card"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div></div></div>
+                </div>
+                <div class="dealer-side-group">
+                    <div class="big-playing-card"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div></div></div>
+                    <div class="big-playing-card"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div></div></div>
+                </div>
+            </div>
         </div>
 
         <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% -->
@@ -537,29 +566,29 @@ def home():
                 </div>
             </div>
 
-            <!-- KHU VỰC KẾT QUẢ BÀI CHIA ĐÔI: TRÁI XANH DƯƠNG (PLAYER), PHẢI ĐỎ (BANKER) -->
+            <!-- KHU VỰC KẾT QUẢ BÀI DƯỚI: THỨ TỰ QUÂN THỨ 3 NGOÀI CÙNG, DỒN SÁT GIỮA -->
             <div class="dealt-cards-overlay-bar" id="dealt-cards-overlay-bar">
                 <div class="split-bg-container">
-                    <!-- Nửa trái: Player (Xanh dương) -->
+                    <!-- Nửa trái: Player (Xanh dương) - Quân thứ 3 ở ngoài cùng bên trái -->
                     <div class="split-side-player" id="split-side-player">
                         <div class="side-header-line">
                             <span>闲</span> <span id="p-score-val" style="display:none;">0</span>
                         </div>
                         <div class="cards-flex">
+                            <div class="big-playing-card horizontal" id="big-p-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bp-2">?</div></div></div>
                             <div class="big-playing-card" id="big-p-0"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bp-0">?</div></div></div>
                             <div class="big-playing-card" id="big-p-1"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bp-1">?</div></div></div>
-                            <div class="big-playing-card horizontal" id="big-p-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bp-2">?</div></div></div>
                         </div>
                     </div>
-                    <!-- Nửa phải: Banker (Đỏ) -->
+                    <!-- Nửa phải: Banker (Đỏ) - Quân thứ 3 ở ngoài cùng bên phải -->
                     <div class="split-side-banker" id="split-side-banker">
                         <div class="side-header-line">
                             <span id="b-score-val" style="display:none;">0</span> <span>庄</span>
                         </div>
                         <div class="cards-flex">
-                            <div class="big-playing-card horizontal" id="big-b-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bb-2">?</div></div></div>
                             <div class="big-playing-card" id="big-b-0"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bb-0">?</div></div></div>
                             <div class="big-playing-card" id="big-b-1"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bb-1">?</div></div></div>
+                            <div class="big-playing-card horizontal" id="big-b-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bb-2">?</div></div></div>
                         </div>
                     </div>
                 </div>
@@ -634,7 +663,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v52') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v53') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -668,10 +697,11 @@ def home():
 
             let timeLeft = 15;
             let gamePhase = 'betting';
-            let hasDealtThisRound = false;
+            let hasDealtAt13 = false;
+            let currentRoundCards = null;
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v52', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v53', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -699,18 +729,17 @@ def home():
                     timeLeft--;
                     document.getElementById('timer-val').innerText = `⏳ ${timeLeft}s`;
 
-                    // Đúng lúc đồng hồ đếm còn 13 giây: Bắt đầu chia bài ngay tại khung kết quả live
-                    if (timeLeft === 13 && !hasDealtThisRound) {
-                        hasDealtThisRound = true;
-                        gamePhase = 'dealing';
-                        document.getElementById('game-status').innerText = 'Đang mở bài...';
-                        document.getElementById('game-status').style.color = '#e74c3c';
-                        startBaccaratRound();
+                    // 1. Khi đồng hồ đếm đến đúng 13s -> Phát bài ở khung dealer live phía trên
+                    if (timeLeft === 13 && !hasDealtAt13) {
+                        hasDealtAt13 = true;
+                        prepareRoundCards();
+                        document.getElementById('dealer-dealing-area').style.display = 'flex';
                     }
 
-                    if (timeLeft <= 0 && !hasDealtThisRound) {
-                        hasDealtThisRound = true;
+                    // 2. Khi đồng hồ chạy hết 15s (về 0) -> Bắt đầu chuyển xuống dưới mở bài và tính điểm
+                    if (timeLeft <= 0) {
                         gamePhase = 'dealing';
+                        document.getElementById('dealer-dealing-area').style.display = 'none';
                         document.getElementById('game-status').innerText = 'Đang mở bài...';
                         document.getElementById('game-status').style.color = '#e74c3c';
                         startBaccaratRound();
@@ -725,17 +754,10 @@ def home():
                 return parseInt(v);
             }
 
-            function startBaccaratRound() {
+            function prepareRoundCards() {
                 if (globalGame.shoe.length < 15) {
                     globalGame.shoe = generateShoe();
                 }
-
-                // Ẩn điểm số khi mới chia bài (chỉ hiện khi lật xong hết)
-                document.getElementById('p-score-val').style.display = 'none';
-                document.getElementById('b-score-val').style.display = 'none';
-
-                let overlayBar = document.getElementById('dealt-cards-overlay-bar');
-                overlayBar.style.display = 'flex';
 
                 let p1 = globalGame.shoe.pop();
                 let p2 = globalGame.shoe.pop();
@@ -784,6 +806,23 @@ def home():
                     bScore = (bScore + getCardVal(bThirdCard.text)) % 10;
                 }
 
+                currentRoundCards = {
+                    pCards, bCards, pScore, bScore, initialPScore, initialBScore, pVal1, pVal2, bVal1, bVal2
+                };
+            }
+
+            function startBaccaratRound() {
+                if (!currentRoundCards) {
+                    prepareRoundCards();
+                }
+                let { pCards, bCards, pScore, bScore, initialPScore, initialBScore, pVal1, pVal2, bVal1, bVal2 } = currentRoundCards;
+
+                document.getElementById('p-score-val').style.display = 'none';
+                document.getElementById('b-score-val').style.display = 'none';
+
+                let overlayBar = document.getElementById('dealt-cards-overlay-bar');
+                overlayBar.style.display = 'flex';
+
                 document.getElementById('bp-0').innerText = pCards[0].text;
                 document.getElementById('bp-0').className = `big-card-face big-card-front ${pCards[0].color}`;
                 document.getElementById('bp-1').innerText = pCards[1].text;
@@ -802,21 +841,19 @@ def home():
                 document.getElementById('p-score-val').innerText = pScore;
                 document.getElementById('b-score-val').innerText = bScore;
 
-                let nextDelay = 800;
+                let nextDelay = 400;
 
-                // Lật đồng thời 2 lá Player trước
                 setTimeout(() => {
                     document.getElementById('big-p-0').classList.add('flipped');
                     document.getElementById('big-p-1').classList.add('flipped');
                 }, nextDelay);
 
-                // Lật đồng thời 2 lá Banker sau
                 setTimeout(() => {
                     document.getElementById('big-b-0').classList.add('flipped');
                     document.getElementById('big-b-1').classList.add('flipped');
                 }, nextDelay + 800);
 
-                nextDelay += 1800;
+                nextDelay += 1600;
 
                 if (pCards.length === 3) {
                     setTimeout(() => {
@@ -825,7 +862,7 @@ def home():
                         document.getElementById('bp-2').className = `big-card-face big-card-front ${pCards[2].color}`;
                         document.getElementById('big-p-2').classList.add('flipped');
                     }, nextDelay);
-                    nextDelay += 900;
+                    nextDelay += 800;
                 }
 
                 if (bCards.length === 3) {
@@ -835,10 +872,9 @@ def home():
                         document.getElementById('bb-2').className = `big-card-face big-card-front ${bCards[2].color}`;
                         document.getElementById('big-b-2').classList.add('flipped');
                     }, nextDelay);
-                    nextDelay += 900;
+                    nextDelay += 800;
                 }
 
-                // Khi tất cả lá bài đã lật hết -> Hiện điểm số và tính kết quả
                 setTimeout(() => {
                     document.getElementById('p-score-val').style.display = 'inline';
                     document.getElementById('b-score-val').style.display = 'inline';
@@ -893,12 +929,13 @@ def home():
 
                         gamePhase = 'betting';
                         timeLeft = 15;
-                        hasDealtThisRound = false;
+                        hasDealtAt13 = false;
+                        currentRoundCards = null;
                         document.getElementById('game-status').innerText = 'Đang đặt cược';
                         document.getElementById('game-status').style.color = '#2ecc71';
                     }, 3500);
 
-                }, nextDelay + 500);
+                }, nextDelay + 400);
             }
 
             function resetTableCards() {
