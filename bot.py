@@ -118,11 +118,10 @@ def home():
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (LIỀN MẠCH, BO TRÒN 4 GÓC NHƯ ẢNH MẪU)[cite: 8] */
+            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% */
             .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 8px; color: #f3a9b3; padding: 0 2px; }
             
-            /* Khung tổng thể bo tròn 4 góc, các đường kẻ liền mạch dùng border[cite: 8] */
             .bet-table-box {
                 border: 1px solid rgba(255, 255, 255, 0.25);
                 border-radius: 10px;
@@ -134,7 +133,6 @@ def home():
                 background-color: #580d19;
             }
 
-            /* Hàng cược phụ phía trên[cite: 8] */
             .side-grid { 
                 display: grid; 
                 grid-template-columns: 1fr 1fr 1.6fr 1fr 1fr; 
@@ -160,10 +158,10 @@ def home():
             .s-rate { font-size: 8px; color: #fff; margin-top: 1px; }
             .s-status { font-size: 6px; color: #9aa0a6; }
 
-            /* Hàng cược chính phía dưới[cite: 8] */
+            /* Điều chỉnh tỷ lệ chiều dài: 闲 (35%), 和 (30%), 庄 (35%) */
             .main-grid { 
                 display: grid; 
-                grid-template-columns: 1fr 1fr 1fr; 
+                grid-template-columns: 35% 30% 35%; 
                 border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
                 flex: 1; 
             }
@@ -189,10 +187,10 @@ def home():
             
             .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
-            /* Hàng nút hành động dưới cùng[cite: 8] */
+            /* Nút hành động dưới cùng chia đều 50% */
             .action-row { 
                 display: grid; 
-                grid-template-columns: 1fr 1fr; 
+                grid-template-columns: 50% 50%; 
             }
             .action-btn { 
                 background: transparent; 
@@ -342,7 +340,7 @@ def home():
             </div>
         </div>
 
-        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (LIỀN MẠCH, BO TRÒN 4 GÓC NHƯ ẢNH MẪU)[cite: 8] -->
+        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% -->
         <div class="game-panel">
             <div class="round-info-bar">
                 <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
@@ -500,7 +498,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v38') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v39') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -536,7 +534,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v38', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v39', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
