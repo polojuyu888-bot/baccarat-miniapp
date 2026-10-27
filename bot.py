@@ -124,26 +124,26 @@ def home():
             
             .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: transparent; }
             .side-spot { background: transparent; border: none; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .s-title { font-size: 25px; font-weight: bold; line-height: 1.1; }
+            .s-title { font-size: 18px; font-weight: bold; line-height: 1.1; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
             .s-title.orange { color: #fb923c; }
-            .s-rate { font-size: 10px; color: #fff; margin-top: 1px; }
-            .s-status { font-size: 8px; color: #9aa0a6; }
+            .s-rate { font-size: 8px; color: #fff; margin-top: 1px; }
+            .s-status { font-size: 6px; color: #9aa0a6; }
 
             .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 3px; background: transparent; }
             .main-spot { background: transparent; border: none; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .m-name { font-size: 26px; font-weight: bold; line-height: 1.1; }
+            .m-name { font-size: 25px; font-weight: bold; line-height: 1.1; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
-            .m-rate { font-size: 10px; font-weight: bold; color: #fff; margin: 1px 0; }
-            .m-stats { font-size: 8px; color: #cbd5e1; }
+            .m-rate { font-size: 8px; font-weight: bold; color: #fff; margin: 1px 0; }
+            .m-stats { font-size: 6px; color: rgba(255,255,255,0.6); }
             
-            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 8px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
+            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
             .action-row { display: flex; justify-content: space-between; gap: 3px; }
-            .action-btn { flex: 1; background: transparent; border: none; padding: 2px; color: #fff; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
+            .action-btn { flex: 1; background: transparent; border: none; padding: 2px; color: #fff; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
 
             .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.45); padding: 2px 5px; border-radius: 4px; justify-content: space-between; gap: 2px; }
             .menu-chip-btn { width: 20px; height: 20px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 8px; }
@@ -289,55 +289,55 @@ def home():
                 <div class="side-spot" onclick="placeBet('player_pair')">
                     <div class="s-title cyan">闲对</div>
                     <div class="s-rate">1:11</div>
-                    <div class="s-status" style="font-size: 8px;">6局</div>
+                    <div class="s-status">6局</div>
                     <div class="my-bet-tag" id="amt-player_pair">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('lucky_7')">
                     <div class="s-title cyan">幸运七</div>
                     <div class="s-rate">闲7: 1:6</div>
-                    <div class="s-status" style="font-size: 8px;">8局</div>
+                    <div class="s-status">8局</div>
                     <div class="my-bet-tag" id="amt-lucky_7">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('super_lucky_7')">
                     <div class="s-title gold">超级幸运七</div>
                     <div class="s-rate">4张 1:30</div>
-                    <div class="s-status" style="font-size: 8px;">18局</div>
+                    <div class="s-status">18局</div>
                     <div class="my-bet-tag" id="amt-super_lucky_7">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('lucky_6')">
                     <div class="s-title orange">幸运六</div>
                     <div class="s-rate">庄6: 1:12</div>
-                    <div class="s-status" style="font-size: 8px;">22局</div>
+                    <div class="s-status">22局</div>
                     <div class="my-bet-tag" id="amt-lucky_6">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('banker_pair')">
                     <div class="s-title orange">庄对</div>
                     <div class="s-rate">1:11</div>
-                    <div class="s-status" style="font-size: 8px;">11局</div>
+                    <div class="s-status">11局</div>
                     <div class="my-bet-tag" id="amt-banker_pair">0</div>
                 </div>
             </div>
 
             <div class="main-grid">
                 <div class="main-spot" onclick="placeBet('player')">
-                    <span style="position: absolute; top: 2px; right: 4px; font-size: 8px; color: rgba(255,255,255,0.5);">36%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">36%</span>
                     <div class="m-name player">闲</div>
                     <div class="m-rate">1 : 1</div>
-                    <div class="m-stats" style="font-size: 8px; color: rgba(255,255,255,0.5);">👥 14 🪙 1K</div>
+                    <div class="m-stats">👥 14 🪙 1K</div>
                     <div class="my-bet-tag" id="amt-player">0</div>
                 </div>
                 <div class="main-spot" onclick="placeBet('tie')">
-                    <span style="position: absolute; top: 2px; right: 4px; font-size: 8px; color: rgba(255,255,255,0.5);">0%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">0%</span>
                     <div class="m-name tie">和</div>
                     <div class="m-rate">1 : 8</div>
-                    <div class="m-stats" style="font-size: 8px; color: rgba(255,255,255,0.5);">7局未出</div>
+                    <div class="m-stats">7局未出</div>
                     <div class="my-bet-tag" id="amt-tie">0</div>
                 </div>
                 <div class="main-spot" onclick="placeBet('banker')">
-                    <span style="position: absolute; top: 2px; right: 4px; font-size: 8px; color: rgba(255,255,255,0.5);">64%</span>
+                    <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">64%</span>
                     <div class="m-name banker">庄</div>
                     <div class="m-rate" id="rate-banker">1 : 0.95</div>
-                    <div class="m-stats" style="font-size: 8px; color: rgba(255,255,255,0.5);">👥 7 🪙 1.8K</div>
+                    <div class="m-stats">👥 7 🪙 1.8K</div>
                     <div class="my-bet-tag" id="amt-banker">0</div>
                 </div>
             </div>
@@ -433,7 +433,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v32') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v34') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -469,7 +469,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v32', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v34', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
