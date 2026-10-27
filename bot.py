@@ -100,22 +100,22 @@ def home():
             .balance-box { background: rgba(255,255,255,0.15); padding: 1px 5px; border-radius: 8px; display: flex; align-items: center; gap: 3px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            /* PHẦN 1: BÀN CƯỢC BACCARAT - 32% */
-            .dealer-screen { position: relative; width: 100%; height: 32vh; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; flex-shrink: 0; }
+            /* PHẦN 1: BÀN CƯỢC BACCARAT - 40% */
+            .dealer-screen { position: relative; width: 100%; height: 40vh; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; flex-shrink: 0; }
             .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
             
             .table-info-overlay { position: absolute; top: 3px; left: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; border-left: 2px solid #e74c3c; z-index: 6; }
             .time-box { position: absolute; top: 3px; right: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; text-align: right; z-index: 6; }
 
-            /* PHẦN 2: BẢNG ĐẶT CƯỢC CHÍNH - 32% */
-            .game-panel { width: 100%; height: 32vh; background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; position: relative; }
+            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% */
+            .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; position: relative; }
             
             .bet-table-box {
                 border: 1px solid rgba(255, 255, 255, 0.25);
                 border-radius: 8px;
                 overflow: hidden;
                 display: grid;
-                grid-template-rows: 15% 35% 35% 15%;
+                grid-template-rows: 15% 42% 43%;
                 flex: 1;
                 margin-bottom: 2px;
                 background-color: #580d19;
@@ -150,17 +150,16 @@ def home():
                 transition: background 0.3s ease;
             }
             .side-spot:last-child { border-right: none; }
-            .s-title { font-size: 13px; font-weight: bold; line-height: 1.1; }
+            .s-title { font-size: 14px; font-weight: bold; line-height: 1.1; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
             .s-title.orange { color: #fb923c; }
-            .s-rate { font-size: 7px; color: #fff; margin-top: 1px; }
-            .s-status { font-size: 5px; color: #9aa0a6; }
+            .s-rate { font-size: 7.5px; color: #fff; margin-top: 1px; }
+            .s-status { font-size: 6px; color: #9aa0a6; }
 
             .main-grid { 
                 display: grid; 
                 grid-template-columns: 35% 30% 35%; 
-                border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
             }
             .main-spot { 
                 background: transparent; 
@@ -176,12 +175,12 @@ def home():
                 transition: background 0.3s ease;
             }
             .main-spot:last-child { border-right: none; }
-            .m-name { font-size: 18px; font-weight: bold; line-height: 1.1; }
+            .m-name { font-size: 20px; font-weight: bold; line-height: 1.1; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
-            .m-rate { font-size: 7px; font-weight: bold; color: #fff; margin: 1px 0; }
-            .m-stats { font-size: 5px; color: rgba(255,255,255,0.6); }
+            .m-rate { font-size: 8px; font-weight: bold; color: #fff; margin: 1px 0; }
+            .m-stats { font-size: 6px; color: rgba(255,255,255,0.6); }
 
             /* Hiệu ứng nhấp nháy sáng khi chiến thắng */
             @keyframes winGlow {
@@ -191,7 +190,7 @@ def home():
             }
             .winner-flash { animation: winGlow 0.8s infinite ease-in-out; }
             
-            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 6px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
+            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
             .action-row { 
                 display: grid; 
@@ -201,9 +200,9 @@ def home():
                 background: transparent; 
                 border: none; 
                 border-right: 1px solid rgba(255, 255, 255, 0.2); 
-                padding: 1px; 
+                padding: 2px; 
                 color: #fff; 
-                font-size: 9px; 
+                font-size: 10px; 
                 font-weight: bold; 
                 cursor: pointer; 
                 display: flex; 
@@ -214,12 +213,12 @@ def home():
             .action-btn:last-child { border-right: none; }
 
             .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.45); padding: 2px 5px; border-radius: 4px; justify-content: space-between; gap: 2px; }
-            .menu-chip-btn { width: 18px; height: 18px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 7px; }
+            .menu-chip-btn { width: 20px; height: 20px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 8px; }
             
             .chips-scroll { display: flex; gap: 3px; overflow-x: auto; scrollbar-width: none; align-items: center; }
             .chips-scroll::-webkit-scrollbar { display: none; }
             
-            .chip { width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 7px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+            .chip { width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 7px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.5); }
             .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 5px #f1c40f; }
             .c-10 { background: #3b82f6; color: #fff; }
             .c-20 { background: #10b981; color: #fff; }
@@ -229,23 +228,26 @@ def home():
             .c-2k { background: #eab308; color: #000; }
 
             .commission-toggle { display: flex; align-items: center; gap: 2px; font-size: 7px; cursor: pointer; }
-            .toggle-switch { width: 14px; height: 8px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
-            .toggle-switch::before { content: ''; position: absolute; width: 4px; height: 4px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+            .toggle-switch { width: 16px; height: 9px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
+            .toggle-switch::before { content: ''; position: absolute; width: 5px; height: 5px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
             input.comm-input { display: none; }
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
-            input.comm-input:checked + .toggle-switch::before { transform: translateX(6px); }
+            input.comm-input:checked + .toggle-switch::before { transform: translateX(7px); }
 
-            /* PHẦN 3: KHUNG KẾT QUẢ BÀI RÕ RÀNG Ở DƯỚI (NGAY TRÊN ROAD MAP) - 13% */
-            .dealt-cards-bottom-bar {
+            /* KHU VỰC HIỂN THỊ KẾT QUẢ BÀI: CHE PHỦ Ô NÚT VÀ CHIP (ĐÚNG NHƯ MẪU) */
+            .dealt-cards-overlay-bar {
+                position: absolute;
+                bottom: 0;
+                left: 0;
                 width: 100%;
-                height: 13vh;
-                background: linear-gradient(135deg, #1b050a 0%, #350c14 100%);
-                border-top: 1.5px solid #d4af37;
-                display: flex;
+                height: 100%;
+                background: linear-gradient(135deg, #1b050a 0%, #3d0e18 100%);
+                display: none;
                 justify-content: space-around;
                 align-items: center;
-                padding: 2px 10px;
-                flex-shrink: 0;
+                z-index: 50;
+                padding: 2px 15px;
+                border-top: 1.5px solid #d4af37;
             }
             .card-side-group {
                 display: flex;
@@ -253,7 +255,7 @@ def home():
                 gap: 8px;
             }
             .card-side-label {
-                font-size: 11px;
+                font-size: 13px;
                 font-weight: bold;
                 color: #fff;
                 display: flex;
@@ -264,10 +266,10 @@ def home():
                 display: flex;
                 gap: 5px;
             }
-            /* Phóng to quân bài rõ nét theo chuẩn mẫu ảnh */
+            /* Phóng to quân bài rõ nét */
             .big-playing-card {
-                width: 34px;
-                height: 48px;
+                width: 36px;
+                height: 50px;
                 perspective: 1000px;
             }
             .big-card-inner {
@@ -289,7 +291,7 @@ def home():
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 11px;
+                font-size: 12px;
                 font-weight: bold;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.6);
                 border: 1px solid #ccc;
@@ -298,8 +300,8 @@ def home():
             .big-card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .big-card-front.red { color: #e74c3c; }
 
-            /* PHẦN 4: ROAD MAP - 23% */
-            .scoreboard-section { width: 100%; height: 23vh; background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 2px 6px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; flex-shrink: 0; }
+            /* PHẦN 3: ROAD MAP - 25% */
+            .scoreboard-section { width: 100%; height: 25vh; background: #141c24; border-top: 1px solid rgba(255,255,255,0.15); padding: 2px 6px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; flex-shrink: 0; }
             .sc-header-row { display: flex; justify-content: space-between; align-items: center; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 1px; }
             
             .sc-stats-group { display: flex; align-items: center; gap: 5px; }
@@ -382,7 +384,7 @@ def home():
             </div>
         </div>
 
-        <!-- PHẦN 1: BÀN CƯỢC BACCARAT - 32% -->
+        <!-- PHẦN 1: BÀN CƯỢC BACCARAT - 40% -->
         <div class="dealer-screen">
             <img src="https://images.unsplash.com/photo-1511193311914-0346f16efe90?auto=format&fit=crop&w=1000&q=80" alt="Baccarat Table">
             <div class="table-info-overlay">
@@ -395,7 +397,7 @@ def home():
             </div>
         </div>
 
-        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC CHÍNH - 32% -->
+        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% -->
         <div class="game-panel">
             <div class="bet-table-box">
                 <div class="round-info-bar">
@@ -439,35 +441,36 @@ def home():
 
                 <div class="main-grid">
                     <div class="main-spot" id="spot-player" onclick="placeBet('player')">
-                        <span style="position: absolute; top: 2px; right: 4px; font-size: 5px; color: rgba(255,255,255,0.6);">36%</span>
+                        <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">36%</span>
                         <div class="m-name player">闲</div>
                         <div class="m-rate">1 : 1</div>
                         <div class="m-stats">👥 14 🪙 1K</div>
                         <div class="my-bet-tag" id="amt-player">0</div>
                     </div>
                     <div class="main-spot" id="spot-tie" onclick="placeBet('tie')">
-                        <span style="position: absolute; top: 2px; right: 4px; font-size: 5px; color: rgba(255,255,255,0.6);">0%</span>
+                        <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">0%</span>
                         <div class="m-name tie">和</div>
                         <div class="m-rate">1 : 8</div>
                         <div class="m-stats">7局未出</div>
                         <div class="my-bet-tag" id="amt-tie">0</div>
                     </div>
                     <div class="main-spot" id="spot-banker" onclick="placeBet('banker')">
-                        <span style="position: absolute; top: 2px; right: 4px; font-size: 5px; color: rgba(255,255,255,0.6);">64%</span>
+                        <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">64%</span>
                         <div class="m-name banker">庄</div>
                         <div class="m-rate" id="rate-banker">1 : 0.95</div>
                         <div class="m-stats">👥 7 🪙 1.8K</div>
                         <div class="my-bet-tag" id="amt-banker">0</div>
                     </div>
                 </div>
-
-                <div class="action-row">
-                    <button class="action-btn" onclick="cancelBets()">✕ 取消</button>
-                    <button class="action-btn" onclick="doubleBets()">⇋ X2</button>
-                </div>
             </div>
 
-            <div class="chips-container">
+            <!-- NÚT HỦY VÀ X2 (HIỂN THỊ KHI ĐẶT CƯỢC) -->
+            <div class="action-row" id="action-row-container" style="display: grid; grid-template-columns: 50% 50%; height: 18%;">
+                <button class="action-btn" onclick="cancelBets()">✕ 取消</button>
+                <button class="action-btn" onclick="doubleBets()">⇋ X2</button>
+            </div>
+
+            <div class="chips-container" id="chips-container-bar" style="height: 18%;">
                 <div class="menu-chip-btn" onclick="openChipPicker()">⚙️</div>
                 <div class="chips-scroll" id="chips-bar-container">
                     <div class="chip c-10 selected" onclick="selectChip(10, this)">10</div>
@@ -483,29 +486,29 @@ def home():
                     <label for="comm-checkbox" class="toggle-switch" style="pointer-events: none;"></label>
                 </div>
             </div>
-        </div>
 
-        <!-- PHẦN 3: KHUNG HIỂN THỊ KẾT QUẢ BÀI DƯỚI BẢNG CƯỢC (ĐÚNG MẪU YÊU CẦU) - 13% -->
-        <div class="dealt-cards-bottom-bar" id="dealt-cards-bottom-bar">
-            <div class="card-side-group">
-                <div class="card-side-label"><span style="color:#38bdf8;">闲</span> <span id="p-score-val">0</span></div>
-                <div class="cards-flex">
-                    <div class="big-playing-card" id="big-p-0"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-0">?</div></div></div>
-                    <div class="big-playing-card" id="big-p-1"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-1">?</div></div></div>
-                    <div class="big-playing-card" id="big-p-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-2">?</div></div></div>
+            <!-- KHUNG HIỂN THỊ KẾT QUẢ BÀI: CHE PHỦ NÚT HỦY, X2 VÀ CHIP -->
+            <div class="dealt-cards-overlay-bar" id="dealt-cards-overlay-bar">
+                <div class="card-side-group">
+                    <div class="card-side-label"><span style="color:#38bdf8;">闲</span> <span id="p-score-val">0</span></div>
+                    <div class="cards-flex">
+                        <div class="big-playing-card" id="big-p-0"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-0">?</div></div></div>
+                        <div class="big-playing-card" id="big-p-1"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-1">?</div></div></div>
+                        <div class="big-playing-card" id="big-p-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-2">?</div></div></div>
+                    </div>
+                </div>
+                <div class="card-side-group">
+                    <div class="cards-flex">
+                        <div class="big-playing-card" id="big-b-0"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-0">?</div></div></div>
+                        <div class="big-playing-card" id="big-b-1"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-1">?</div></div></div>
+                        <div class="big-playing-card" id="big-b-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-2">?</div></div></div>
+                    </div>
+                    <div class="card-side-label"><span id="b-score-val">0</span> <span style="color:#ef4444;">庄</span></div>
                 </div>
             </div>
-            <div class="card-side-group">
-                <div class="cards-flex">
-                    <div class="big-playing-card" id="big-b-0"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-0">?</div></div></div>
-                    <div class="big-playing-card" id="big-b-1"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-1">?</div></div></div>
-                    <div class="big-playing-card" id="big-b-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-2">?</div></div></div>
-                </div>
-                <div class="card-side-label"><span id="b-score-val">0</span> <span style="color:#ef4444;">庄</span></div>
-            </div>
         </div>
 
-        <!-- PHẦN 4: ROAD MAP - 23% -->
+        <!-- PHẦN 3: ROAD MAP - 25% -->
         <div class="scoreboard-section">
             <div class="sc-header-row">
                 <div class="sc-stats-group">
@@ -573,7 +576,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v46') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v47') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -609,7 +612,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v46', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v47', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -657,6 +660,9 @@ def home():
                     globalGame.shoe = generateShoe();
                 }
 
+                // Hiển thị khung bài đè lên vùng nút và chip
+                document.getElementById('dealt-cards-overlay-bar').style.display = 'flex';
+
                 let p1 = globalGame.shoe.pop();
                 let p2 = globalGame.shoe.pop();
                 let b1 = globalGame.shoe.pop();
@@ -677,7 +683,6 @@ def home():
                 let pNeedsThird = false;
                 let bNeedsThird = false;
 
-                // Quy tắc rút bài Player (0-5 rút, 6-9 dừng)
                 if (pScore <= 5) {
                     pNeedsThird = true;
                     pThirdCard = globalGame.shoe.pop();
@@ -685,7 +690,6 @@ def home():
                     pScore = (pScore + getCardVal(pThirdCard.text)) % 10;
                 }
 
-                // Quy tắc rút bài Banker
                 let p3ValNum = pThirdCard ? getCardVal(pThirdCard.text) : null;
                 if (bScore >= 7) {
                     bNeedsThird = false;
@@ -706,7 +710,6 @@ def home():
                     bScore = (bScore + getCardVal(bThirdCard.text)) % 10;
                 }
 
-                // Gán dữ liệu lên khung bài phía dưới
                 document.getElementById('bp-0').innerText = pCards[0].text;
                 document.getElementById('bp-0').className = `big-card-face big-card-front ${pCards[0].color}`;
                 document.getElementById('bp-1').innerText = pCards[1].text;
@@ -739,7 +742,7 @@ def home():
                     bCard2El.style.display = 'none';
                 }
 
-                // Trình tự lật bài: Lật đồng thời Player trước, sau đó Banker
+                // Trình tự lật bài: Player trước, Banker sau
                 setTimeout(() => {
                     document.getElementById('big-p-0').classList.add('flipped');
                     document.getElementById('big-p-1').classList.add('flipped');
@@ -757,7 +760,6 @@ def home():
                     setTimeout(() => { document.getElementById('big-b-2').classList.add('flipped'); }, 2400);
                 }
 
-                // Xác định thắng thua sau khi mở xong
                 setTimeout(() => {
                     let isNatural = (initialPScore >= 8 || initialBScore >= 8);
                     let pPair = (pVal1 === pVal2);
@@ -796,15 +798,14 @@ def home():
 
                     resolveBets(winner);
 
-                    // Hiệu ứng nhấp nháy sáng ở khung đặt cược bên thắng
                     let winSpotId = winner === 'P' ? 'spot-player' : (winner === 'B' ? 'spot-banker' : 'spot-tie');
                     let winningSpotEl = document.getElementById(winSpotId);
                     if (winningSpotEl) winningSpotEl.classList.add('winner-flash');
 
-                    // Giữ hiển thị kết quả bài trong 3.5 giây rồi reset ván mới
                     setTimeout(() => {
                         winningSpotEl.classList.remove('winner-flash');
                         resetTableCards();
+                        document.getElementById('dealt-cards-overlay-bar').style.display = 'none';
 
                         gamePhase = 'betting';
                         timeLeft = 15;
