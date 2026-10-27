@@ -115,7 +115,7 @@ def home():
                 border-radius: 8px;
                 overflow: hidden;
                 display: grid;
-                grid-template-rows: 15% 42% 43%;
+                grid-template-rows: 18% 41% 41%;
                 flex: 1;
                 margin-bottom: 2px;
                 background-color: #580d19;
@@ -150,12 +150,12 @@ def home():
                 transition: background 0.3s ease;
             }
             .side-spot:last-child { border-right: none; }
-            .s-title { font-size: 14px; font-weight: bold; line-height: 1.1; }
+            .s-title { font-size: 13px; font-weight: bold; line-height: 1.1; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
             .s-title.orange { color: #fb923c; }
-            .s-rate { font-size: 7.5px; color: #fff; margin-top: 1px; }
-            .s-status { font-size: 6px; color: #9aa0a6; }
+            .s-rate { font-size: 7px; color: #fff; margin-top: 1px; }
+            .s-status { font-size: 5px; color: #9aa0a6; }
 
             .main-grid { 
                 display: grid; 
@@ -175,12 +175,12 @@ def home():
                 transition: background 0.3s ease;
             }
             .main-spot:last-child { border-right: none; }
-            .m-name { font-size: 20px; font-weight: bold; line-height: 1.1; }
+            .m-name { font-size: 19px; font-weight: bold; line-height: 1.1; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
-            .m-rate { font-size: 8px; font-weight: bold; color: #fff; margin: 1px 0; }
-            .m-stats { font-size: 6px; color: rgba(255,255,255,0.6); }
+            .m-rate { font-size: 7px; font-weight: bold; color: #fff; margin: 1px 0; }
+            .m-stats { font-size: 5px; color: rgba(255,255,255,0.6); }
 
             /* Hiệu ứng nhấp nháy sáng khi chiến thắng */
             @keyframes winGlow {
@@ -190,7 +190,7 @@ def home():
             }
             .winner-flash { animation: winGlow 0.8s infinite ease-in-out; }
             
-            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
+            .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 6px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
             .action-row { 
                 display: grid; 
@@ -202,7 +202,7 @@ def home():
                 border-right: 1px solid rgba(255, 255, 255, 0.2); 
                 padding: 2px; 
                 color: #fff; 
-                font-size: 10px; 
+                font-size: 9px; 
                 font-weight: bold; 
                 cursor: pointer; 
                 display: flex; 
@@ -213,12 +213,12 @@ def home():
             .action-btn:last-child { border-right: none; }
 
             .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.45); padding: 2px 5px; border-radius: 4px; justify-content: space-between; gap: 2px; }
-            .menu-chip-btn { width: 20px; height: 20px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 8px; }
+            .menu-chip-btn { width: 18px; height: 18px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 7px; }
             
             .chips-scroll { display: flex; gap: 3px; overflow-x: auto; scrollbar-width: none; align-items: center; }
             .chips-scroll::-webkit-scrollbar { display: none; }
             
-            .chip { width: 22px; height: 22px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 7px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+            .chip { width: 20px; height: 20px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 7px; cursor: pointer; border: 1.5px dashed #fff; flex-shrink: 0; box-shadow: 0 1px 2px rgba(0,0,0,0.5); }
             .chip.selected { transform: scale(1.15); border-style: solid; border-color: #f1c40f; box-shadow: 0 0 5px #f1c40f; }
             .c-10 { background: #3b82f6; color: #fff; }
             .c-20 { background: #10b981; color: #fff; }
@@ -228,25 +228,25 @@ def home():
             .c-2k { background: #eab308; color: #000; }
 
             .commission-toggle { display: flex; align-items: center; gap: 2px; font-size: 7px; cursor: pointer; }
-            .toggle-switch { width: 16px; height: 9px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
-            .toggle-switch::before { content: ''; position: absolute; width: 5px; height: 5px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
+            .toggle-switch { width: 14px; height: 8px; background: #cbd5e1; border-radius: 8px; position: relative; transition: 0.3s; }
+            .toggle-switch::before { content: ''; position: absolute; width: 4px; height: 4px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: 0.3s; }
             input.comm-input { display: none; }
             input.comm-input:checked + .toggle-switch { background: #22c55e; }
-            input.comm-input:checked + .toggle-switch::before { transform: translateX(7px); }
+            input.comm-input:checked + .toggle-switch::before { transform: translateX(6px); }
 
-            /* KHU VỰC HIỂN THỊ KẾT QUẢ BÀI: CHE PHỦ Ô NÚT VÀ CHIP (ĐÚNG NHƯ MẪU) */
+            /* KHU VỰC HIỂN THỊ KẾT QUẢ BÀI: CHE TỪ HÀNG NÚT HỦY, X2 VÀ CHIP XUỐNG DƯỚI */
             .dealt-cards-overlay-bar {
                 position: absolute;
                 bottom: 0;
                 left: 0;
                 width: 100%;
-                height: 100%;
+                height: 38%;
                 background: linear-gradient(135deg, #1b050a 0%, #3d0e18 100%);
                 display: none;
                 justify-content: space-around;
                 align-items: center;
                 z-index: 50;
-                padding: 2px 15px;
+                padding: 2px 12px;
                 border-top: 1.5px solid #d4af37;
             }
             .card-side-group {
@@ -255,7 +255,7 @@ def home():
                 gap: 8px;
             }
             .card-side-label {
-                font-size: 13px;
+                font-size: 12px;
                 font-weight: bold;
                 color: #fff;
                 display: flex;
@@ -264,12 +264,13 @@ def home():
             }
             .cards-flex {
                 display: flex;
-                gap: 5px;
+                gap: 4px;
             }
-            /* Phóng to quân bài rõ nét */
+            
+            /* THẺ BÀI 3D VÀ GIAO DIỆN MẶT SAU (LƯỚI ĐỎ SỌC KẺ LITI TRẮNG + CHỮ DB Ở GIỮA) */
             .big-playing-card {
-                width: 36px;
-                height: 50px;
+                width: 32px;
+                height: 46px;
                 perspective: 1000px;
             }
             .big-card-inner {
@@ -291,12 +292,33 @@ def home():
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 12px;
+                font-size: 11px;
                 font-weight: bold;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.6);
                 border: 1px solid #ccc;
             }
-            .big-card-back { background: #2563eb; color: transparent; border-color: #fff; }
+            /* Mặt sau chuẩn mẫu: nền đỏ, sọc kẻ liti trắng, vòng tròn trắng chứa chữ DB ở giữa */
+            .big-card-back {
+                background-color: #b91c1c;
+                background-image: linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent);
+                background-size: 4px 4px;
+                border: 1px solid #fca5a5;
+                color: #fff;
+            }
+            .db-badge {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #fff;
+                color: #b91c1c;
+                font-size: 7px;
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+                border: 1px solid #f87171;
+            }
             .big-card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .big-card-front.red { color: #e74c3c; }
 
@@ -464,7 +486,6 @@ def home():
                 </div>
             </div>
 
-            <!-- NÚT HỦY VÀ X2 (HIỂN THỊ KHI ĐẶT CƯỢC) -->
             <div class="action-row" id="action-row-container" style="display: grid; grid-template-columns: 50% 50%; height: 18%;">
                 <button class="action-btn" onclick="cancelBets()">✕ 取消</button>
                 <button class="action-btn" onclick="doubleBets()">⇋ X2</button>
@@ -487,21 +508,21 @@ def home():
                 </div>
             </div>
 
-            <!-- KHUNG HIỂN THỊ KẾT QUẢ BÀI: CHE PHỦ NÚT HỦY, X2 VÀ CHIP -->
+            <!-- KHUNG KẾT QUẢ BÀI VỚI MẶT SAU CHUẨN MẪU DB -->
             <div class="dealt-cards-overlay-bar" id="dealt-cards-overlay-bar">
                 <div class="card-side-group">
                     <div class="card-side-label"><span style="color:#38bdf8;">闲</span> <span id="p-score-val">0</span></div>
                     <div class="cards-flex">
-                        <div class="big-playing-card" id="big-p-0"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-0">?</div></div></div>
-                        <div class="big-playing-card" id="big-p-1"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-1">?</div></div></div>
-                        <div class="big-playing-card" id="big-p-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bp-2">?</div></div></div>
+                        <div class="big-playing-card" id="big-p-0"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bp-0">?</div></div></div>
+                        <div class="big-playing-card" id="big-p-1"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bp-1">?</div></div></div>
+                        <div class="big-playing-card" id="big-p-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bp-2">?</div></div></div>
                     </div>
                 </div>
                 <div class="card-side-group">
                     <div class="cards-flex">
-                        <div class="big-playing-card" id="big-b-0"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-0">?</div></div></div>
-                        <div class="big-playing-card" id="big-b-1"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-1">?</div></div></div>
-                        <div class="big-playing-card" id="big-b-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back">?</div><div class="big-card-face big-card-front" id="bb-2">?</div></div></div>
+                        <div class="big-playing-card" id="big-b-0"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bb-0">?</div></div></div>
+                        <div class="big-playing-card" id="big-b-1"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bb-1">?</div></div></div>
+                        <div class="big-playing-card" id="big-b-2" style="display:none;"><div class="big-card-inner"><div class="big-card-face big-card-back"><div class="db-badge">DB</div></div><div class="big-card-face big-card-front" id="bb-2">?</div></div></div>
                     </div>
                     <div class="card-side-label"><span id="b-score-val">0</span> <span style="color:#ef4444;">庄</span></div>
                 </div>
@@ -576,7 +597,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v47') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v49') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -612,7 +633,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v47', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v49', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
@@ -660,7 +681,6 @@ def home():
                     globalGame.shoe = generateShoe();
                 }
 
-                // Hiển thị khung bài đè lên vùng nút và chip
                 document.getElementById('dealt-cards-overlay-bar').style.display = 'flex';
 
                 let p1 = globalGame.shoe.pop();
@@ -720,47 +740,56 @@ def home():
                 document.getElementById('bb-1').innerText = bCards[1].text;
                 document.getElementById('bb-1').className = `big-card-face big-card-front ${bCards[1].color}`;
 
-                document.getElementById('p-score-val').innerText = pScore;
-                document.getElementById('b-score-val').innerText = bScore;
-
                 let pCard2El = document.getElementById('big-p-2');
                 let bCard2El = document.getElementById('big-b-2');
+                pCard2El.style.display = 'none';
+                bCard2El.style.display = 'none';
 
-                if (pCards.length === 3) {
-                    pCard2El.style.display = 'block';
-                    document.getElementById('bp-2').innerText = pCards[2].text;
-                    document.getElementById('bp-2').className = `big-card-face big-card-front ${pCards[2].color}`;
-                } else {
-                    pCard2El.style.display = 'none';
-                }
+                document.getElementById('p-score-val').innerText = initialPScore;
+                document.getElementById('b-score-val').innerText = initialBScore;
 
-                if (bCards.length === 3) {
-                    bCard2El.style.display = 'block';
-                    document.getElementById('bb-2').innerText = bCards[2].text;
-                    document.getElementById('bb-2').className = `big-card-face big-card-front ${bCards[2].color}`;
-                } else {
-                    bCard2El.style.display = 'none';
-                }
-
-                // Trình tự lật bài: Player trước, Banker sau
+                // TRÌNH TỰ MỞ BÀI: 
+                // Bước 1: Mở đồng thời 2 lá Player trước
                 setTimeout(() => {
                     document.getElementById('big-p-0').classList.add('flipped');
                     document.getElementById('big-p-1').classList.add('flipped');
                 }, 400);
 
+                // Bước 2: Mở đồng thời 2 lá Banker sau
                 setTimeout(() => {
                     document.getElementById('big-b-0').classList.add('flipped');
                     document.getElementById('big-b-1').classList.add('flipped');
                 }, 1200);
 
+                let nextDelay = 1800;
+
+                // Bước 3: Phát và mở lá thứ 3 nếu Player cần rút
                 if (pCards.length === 3) {
-                    setTimeout(() => { document.getElementById('big-p-2').classList.add('flipped'); }, 1800);
+                    setTimeout(() => {
+                        pCard2El.style.display = 'block';
+                        document.getElementById('bp-2').innerText = pCards[2].text;
+                        document.getElementById('bp-2').className = `big-card-face big-card-front ${pCards[2].color}`;
+                        document.getElementById('big-p-2').classList.add('flipped');
+                        document.getElementById('p-score-val').innerText = initialPScore;
+                    }, nextDelay);
+                    nextDelay += 700;
                 }
+
+                // Bước 4: Phát và mở lá thứ 3 nếu Banker cần rút
                 if (bCards.length === 3) {
-                    setTimeout(() => { document.getElementById('big-b-2').classList.add('flipped'); }, 2400);
+                    setTimeout(() => {
+                        bCard2El.style.display = 'block';
+                        document.getElementById('bb-2').innerText = bCards[2].text;
+                        document.getElementById('bb-2').className = `big-card-face big-card-front ${bCards[2].color}`;
+                        document.getElementById('big-b-2').classList.add('flipped');
+                    }, nextDelay);
+                    nextDelay += 700;
                 }
 
                 setTimeout(() => {
+                    document.getElementById('p-score-val').innerText = pScore;
+                    document.getElementById('b-score-val').innerText = bScore;
+
                     let isNatural = (initialPScore >= 8 || initialBScore >= 8);
                     let pPair = (pVal1 === pVal2);
                     let bPair = (bVal1 === bVal2);
@@ -813,7 +842,7 @@ def home():
                         document.getElementById('game-status').style.color = '#2ecc71';
                     }, 3500);
 
-                }, 3200);
+                }, nextDelay + 500);
             }
 
             function resetTableCards() {
