@@ -121,36 +121,62 @@ def home():
             /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% */
             .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
             
-            /* Khung viền bo tròn bao trùm toàn bộ từ thanh trạng thái đến các ô cược */
+            /* Chia tỷ lệ chiều cao 4 tầng trong khung: 12% - 32% - 38% - 18% */
             .bet-table-box {
                 border: 1px solid rgba(255, 255, 255, 0.25);
                 border-radius: 10px;
                 overflow: hidden;
-                display: flex;
-                flex-direction: column;
+                display: grid;
+                grid-template-rows: 12% 32% 38% 18%;
                 flex: 1;
                 margin: 1px 0;
                 background-color: #580d19;
             }
 
+            /* Tầng 1 (12%): Thanh trạng thái & hạn mức */
             .round-info-bar { 
                 display: flex; 
                 justify-content: space-between; 
                 align-items: center; 
                 font-size: 8px; 
                 color: #f3a9b3; 
-                padding: 3px 6px; 
+                padding: 1px 6px; 
                 border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
             }
 
-            /* Tầng trên: 17.5% - 17.5% - 30% - 17.5% - 17.5% */
+            /* Tầng 2 (32%): Cửa phụ (17.5% - 17.5% - 30% - 17.5% - 17.5%) */
             .side-grid { 
                 display: grid; 
                 grid-template-columns: 17.5% 17.5% 30% 17.5% 17.5%; 
-                height: 30%;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
             }
             .side-spot { 
+                background: transparent; 
+                padding: 1px; 
+                text-align: center; 
+                cursor: pointer; 
+                position: relative; 
+                display: flex; 
+                flex-direction: column; 
+                justify-content: center; 
+                align-items: center; 
+                border-right: 1px solid rgba(255, 255, 255, 0.2); 
+            }
+            .side-spot:last-child { border-right: none; }
+            .s-title { font-size: 14px; font-weight: bold; line-height: 1.1; }
+            .s-title.cyan { color: #38bdf8; }
+            .s-title.gold { color: #fde047; }
+            .s-title.orange { color: #fb923c; }
+            .s-rate { font-size: 7.5px; color: #fff; margin-top: 1px; }
+            .s-status { font-size: 6px; color: #9aa0a6; }
+
+            /* Tầng 3 (38%): Cửa chính (35% - 30% - 35%) */
+            .main-grid { 
+                display: grid; 
+                grid-template-columns: 35% 30% 35%; 
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
+            }
+            .main-spot { 
                 background: transparent; 
                 padding: 2px 1px; 
                 text-align: center; 
@@ -162,35 +188,8 @@ def home():
                 align-items: center; 
                 border-right: 1px solid rgba(255, 255, 255, 0.2); 
             }
-            .side-spot:last-child { border-right: none; }
-            .s-title { font-size: 15px; font-weight: bold; line-height: 1.1; }
-            .s-title.cyan { color: #38bdf8; }
-            .s-title.gold { color: #fde047; }
-            .s-title.orange { color: #fb923c; }
-            .s-rate { font-size: 8px; color: #fff; margin-top: 1px; }
-            .s-status { font-size: 6px; color: #9aa0a6; }
-
-            /* Tầng dưới: 35% - 30% - 35% */
-            .main-grid { 
-                display: grid; 
-                grid-template-columns: 35% 30% 35%; 
-                height: 60%;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
-            }
-            .main-spot { 
-                background: transparent; 
-                padding: 3px 2px; 
-                text-align: center; 
-                cursor: pointer; 
-                position: relative; 
-                display: flex; 
-                flex-direction: column; 
-                justify-content: center; 
-                align-items: center; 
-                border-right: 1px solid rgba(255, 255, 255, 0.2); 
-            }
             .main-spot:last-child { border-right: none; }
-            .m-name { font-size: 25px; font-weight: bold; line-height: 1.1; }
+            .m-name { font-size: 22px; font-weight: bold; line-height: 1.1; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
             .m-name.banker { color: #f87171; }
@@ -199,11 +198,10 @@ def home():
             
             .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
-            /* Nút hành động dưới cùng */
+            /* Tầng 4 (18%): Nút Hủy và X2 */
             .action-row { 
                 display: grid; 
                 grid-template-columns: 50% 50%; 
-                height: 10%;
             }
             .action-btn { 
                 background: transparent; 
@@ -356,69 +354,73 @@ def home():
         <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% -->
         <div class="game-panel">
             <div class="bet-table-box">
+                <!-- Tầng 1 (12%) -->
                 <div class="round-info-bar">
                     <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
                     <span style="background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 6px; color: #facc15;" id="timer-val">⏳ 15s</span>
                     <span>Hạn mức: 10~20000</span>
                 </div>
 
+                <!-- Tầng 2 (32%) -->
                 <div class="side-grid">
                     <div class="side-spot" onclick="placeBet('player_pair')">
                         <div class="s-title cyan">闲对</div>
-                        <div class="s-rate" style="font-size: 8px;">1:11</div>
-                        <div class="s-status" style="font-size: 6px;">6局</div>
+                        <div class="s-rate">1:11</div>
+                        <div class="s-status">6局</div>
                         <div class="my-bet-tag" id="amt-player_pair">0</div>
                     </div>
                     <div class="side-spot" onclick="placeBet('lucky_7')">
                         <div class="s-title cyan">幸运七</div>
-                        <div class="s-rate" style="font-size: 8px;">闲7: 1:6</div>
-                        <div class="s-status" style="font-size: 6px;">8局</div>
+                        <div class="s-rate">闲7: 1:6</div>
+                        <div class="s-status">8局</div>
                         <div class="my-bet-tag" id="amt-lucky_7">0</div>
                     </div>
                     <div class="side-spot" onclick="placeBet('super_lucky_7')">
                         <div class="s-title gold">超级幸运七</div>
-                        <div class="s-rate" style="font-size: 8px;">4张 1:30</div>
-                        <div class="s-status" style="font-size: 6px;">18局</div>
+                        <div class="s-rate">4张 1:30</div>
+                        <div class="s-status">18局</div>
                         <div class="my-bet-tag" id="amt-super_lucky_7">0</div>
                     </div>
                     <div class="side-spot" onclick="placeBet('lucky_6')">
                         <div class="s-title orange">幸运六</div>
-                        <div class="s-rate" style="font-size: 8px;">庄6: 1:12</div>
-                        <div class="s-status" style="font-size: 6px;">22局</div>
+                        <div class="s-rate">庄6: 1:12</div>
+                        <div class="s-status">22局</div>
                         <div class="my-bet-tag" id="amt-lucky_6">0</div>
                     </div>
                     <div class="side-spot" onclick="placeBet('banker_pair')">
                         <div class="s-title orange">庄对</div>
-                        <div class="s-rate" style="font-size: 8px;">1:11</div>
-                        <div class="s-status" style="font-size: 6px;">11局</div>
+                        <div class="s-rate">1:11</div>
+                        <div class="s-status">11局</div>
                         <div class="my-bet-tag" id="amt-banker_pair">0</div>
                     </div>
                 </div>
 
+                <!-- Tầng 3 (38%) -->
                 <div class="main-grid">
                     <div class="main-spot" onclick="placeBet('player')">
                         <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">36%</span>
                         <div class="m-name player">闲</div>
-                        <div class="m-rate" style="font-size: 8px;">1 : 1</div>
-                        <div class="m-stats" style="font-size: 6px;">👥 14 🪙 1K</div>
+                        <div class="m-rate">1 : 1</div>
+                        <div class="m-stats">👥 14 🪙 1K</div>
                         <div class="my-bet-tag" id="amt-player">0</div>
                     </div>
                     <div class="main-spot" onclick="placeBet('tie')">
                         <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">0%</span>
                         <div class="m-name tie">和</div>
-                        <div class="m-rate" style="font-size: 8px;">1 : 8</div>
-                        <div class="m-stats" style="font-size: 6px;">7局未出</div>
+                        <div class="m-rate">1 : 8</div>
+                        <div class="m-stats">7局未出</div>
                         <div class="my-bet-tag" id="amt-tie">0</div>
                     </div>
                     <div class="main-spot" onclick="placeBet('banker')">
                         <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">64%</span>
                         <div class="m-name banker">庄</div>
-                        <div class="m-rate" id="rate-banker" style="font-size: 8px;">1 : 0.95</div>
-                        <div class="m-stats" style="font-size: 6px;">👥 7 🪙 1.8K</div>
+                        <div class="m-rate" id="rate-banker">1 : 0.95</div>
+                        <div class="m-stats">👥 7 🪙 1.8K</div>
                         <div class="my-bet-tag" id="amt-banker">0</div>
                     </div>
                 </div>
 
+                <!-- Tầng 4 (18%) -->
                 <div class="action-row">
                     <button class="action-btn" onclick="cancelBets()">✕ 取消</button>
                     <button class="action-btn" onclick="doubleBets()">⇋ X2</button>
@@ -511,7 +513,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v41') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v42') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -547,7 +549,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v41', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v42', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
