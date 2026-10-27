@@ -126,16 +126,17 @@ def home():
                 border: 1px solid rgba(255, 255, 255, 0.25);
                 border-radius: 10px;
                 overflow: hidden;
-                display: flex;
-                flex-direction: column;
+                display: grid;
+                grid-template-rows: 30% 60% 10%;
                 flex: 1;
                 margin: 1px 0;
                 background-color: #580d19;
             }
 
+            /* Tầng trên: 17.5% - 17.5% - 30% - 17.5% - 17.5% */
             .side-grid { 
                 display: grid; 
-                grid-template-columns: 1fr 1fr 1.6fr 1fr 1fr; 
+                grid-template-columns: 17.5% 17.5% 30% 17.5% 17.5%; 
                 border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
             }
             .side-spot { 
@@ -158,12 +159,11 @@ def home():
             .s-rate { font-size: 8px; color: #fff; margin-top: 1px; }
             .s-status { font-size: 6px; color: #9aa0a6; }
 
-            /* Điều chỉnh tỷ lệ chiều dài: 闲 (35%), 和 (30%), 庄 (35%) */
+            /* Tầng dưới: 35% - 30% - 35% */
             .main-grid { 
                 display: grid; 
                 grid-template-columns: 35% 30% 35%; 
                 border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
-                flex: 1; 
             }
             .main-spot { 
                 background: transparent; 
@@ -187,7 +187,7 @@ def home():
             
             .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
-            /* Nút hành động dưới cùng chia đều 50% */
+            /* Nút hành động dưới cùng */
             .action-row { 
                 display: grid; 
                 grid-template-columns: 50% 50%; 
@@ -196,7 +196,7 @@ def home():
                 background: transparent; 
                 border: none; 
                 border-right: 1px solid rgba(255, 255, 255, 0.2); 
-                padding: 3px; 
+                padding: 2px; 
                 color: #fff; 
                 font-size: 10px; 
                 font-weight: bold; 
@@ -498,7 +498,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v39') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v40') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -534,7 +534,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v39', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v40', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
