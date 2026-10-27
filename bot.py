@@ -118,12 +118,13 @@ def home():
             .card-front { background: #fff; color: #000; transform: rotateY(180deg); }
             .card-front.red { color: #e74c3c; }
 
-            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% */
-            .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 3px 6px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
+            /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (CHUẨN BỐ CỤC ẢNH MẪU) */
+            .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
             .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 8px; color: #f3a9b3; padding: 0 2px; }
             
-            .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: transparent; }
-            .side-spot { background: transparent; border: none; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            /* Lưới cược phụ phía trên: 5 cột với tỷ lệ giống ảnh (ô giữa rộng hơn)[cite: 10] */
+            .side-grid { display: grid; grid-template-columns: 1fr 1fr 1.6fr 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.15); }
+            .side-spot { background: #580d19; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .s-title { font-size: 15px; font-weight: bold; line-height: 1.1; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
@@ -131,8 +132,9 @@ def home():
             .s-rate { font-size: 8px; color: #fff; margin-top: 1px; }
             .s-status { font-size: 6px; color: #9aa0a6; }
 
-            .main-grid { display: grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap: 3px; background: transparent; }
-            .main-spot { background: transparent; border: none; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+            /* Lưới cược chính phía dưới: 3 cột (闲 - 和 - 庄)[cite: 10] */
+            .main-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.15); flex: 1; margin: 1px 0; }
+            .main-spot { background: #580d19; padding: 3px 2px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
             .m-name { font-size: 25px; font-weight: bold; line-height: 1.1; }
             .m-name.player { color: #38bdf8; }
             .m-name.tie { color: #4ade80; }
@@ -142,10 +144,11 @@ def home():
             
             .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
-            .action-row { display: flex; justify-content: space-between; gap: 3px; }
-            .action-btn { flex: 1; background: transparent; border: none; padding: 2px; color: #fff; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
+            /* Nút hành động dưới cùng[cite: 10] */
+            .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.15); }
+            .action-btn { background: #580d19; border: none; padding: 3px; color: #fff; font-size: 10px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 2px; }
 
-            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.45); padding: 2px 5px; border-radius: 4px; justify-content: space-between; gap: 2px; }
+            .chips-container { display: flex; align-items: center; background: rgba(0,0,0,0.45); padding: 2px 5px; border-radius: 4px; justify-content: space-between; gap: 2px; margin-top: 2px; }
             .menu-chip-btn { width: 20px; height: 20px; border-radius: 50%; background: #334155; border: 1px solid #64748b; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 8px; }
             
             .chips-scroll { display: flex; gap: 3px; overflow-x: auto; scrollbar-width: none; align-items: center; }
@@ -277,7 +280,7 @@ def home():
             </div>
         </div>
 
-        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% -->
+        <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% (CHUẨN TỈ LỆ ẢNH MẪU)[cite: 10] -->
         <div class="game-panel">
             <div class="round-info-bar">
                 <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
@@ -433,7 +436,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v35') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v36') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -469,7 +472,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v35', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v36', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
