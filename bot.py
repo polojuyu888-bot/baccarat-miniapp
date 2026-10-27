@@ -100,12 +100,12 @@ def home():
             .balance-box { background: rgba(255,255,255,0.15); padding: 1px 5px; border-radius: 8px; display: flex; align-items: center; gap: 3px; cursor: pointer; }
             .balance-box span { color: #f1c40f; font-weight: bold; }
             
-            /* PHẦN 1: VIDEO - 40% */
+            /* PHẦN 1: VIDEO / DEALER - 40% */
             .dealer-screen { position: relative; width: 100%; height: 40vh; background: #1c232a; overflow: hidden; display: flex; flex-direction: column; align-items: center; border-bottom: 2px solid #d4af37; flex-shrink: 0; }
-            .dealer-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+            .dealer-screen img, .dealer-screen video { width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
             
-            .table-info-overlay { position: absolute; top: 3px; left: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; border-left: 2px solid #e74c3c; }
-            .time-box { position: absolute; top: 3px; right: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; text-align: right; }
+            .table-info-overlay { position: absolute; top: 3px; left: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; border-left: 2px solid #e74c3c; z-index: 6; }
+            .time-box { position: absolute; top: 3px; right: 5px; background: rgba(0,0,0,0.6); padding: 1px 5px; border-radius: 3px; font-size: 8px; text-align: right; z-index: 6; }
 
             .cards-on-table { position: absolute; bottom: 4px; width: 100%; display: flex; justify-content: space-around; padding: 0 10px; z-index: 5; pointer-events: none; }
             .table-side { display: flex; gap: 2px; align-items: center; background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px; }
@@ -121,7 +121,6 @@ def home():
             /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% */
             .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
             
-            /* Chia tỷ lệ chiều cao 4 tầng trong khung: 12% - 32% - 38% - 18% */
             .bet-table-box {
                 border: 1px solid rgba(255, 255, 255, 0.25);
                 border-radius: 10px;
@@ -133,7 +132,6 @@ def home():
                 background-color: #580d19;
             }
 
-            /* Tầng 1 (12%): Thanh trạng thái & hạn mức */
             .round-info-bar { 
                 display: flex; 
                 justify-content: space-between; 
@@ -144,7 +142,6 @@ def home():
                 border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
             }
 
-            /* Tầng 2 (32%): Cửa phụ (17.5% - 17.5% - 30% - 17.5% - 17.5%) */
             .side-grid { 
                 display: grid; 
                 grid-template-columns: 17.5% 17.5% 30% 17.5% 17.5%; 
@@ -170,7 +167,6 @@ def home():
             .s-rate { font-size: 7.5px; color: #fff; margin-top: 1px; }
             .s-status { font-size: 6px; color: #9aa0a6; }
 
-            /* Tầng 3 (38%): Cửa chính (35% - 30% - 35%) */
             .main-grid { 
                 display: grid; 
                 grid-template-columns: 35% 30% 35%; 
@@ -198,7 +194,6 @@ def home():
             
             .my-bet-tag { position: absolute; bottom: 1px; right: 2px; font-size: 7px; background: #f1c40f; color: #000; padding: 1px 3px; border-radius: 2px; font-weight: bold; display: none; z-index: 5; }
 
-            /* Tầng 4 (18%): Nút Hủy và X2 */
             .action-row { 
                 display: grid; 
                 grid-template-columns: 50% 50%; 
@@ -325,9 +320,10 @@ def home():
             </div>
         </div>
 
-        <!-- PHẦN 1: VIDEO - 40% -->
+        <!-- PHẦN 1: VIDEO / DEALER (Đã thay ảnh anime mới) -->
         <div class="dealer-screen">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" alt="Dealer Live">
+            <!-- Bạn có thể đổi thành thẻ <video autoplay muted loop src="link_video.mp4"></video> nếu xuất thành video thực tế -->
+            <img src="https://i.ibb.co/1G05H1Y/anime-dealer.jpg" alt="Dealer Live">
             <div class="table-info-overlay">
                 <div id="table-name" style="font-weight: bold;">B11 BACCARAT</div>
                 <div style="font-size: 7px; color: #aaa;" id="table-id-code">GB65EF638FDA</div>
@@ -354,14 +350,12 @@ def home():
         <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% -->
         <div class="game-panel">
             <div class="bet-table-box">
-                <!-- Tầng 1 (12%) -->
                 <div class="round-info-bar">
                     <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
                     <span style="background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 6px; color: #facc15;" id="timer-val">⏳ 15s</span>
                     <span>Hạn mức: 10~20000</span>
                 </div>
 
-                <!-- Tầng 2 (32%) -->
                 <div class="side-grid">
                     <div class="side-spot" onclick="placeBet('player_pair')">
                         <div class="s-title cyan">闲对</div>
@@ -395,7 +389,6 @@ def home():
                     </div>
                 </div>
 
-                <!-- Tầng 3 (38%) -->
                 <div class="main-grid">
                     <div class="main-spot" onclick="placeBet('player')">
                         <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">36%</span>
@@ -420,7 +413,6 @@ def home():
                     </div>
                 </div>
 
-                <!-- Tầng 4 (18%) -->
                 <div class="action-row">
                     <button class="action-btn" onclick="cancelBets()">✕ 取消</button>
                     <button class="action-btn" onclick="doubleBets()">⇋ X2</button>
@@ -513,7 +505,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v42') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v43') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -549,7 +541,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v42', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v43', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
