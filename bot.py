@@ -124,7 +124,7 @@ def home():
             
             .side-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; background: transparent; }
             .side-spot { background: transparent; border: none; padding: 2px 1px; text-align: center; cursor: pointer; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-            .s-title { font-size: 18px; font-weight: bold; line-height: 1.1; }
+            .s-title { font-size: 15px; font-weight: bold; line-height: 1.1; }
             .s-title.cyan { color: #38bdf8; }
             .s-title.gold { color: #fde047; }
             .s-title.orange { color: #fb923c; }
@@ -288,32 +288,32 @@ def home():
             <div class="side-grid">
                 <div class="side-spot" onclick="placeBet('player_pair')">
                     <div class="s-title cyan">闲对</div>
-                    <div class="s-rate">1:11</div>
-                    <div class="s-status">6局</div>
+                    <div class="s-rate" style="font-size: 8px;">1:11</div>
+                    <div class="s-status" style="font-size: 6px;">6局</div>
                     <div class="my-bet-tag" id="amt-player_pair">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('lucky_7')">
                     <div class="s-title cyan">幸运七</div>
-                    <div class="s-rate">闲7: 1:6</div>
-                    <div class="s-status">8局</div>
+                    <div class="s-rate" style="font-size: 8px;">闲7: 1:6</div>
+                    <div class="s-status" style="font-size: 6px;">8局</div>
                     <div class="my-bet-tag" id="amt-lucky_7">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('super_lucky_7')">
                     <div class="s-title gold">超级幸运七</div>
-                    <div class="s-rate">4张 1:30</div>
-                    <div class="s-status">18局</div>
+                    <div class="s-rate" style="font-size: 8px;">4张 1:30</div>
+                    <div class="s-status" style="font-size: 6px;">18局</div>
                     <div class="my-bet-tag" id="amt-super_lucky_7">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('lucky_6')">
                     <div class="s-title orange">幸运六</div>
-                    <div class="s-rate">庄6: 1:12</div>
-                    <div class="s-status">22局</div>
+                    <div class="s-rate" style="font-size: 8px;">庄6: 1:12</div>
+                    <div class="s-status" style="font-size: 6px;">22局</div>
                     <div class="my-bet-tag" id="amt-lucky_6">0</div>
                 </div>
                 <div class="side-spot" onclick="placeBet('banker_pair')">
                     <div class="s-title orange">庄对</div>
-                    <div class="s-rate">1:11</div>
-                    <div class="s-status">11局</div>
+                    <div class="s-rate" style="font-size: 8px;">1:11</div>
+                    <div class="s-status" style="font-size: 6px;">11局</div>
                     <div class="my-bet-tag" id="amt-banker_pair">0</div>
                 </div>
             </div>
@@ -322,22 +322,22 @@ def home():
                 <div class="main-spot" onclick="placeBet('player')">
                     <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">36%</span>
                     <div class="m-name player">闲</div>
-                    <div class="m-rate">1 : 1</div>
-                    <div class="m-stats">👥 14 🪙 1K</div>
+                    <div class="m-rate" style="font-size: 8px;">1 : 1</div>
+                    <div class="m-stats" style="font-size: 6px;">👥 14 🪙 1K</div>
                     <div class="my-bet-tag" id="amt-player">0</div>
                 </div>
                 <div class="main-spot" onclick="placeBet('tie')">
                     <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">0%</span>
                     <div class="m-name tie">和</div>
-                    <div class="m-rate">1 : 8</div>
-                    <div class="m-stats">7局未出</div>
+                    <div class="m-rate" style="font-size: 8px;">1 : 8</div>
+                    <div class="m-stats" style="font-size: 6px;">7局未出</div>
                     <div class="my-bet-tag" id="amt-tie">0</div>
                 </div>
                 <div class="main-spot" onclick="placeBet('banker')">
                     <span style="position: absolute; top: 2px; right: 4px; font-size: 6px; color: rgba(255,255,255,0.6);">64%</span>
                     <div class="m-name banker">庄</div>
-                    <div class="m-rate" id="rate-banker">1 : 0.95</div>
-                    <div class="m-stats">👥 7 🪙 1.8K</div>
+                    <div class="m-rate" id="rate-banker" style="font-size: 8px;">1 : 0.95</div>
+                    <div class="m-stats" style="font-size: 6px;">👥 7 🪙 1.8K</div>
                     <div class="my-bet-tag" id="amt-banker">0</div>
                 </div>
             </div>
@@ -433,7 +433,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v34') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v35') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -469,7 +469,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v34', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v35', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
