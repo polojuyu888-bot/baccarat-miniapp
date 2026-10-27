@@ -120,23 +120,34 @@ def home():
 
             /* PHẦN 2: BẢNG ĐẶT CƯỢC - 35% */
             .game-panel { width: 100%; height: 35vh; background: #580d19; padding: 2px 4px; display: flex; flex-direction: column; justify-content: space-between; flex-shrink: 0; }
-            .round-info-bar { display: flex; justify-content: space-between; align-items: center; font-size: 8px; color: #f3a9b3; padding: 0 2px; }
             
+            /* Khung viền bo tròn bao trùm toàn bộ từ thanh trạng thái đến các ô cược */
             .bet-table-box {
                 border: 1px solid rgba(255, 255, 255, 0.25);
                 border-radius: 10px;
                 overflow: hidden;
-                display: grid;
-                grid-template-rows: 30% 60% 10%;
+                display: flex;
+                flex-direction: column;
                 flex: 1;
                 margin: 1px 0;
                 background-color: #580d19;
+            }
+
+            .round-info-bar { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                font-size: 8px; 
+                color: #f3a9b3; 
+                padding: 3px 6px; 
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
             }
 
             /* Tầng trên: 17.5% - 17.5% - 30% - 17.5% - 17.5% */
             .side-grid { 
                 display: grid; 
                 grid-template-columns: 17.5% 17.5% 30% 17.5% 17.5%; 
+                height: 30%;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
             }
             .side-spot { 
@@ -163,6 +174,7 @@ def home():
             .main-grid { 
                 display: grid; 
                 grid-template-columns: 35% 30% 35%; 
+                height: 60%;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.2); 
             }
             .main-spot { 
@@ -191,6 +203,7 @@ def home():
             .action-row { 
                 display: grid; 
                 grid-template-columns: 50% 50%; 
+                height: 10%;
             }
             .action-btn { 
                 background: transparent; 
@@ -342,13 +355,13 @@ def home():
 
         <!-- PHẦN 2: BẢNG ĐẶT CƯỢC - 35% -->
         <div class="game-panel">
-            <div class="round-info-bar">
-                <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
-                <span style="background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 6px; color: #facc15;" id="timer-val">⏳ 15s</span>
-                <span>Hạn mức: 10~20000</span>
-            </div>
-
             <div class="bet-table-box">
+                <div class="round-info-bar">
+                    <span>Trạng thái: <strong id="game-status" style="color:#2ecc71;">Đang đặt cược</strong></span>
+                    <span style="background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 6px; color: #facc15;" id="timer-val">⏳ 15s</span>
+                    <span>Hạn mức: 10~20000</span>
+                </div>
+
                 <div class="side-grid">
                     <div class="side-spot" onclick="placeBet('player_pair')">
                         <div class="s-title cyan">闲对</div>
@@ -498,7 +511,7 @@ def home():
             let currentBets = { player: 0, banker: 0, tie: 0, player_pair: 0, banker_pair: 0, lucky_7: 0, super_lucky_7: 0, lucky_6: 0 };
             let historyList = [];
 
-            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v40') || 'null');
+            let globalGame = JSON.parse(localStorage.getItem('baccarat_global_game_8decks_v41') || 'null');
             if (!globalGame) {
                 globalGame = {
                     scoreRecords: [],
@@ -534,7 +547,7 @@ def home():
             let gamePhase = 'betting';
 
             function saveGlobalGame() {
-                localStorage.setItem('baccarat_global_game_8decks_v40', JSON.stringify(globalGame));
+                localStorage.setItem('baccarat_global_game_8decks_v41', JSON.stringify(globalGame));
             }
 
             function generateUniqueTable() {
